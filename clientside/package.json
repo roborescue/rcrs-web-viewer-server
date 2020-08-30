@@ -1,0 +1,15 @@
+{
+  "name": "game-maker",
+  "version": "1.0.0",
+  "description": "GameMaker",
+  "main": "src/GameMaker.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Amir Aslan Aslani",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "earcut": "^2.2.2",
+    "jquery": "^3.5.1"
+  }
+}
