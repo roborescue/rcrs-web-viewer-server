@@ -2,6 +2,13 @@
 
 // Constants
 const CANVAS_ID = 'canv';
+const JLOG_FILE = "data/vc.jlog";
+const WORKER_FILE = '../src/Worker.js';
+const WORKER_COMMAND_LOADDATA = 'load_data';
+const WORKER_COMMAND_PROGRESSREPORT = 'progress_report';
+const WORKER_COMMAND_MAPBOUNDS = 'map_bounds';
+const WORKER_COMMAND_CYCLEDATA = 'cycle_data';
+const WORKER_COMMAND_INFO = 'info';
 
 // Global Variables
 var gameMaker;
@@ -52,28 +59,8 @@ async function loadFunction(text, progress=-1, end=false){
     }
 }
 
-// var mainCommand = function(map, cycles){
-//     loadFunction("Map file loaded ...",15);
-
-//     let dataLoader = new DataLoader(map, cycles, loadFunction);
-//     let canvasDrawer = new CanvasDrawer({
-//         'id': 'canv',
-//         'errorFunction': ()=>alert("Error!"),
-//         'cartographer': true
-//     });
-
-//     gameMaker = new GameMaker(dataLoader, canvasDrawer, loadFunction);
-//     UISetup(gameMaker);
-// }
-
 $(() => {
-    const WORKER_COMMAND_LOADDATA = 'load_data';
-    const WORKER_COMMAND_PROGRESSREPORT = 'progress_report';
-    const WORKER_COMMAND_MAPBOUNDS = 'map_bounds';
-    const WORKER_COMMAND_CYCLEDATA = 'cycle_data';
-    const WORKER_COMMAND_INFO = 'info';
-
-    let worker = new Worker('../src/worker.js');
+    let worker = new Worker(WORKER_FILE);
     
     worker.onmessage = function(e){
         let command = e.data.command;
@@ -83,7 +70,6 @@ $(() => {
                 break;
 
             case WORKER_COMMAND_MAPBOUNDS:
-                console.log("Map BOUNDSSSSSSS");
                 gameMaker.setCorrectScaleAndTranslation(
                     e.data.minX,
                     e.data.minY,
@@ -117,13 +103,12 @@ $(() => {
     }
 
     loadFunction("Downloading cycles data ...", 5);
-    $.get("data/vc.jlog", function(data) {
+    $.get(JLOG_FILE, function(data) {
 
         loadFunction("Map file downloaded ...",10);
         data = data.split("\n");
         data = data.filter(x => x.trim().length > 0);
         data = data.map(x => JSON.parse(x));
-        // mainCommand(data);
 
         worker.postMessage({
             command: WORKER_COMMAND_LOADDATA,
@@ -132,14 +117,12 @@ $(() => {
 
         loadFunction("Map file loaded ...",15);
         
-        // let dataLoader = new DataLoader(data, cycles, loadFunction);
         let canvasDrawer = new CanvasDrawer({
-            'id': 'canv',
+            'id': CANVAS_ID,
             'errorFunction': ()=>alert("Error!"),
             'cartographer': true
         });
     
         gameMaker = new GameMaker(canvasDrawer, loadFunction);
-        // UISetup(gameMaker);
     });
 })
