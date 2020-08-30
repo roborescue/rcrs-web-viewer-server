@@ -43,10 +43,7 @@ function setProgressBarSize(x,y=100){
     $('.progress-bar').css('width', valeur+'%').attr('aria-valuenow', valeur); 
 }
 
-function sleep(ms) { return new Promise((r) => setTimeout(r, ms)); }
-async function loadFunction(text, progress=-1, end=false){
-    console.log(text, progress, end);
-    await sleep(1);
+function loadFunction(text, progress=-1, end=false){
     document.getElementById("status").innerText = text;
 
     if(progress > 0){
