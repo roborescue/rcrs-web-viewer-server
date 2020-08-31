@@ -190,7 +190,6 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
             // Draw Icon
             let icon = EntityHandler.getIcon(entity);
             if(icon){
-                this.positionMaker.reset();
                 let point = EntityHandler.getCenterOfPolygon(entity);
                 historyManager.setTextureSlut(textures[icon]);
                 historyManager.setTextureResolution(SETTING_ICON_RADIUS*4, SETTING_ICON_RADIUS*4);
@@ -199,10 +198,19 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
                     SETTING_ICON_RADIUS - point[1]
                 );
 
-                this.positionMaker.addCircle(point[0], -point[1], SETTING_ICON_RADIUS * 0.95, 20);
-                historyManager.submitVanilla(
-                    this.positionMaker.getPositionsList()
-                );
+                let x1 = point[0] - SETTING_ICON_RADIUS;
+                let y1 = point[1] - SETTING_ICON_RADIUS;
+                let x2 = point[0] + SETTING_ICON_RADIUS;
+                let y2 = point[1] + SETTING_ICON_RADIUS;
+
+                historyManager.submitVanilla([
+                    x1, -y1,
+                    x1, -y2,
+                    x2, -y1,
+                    x2, -y1,
+                    x1, -y2,
+                    x2, -y2
+                ]);
             }
         }
         

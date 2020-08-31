@@ -6,11 +6,10 @@
  * Released under the Apache license 2.0
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Date: 2020-08-29T21:05:57.487Z (Sat, 29 Aug 2020 21:05:57 GMT)
+ * Date: 2020-08-31T18:57:22.758Z (Mon, 31 Aug 2020 18:57:22 GMT)
  */
 
-
-"use strict";
+"use strict";
 
 /**
  * The part of the system that connects ``Drawer`` to ``Historian``.
@@ -97,9 +96,7 @@ function HistoryManager(historian){
      * @param {number[]} positions 
      */
     this.submitVanilla = function(positions){
-        // XX
-        let Y = this.historian.submitVanilla(positions);
-        return Y;
+        this.historian.submitVanilla(positions);
     }
 
     /**
@@ -130,14 +127,18 @@ function HistoryManager(historian){
     // Constructor
     this.historian = historian;
 }
-
-"use strict";
+"use strict";
 
 /**
  * The part of the system that holds history
  * @returns {Object} Historian object
  */
 function Historian(){
+
+    /**
+     * Get clone of this Historian object
+     * @returns {Object} cloned historian object
+     */
     this.clone = function(){
         let newOne = new Historian();
         newOne.keys = JSON.parse(JSON.stringify(this.keys));
@@ -145,6 +146,10 @@ function Historian(){
         return newOne;
     }
 
+    /**
+     * Get clone of all data saved in this historian
+     * @returns {Object} clone of all data saved in this historian
+     */
     this.getDataCopy = function(){
         let newOne = {};
         newOne.keys = JSON.parse(JSON.stringify(this.keys));
@@ -174,17 +179,12 @@ function Historian(){
      * @param {string} key key
      */
     this.submit = function(positions, key){
-        
         if(! (key in this.memo)){
             this.keys.push(key);
             this.memo[key] = [];
         }
-
-        let s = performance.now(); // XX
-        // let this.memo[key] = this.memo[key].concat(positions);
+        
         Array.prototype.push.apply(this.memo[key], positions);
-        let t = performance.now() - s; // XX
-        return t; //XX
     }
 
     /**
@@ -192,8 +192,7 @@ function Historian(){
      * @param {number[]} positions array of vertices
      */
     this.submitVanilla = function(positions){
-        // XX
-        return this.submit(positions, this.key);
+        this.submit(positions, this.key);
     }
 
     /**
@@ -228,8 +227,7 @@ function Historian(){
         return this.keys;
     }
 }
-
-"use strict";
+"use strict";
 
 /**
  * The section of program that provide user intractions with an element.
@@ -316,8 +314,7 @@ function Cartographer(id,setRelativeTranslation, getPinPoint=function(){return [
 
 }
 
-
-"use strict";
+"use strict";
 
 /**
  * Manages the drawing procedure
@@ -821,6 +818,25 @@ function Drawer(id, webglErrorFunction){
     };
 
     /**
+     * Enable blending pixels
+     * @param {GLenum} sfactor a ``GLenum`` specifying a multiplier for the source blending factors
+     * @param {GLenum} dfactor a ``GLenum`` specifying a multiplier for the destination blending factors
+     * @param {GLenum} equationA a ``GLenum`` specifying how source and destination colors are combined
+     */
+    this.enableBlending = function(sfactor = this.gl.SRC_ALPHA, dfactor = this.gl.ONE_MINUS_SRC_ALPHA, equation = this.gl.FUNC_ADD){
+        this.gl.enable(this.gl.BLEND);
+        this.gl.blendEquation(equation);
+        this.gl.blendFunc(sfactor, dfactor);
+    }
+
+    /**
+     * Disable blending pixels
+     */
+    this.disableTextureBlending = function(){
+        this.gl.disable(this.gl.BLEND);
+    }
+
+    /**
      * Initialize variables and uniforms
      */
     this.setup = function(){
@@ -907,8 +923,7 @@ function Drawer(id, webglErrorFunction){
     // Main
     this.constructor(id, webglErrorFunction);
 }
-
-"use strict";
+"use strict";
 
 /**
  * The part of the system that converts complex shapes to 
@@ -938,12 +953,12 @@ function PositionMaker(){
     }
 
     /**
-     * Add a line between ``P1`` and ``P2`` to ``PositionMaker.positions``.
+     * Add a line between P<sub>1</sub> and P<sub>2</sub> to ``PositionMaker.positions``.
      * 
-     * @param {number} x1 X of P1
-     * @param {number} y1 Y of P1
-     * @param {number} x2 X of P2
-     * @param {number} y2 Y of P2
+     * @param {number} x1 X of P<sub>1</sub>
+     * @param {number} y1 Y of P<sub>1</sub>
+     * @param {number} x2 X of P<sub>2</sub>
+     * @param {number} y2 Y of P<sub>2</sub>
      * @param {number} width width of line
      */
     this.addLine = function(x1,y1,x2,y2,width){
@@ -963,6 +978,7 @@ function PositionMaker(){
 
     /**
      * Add a circle that centered on ``P`` with radius of ``R`` to ``PositionMaker.positions``.
+     * 
      * @param {number} cx X of P
      * @param {number} cy Y of P
      * @param {number} r radius
@@ -981,6 +997,22 @@ function PositionMaker(){
             ox = x;
             oy = y;
         }
+    }
+
+    /**
+     * Add a rectangle P<sub>1</sub>P<sub>2</sub>P<sub>3</sub>P<sub>4</sub> to ``PositionMaker.positions``.
+     * @param {number} x1 X of P<sub>1</sub>
+     * @param {number} y1 Y of P<sub>1</sub>
+     * @param {number} x2 X of P<sub>3</sub>
+     * @param {number} y2 Y of P<sub>3</sub>
+     */
+    this.addRectangle = function(x1, y1, x2, y2){
+        this.positions.push(
+            x1, y1,
+            x1, y2,
+            x2, y2,
+            x2, y1
+        );
     }
 
     /**
@@ -1007,8 +1039,7 @@ function PositionMaker(){
      */
     this.positions = [];
 }
-
-"use strict";
+"use strict";
 
 /**
  * Get info object and set values.

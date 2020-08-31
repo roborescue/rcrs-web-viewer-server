@@ -83,6 +83,7 @@ function GameMaker(canvasDrawer, loadFunction=()=>{}){
         this.infoObject = {};
         this.positionMaker = new PositionMaker();
 
+        this.canvasDrawer.drawer.enableBlending();
         loadFunction("Loading game entities ...", 50, false);
     }
     
