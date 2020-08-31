@@ -1,19 +1,19 @@
 function Entity(data){
     Object.assign(this, data);
 
-    if('Id' in data){
-        this.Id = parseInt(data.Id);
+    if(ENTITY_ATTR_ID in data){
+        this[ENTITY_ATTR_ID] = parseInt(data[ENTITY_ATTR_ID]);
     }
 
-    if('EntityName' in data){
-        this.EntityName = data.EntityName.trim();
+    if(ENTITY_ATTR_ENTITY_NAME in data){
+        this[ENTITY_ATTR_ENTITY_NAME] = data[ENTITY_ATTR_ENTITY_NAME].trim();
     }
 
-    if('HP' in data){
-        this.HP = parseInt(data.HP);
+    if(ENTITY_ATTR_HP in data){
+        this[ENTITY_ATTR_HP] = parseInt(data[ENTITY_ATTR_HP]);
     }
 
-    if('Fieryness' in data){
-        this.Fieryness = parseInt(data.Fieryness);
+    if(ENTITY_ATTR_FIERYNESS in data){
+        this[ENTITY_ATTR_FIERYNESS] = parseInt(data[ENTITY_ATTR_FIERYNESS]);
     }
 }

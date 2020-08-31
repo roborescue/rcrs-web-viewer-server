@@ -61,16 +61,16 @@ EntityColor.getHumanColor = function(type, hp){
 
     let color;
     switch (type) {
-        case "Civilian":
+        case ENTITY_NAME_CIVILIAN:
             color = COLOR_HUMAN_TYPE_CIVILIAN;
             break;
-        case "Fire brigade":
+        case ENTITY_NAME_FIRE_BRIGADE:
             color = COLOR_HUMAN_TYPE_FIRE_BRIGADE;
             break;
-        case "Ambulance team":
+        case ENTITY_NAME_AMBULANCE_TEAM:
             color = COLOR_HUMAN_TYPE_AMBULANCE_TEAM;
             break;
-        case "Police force":
+        case ENTITY_NAME_POLICE_FORCE:
             color = COLOR_HUMAN_TYPE_POLICE_FORCE;
             break;
     }
@@ -95,7 +95,7 @@ EntityColor.getColor = function(entity){
     if(EntityHandler.isRoad(entity))
         return COLOR_ROAD_DEFAULT;
     if(EntityHandler.isBuilding(entity))
-        return this.getBuildingColor(entity.Fieryness);
+        return this.getBuildingColor(entity[ENTITY_ATTR_FIERYNESS]);
     if(EntityHandler.isBlockade(entity))
         return COLOR_BLOCKADE_DEFAULT;
 

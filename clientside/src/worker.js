@@ -1,5 +1,6 @@
 module = {}
 
+importScripts('../src/Constants.js');
 importScripts('../src/Entity.js');
 importScripts('../src/EntityColor.js');
 importScripts('../src/EntityHandler.js');
