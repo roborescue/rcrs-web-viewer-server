@@ -5,13 +5,6 @@ const CANVAS_ID = 'canv';
 const JLOG_FILE = "data/vc.jlog";
 const PLAYING_DELAY = 100;
 const WORKER_FILE = '../src/Worker.js';
-const WORKER_COMMAND_LOADDATA = 'load_data';
-const WORKER_COMMAND_PROGRESSREPORT = 'progress_report';
-const WORKER_COMMAND_MAPBOUNDS = 'map_bounds';
-const WORKER_COMMAND_CYCLEDATA = 'cycle_data';
-const WORKER_COMMAND_INFO = 'info';
-
-const ICONS_POLICE_OFFICE = "image/po.png";
 
 // Global Variables
 var gameMaker;
