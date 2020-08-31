@@ -50,6 +50,14 @@ EntityHandler.getHP = function(entity){
     return entity[ENTITY_ATTR_HP];
 }
 
+EntityHandler.getIcon = function(entity){
+    switch(this.getType(entity)){
+        case ENTITY_NAME_POLICE_OFFICE:
+            return ICONS_POLICE_OFFICE;
+    }
+    return false;
+};
+
 /**
  * @param {Object} entity
  * @returns {boolean}
@@ -102,6 +110,25 @@ EntityHandler.isBuilding = function(entity){
 
 EntityHandler.getId = function(entity){
     return entity[ENTITY_ATTR_ID];
+}
+
+/**
+ * 
+ * @param {Object} entity 
+ * @returns {float[2]}
+ */
+EntityHandler.getCenterOfPolygon = function(entity){
+    let apexes = entity[ENTITY_ATTR_APEXES];
+    if(apexes){
+        let sum = [0, 0], vl = apexes.length;
+        for(let i = 0;i < vl;i ++){
+            sum[i % 2] += apexes[i];
+        }
+        sum[0] /= vl / 2;
+        sum[1] /= vl / 2;
+        return sum;
+    }
+    return false;
 }
 
 EntityHandler.getHumanVertices = function(cx, cy, r=1500,cuts=15){

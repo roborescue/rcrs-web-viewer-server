@@ -20,3 +20,16 @@ const ENTITY_ATTR_HP = "HP";
 const ENTITY_ATTR_FIERYNESS = "Fieryness";
 const ENTITY_ATTR_APEXES = "Apexes";
 const ENTITY_ATTR_POSITION = "Pos";
+
+// Icons
+const ICONS_POLICE_OFFICE = "image/po.png";
+
+// Icon Setting
+const SETTING_ICON_RADIUS = 7000;
+
+// Worker Commands
+const WORKER_COMMAND_LOADDATA = 'load_data';
+const WORKER_COMMAND_PROGRESSREPORT = 'progress_report';
+const WORKER_COMMAND_MAPBOUNDS = 'map_bounds';
+const WORKER_COMMAND_CYCLEDATA = 'cycle_data';
+const WORKER_COMMAND_INFO = 'info';

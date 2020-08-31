@@ -1,5 +1,6 @@
 module = {}
 
+// Imports
 importScripts('../src/Constants.js');
 importScripts('../src/Entity.js');
 importScripts('../src/EntityColor.js');
@@ -13,13 +14,10 @@ importScripts('../node_modules/earcut/src/earcut.js');
 // Just for PositionMaker, Historian and HistoryManager
 importScripts('../preview/CanvasDrawer.js'); 
 
-const WORKER_COMMAND_LOADDATA = 'load_data';
-const WORKER_COMMAND_PROGRESSREPORT = 'progress_report';
-const WORKER_COMMAND_MAPBOUNDS = 'map_bounds';
-const WORKER_COMMAND_CYCLEDATA = 'cycle_data';
-const WORKER_COMMAND_INFO = 'info';
 
+// Global Variables
 var dataLoader = {};
+var textures;
 
 function wl(log){
     console.log("WorkerLog: " + log);
@@ -71,6 +69,7 @@ onmessage = function(e){
     let command = e.data.command;
     switch(command){
         case WORKER_COMMAND_LOADDATA:
+            textures = e.data.textures;
             dataLoader = new WorkerDataLoader(e.data.data, loadFunction);
             break;
     }

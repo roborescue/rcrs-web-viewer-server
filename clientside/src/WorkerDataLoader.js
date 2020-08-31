@@ -5,11 +5,6 @@
  */
 function mirrorYs(vertexList){
     return vertexList.map((value, index) => value * (index % 2 == 1 ? -1 : 1))
-
-    // for(let i = 1;i < vertexList.length;i = i + 2){
-    //     vertexList[i] = - vertexList[i];
-    // }
-    // return vertexList;
 }
 
 
@@ -182,6 +177,7 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
                 )
             );
 
+            // Draw Polygon
             let color = EntityHandler.getColor(entity);
             historyManager.setColor(color[0], color[1], color[2], 1);
             
@@ -190,6 +186,24 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
             historyManager.submitVanilla(
                 positionsList
             );
+
+            // Draw Icon
+            let icon = EntityHandler.getIcon(entity);
+            if(icon){
+                this.positionMaker.reset();
+                let point = EntityHandler.getCenterOfPolygon(entity);
+                historyManager.setTextureSlut(textures[icon]);
+                historyManager.setTextureResolution(SETTING_ICON_RADIUS*4, SETTING_ICON_RADIUS*4);
+                historyManager.setTextureTranslation(
+                    point[0] - SETTING_ICON_RADIUS,
+                    SETTING_ICON_RADIUS - point[1]
+                );
+
+                this.positionMaker.addCircle(point[0], -point[1], SETTING_ICON_RADIUS * 0.95, 20);
+                historyManager.submitVanilla(
+                    this.positionMaker.getPositionsList()
+                );
+            }
         }
         
         return historyManager;

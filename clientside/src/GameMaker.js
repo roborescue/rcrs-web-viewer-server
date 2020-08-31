@@ -45,13 +45,15 @@ function GameMaker(canvasDrawer, loadFunction=()=>{}){
         let scale = xFitScale < yFitScale ? xFitScale : yFitScale;
         scale = scale * 0.9;
         
-        this.canvasDrawer.drawer.updateScale(scale);
+        this.canvasDrawer.drawer.setScale(scale);
+        this.canvasDrawer.drawer.setTextureScale(scale);
         
         let newX = scale * x;
         let newY = scale * y;
         let xTranslation = (canvasWidth - newX) / 2;
         let yTranslation = (canvasHeight - newY) / 2;
 
+        this.canvasDrawer.drawer.setTextureTranslation(xTranslation, yTranslation + y * scale);
         this.canvasDrawer.drawer.updateTranslation(xTranslation, yTranslation + y * scale);
     }
 

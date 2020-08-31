@@ -11,6 +11,8 @@ const WORKER_COMMAND_MAPBOUNDS = 'map_bounds';
 const WORKER_COMMAND_CYCLEDATA = 'cycle_data';
 const WORKER_COMMAND_INFO = 'info';
 
+const ICONS_POLICE_OFFICE = "image/po.png";
+
 // Global Variables
 var gameMaker;
 var uiController;
@@ -123,11 +125,6 @@ $(() => {
         data = data.filter(x => x.trim().length > 0);
         data = data.map(x => JSON.parse(x));
 
-        worker.postMessage({
-            command: WORKER_COMMAND_LOADDATA,
-            data: data
-        });
-
         loadFunction("Map file loaded ...",15);
         
         let canvasDrawer = new CanvasDrawer({
@@ -135,7 +132,21 @@ $(() => {
             'errorFunction': ()=>showError("WebGL is not supported."),
             'cartographer': true
         });
+
+        let textures = [
+            ICONS_POLICE_OFFICE
+        ];
+
+        canvasDrawer.loadTextures(textures, (texturesData) => {
+            loadFunction("Texture files loaded ...",20);
     
-        gameMaker = new GameMaker(canvasDrawer, loadFunction);
+            gameMaker = new GameMaker(canvasDrawer, loadFunction);
+            worker.postMessage({
+                command: WORKER_COMMAND_LOADDATA,
+                data: data,
+                textures: texturesData
+            });
+        });
+
     });
 })
