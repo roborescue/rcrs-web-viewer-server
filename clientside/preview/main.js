@@ -2,23 +2,25 @@
 
 // Constants
 const CANVAS_ID = 'canv';
-const JLOG_FILE = "data/vc.jlog";
+const JLOG_FILE = "data/cycles.jlog";
 const PLAYING_DELAY = 100;
 const WORKER_FILE = '../src/Worker.js';
 
 // Global Variables
 var gameMaker;
 var uiController;
-
-// Canvas Size Set
-let canvasContainer = $("#canvas-container");
-let cbw = canvasContainer.width();
-let cbh = canvasContainer.height()
-let canvas = document.getElementById(CANVAS_ID);
-canvas.width = cbw-5;
-canvas.height = cbh-10;
+var canvasDrawer;
 
 // Functions
+function resizeCanvasToFit(){
+    let canvasContainer = $("#canvas-container");
+    let cbw = canvasContainer.width();
+    let cbh = canvasContainer.height()
+    let canvas = document.getElementById(CANVAS_ID);
+    canvas.width = cbw-5;
+    canvas.height = cbh-10;
+}
+
 function showError(content){
     $(".modal").modal('hide');
     let error = "<li>" + content + "</li>";
@@ -58,6 +60,8 @@ function loadFunction(text, progress=-1, end=false){
 
 // Main
 $(() => {
+    resizeCanvasToFit();
+
     // Check WebWorker Support
     if(window.Worker){
         $("#loadingModal").modal('show');
@@ -65,6 +69,19 @@ $(() => {
     else{
         showError("WebWorker is not supported.")
         return;
+    }
+
+    canvasDrawer = new CanvasDrawer({
+        'id': CANVAS_ID,
+        'errorFunction': ()=>showError("WebGL is not supported."),
+        'cartographer': true,
+        'zoominrate': 1.15,
+        'zoomoutrate': 0.85
+    });
+
+    window.onresize = function() {
+        resizeCanvasToFit();
+        canvasDrawer.drawer.refitWebglToCanvas();
     }
 
     let worker = new Worker(WORKER_FILE);
@@ -113,18 +130,12 @@ $(() => {
 
     loadFunction("Downloading cycles data ...", 5);
     $.get(JLOG_FILE, function(data) {
-        loadFunction("Map file downloaded ...",10);
+        loadFunction("Map file downloaded ...",50);
         data = data.split("\n");
         data = data.filter(x => x.trim().length > 0);
         data = data.map(x => JSON.parse(x));
 
-        loadFunction("Map file loaded ...",15);
-        
-        let canvasDrawer = new CanvasDrawer({
-            'id': CANVAS_ID,
-            'errorFunction': ()=>showError("WebGL is not supported."),
-            'cartographer': true
-        });
+        loadFunction("Map file loaded ...",60);
 
         let textures = [
             ICONS_POLICE_OFFICE,
@@ -136,7 +147,7 @@ $(() => {
         ];
 
         canvasDrawer.loadTextures(textures, (texturesData) => {
-            loadFunction("Texture files loaded ...",20);
+            loadFunction("Texture files loaded ...",70);
     
             gameMaker = new GameMaker(canvasDrawer, loadFunction);
             worker.postMessage({
