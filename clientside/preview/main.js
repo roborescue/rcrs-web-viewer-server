@@ -15,9 +15,6 @@ const WORKER_COMMAND_INFO = 'info';
 var gameMaker;
 var uiController;
 
-// Modal
-$("#loadingModal").modal('show');
-
 // Canvas Size Set
 let canvasContainer = $("#canvas-container");
 let cbw = canvasContainer.width();
@@ -27,6 +24,13 @@ canvas.width = cbw-5;
 canvas.height = cbh-10;
 
 // Functions
+function showError(content){
+    $(".modal").modal('hide');
+    let error = "<li>" + content + "</li>";
+    $("#error-message").append(error);
+    $("#errorModal").modal('show');
+}
+
 function UISetup(gameMaker){
     let info = gameMaker.getInfo();
 
@@ -59,6 +63,15 @@ function loadFunction(text, progress=-1, end=false){
 
 // Main
 $(() => {
+    // Check WebWorker Support
+    if(window.Worker){
+        $("#loadingModal").modal('show');
+    }
+    else{
+        showError("WebWorker is not supported.")
+        return;
+    }
+
     let worker = new Worker(WORKER_FILE);
     
     worker.onmessage = function(e){
@@ -119,7 +132,7 @@ $(() => {
         
         let canvasDrawer = new CanvasDrawer({
             'id': CANVAS_ID,
-            'errorFunction': ()=>alert("Error!"),
+            'errorFunction': ()=>showError("WebGL is not supported."),
             'cartographer': true
         });
     
