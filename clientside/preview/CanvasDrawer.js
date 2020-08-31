@@ -6,7 +6,7 @@
  * Released under the Apache license 2.0
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Date: 2020-08-31T18:57:22.758Z (Mon, 31 Aug 2020 18:57:22 GMT)
+ * Date: 2020-08-31T22:35:46.006Z (Mon, 31 Aug 2020 22:35:46 GMT)
  */
 
 "use strict";
@@ -250,7 +250,7 @@ function Historian(){
  *      zoomoutAction
  *  );
  */
-function Cartographer(id,setRelativeTranslation, getPinPoint=function(){return [0,0]}, getTexturePinPoint=function(){return [0,0]}, zoominCallback=function(x, y){}, zoomoutCallback=function(x, y){}){
+function Cartographer(id,setRelativeTranslation, getPinPoint=function(){return [0,0]}, getTexturePinPoint=function(){return [0,0]}, zoominCallback=function(x, y){}, zoomoutCallback=function(x, y){}, preventTime=10){
     var selector = $('#' + id);
     var clicked = false, clickY, clickX, scrollTopTmp, scrollLeftTmp;
     selector.css('cursor', 'grab');
@@ -287,14 +287,25 @@ function Cartographer(id,setRelativeTranslation, getPinPoint=function(){return [
         }
     });
 
+    var wheelOnWork = false;
     selector.on("wheel mousewheel", function(e){
         e.preventDefault();
+        if(wheelOnWork){
+            return;
+        }
+
+        wheelOnWork = true;
+
         let borderPosition = selector.offset();
 
         let pos = [
             e.pageX - borderPosition['left'],
             e.pageY - borderPosition['top']
         ];
+
+        setTimeout(()=>{
+            wheelOnWork = false;
+        }, preventTime);
 
         if(e.originalEvent.deltaY > 0) {
             zoomoutCallback(
@@ -837,6 +848,18 @@ function Drawer(id, webglErrorFunction){
     }
 
     /**
+     * Refit WebGL's clip space to new size of the canvas 
+     */
+    this.refitWebglToCanvas = function(){
+        let newW = this.gl.canvas.width,
+            newH = this.gl.canvas.height;
+
+        this.gl.viewport(0, 0, newW, newH);
+        this.gl.uniform2f(this.resolutionUniformLocation, newW, newH);
+        this.redraw();
+    }
+
+    /**
      * Initialize variables and uniforms
      */
     this.setup = function(){
@@ -869,7 +892,6 @@ function Drawer(id, webglErrorFunction){
         this.positionBuffer = this.gl.createBuffer();
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.positionBuffer);
         this.gl.enableVertexAttribArray(this.positionAttributeLocation);
-        this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
 
         var size = 2;               // 2 components per iteration
         var type = this.gl.FLOAT;   // the data is 32bit floats
@@ -880,10 +902,11 @@ function Drawer(id, webglErrorFunction){
             this.positionAttributeLocation, size, type, normalize, stride, offset
         );
 
-        this.gl.uniform2f(this.resolutionUniformLocation, this.gl.canvas.width, this.gl.canvas.height);
         this.gl.uniform2f(this.textureResolutionUniformLocation, this.gl.canvas.width, this.gl.canvas.height);
         this.texResolution = [this.gl.canvas.width, this.gl.canvas.height];
         this.baseTextureTranslation = [0, - (this.gl.canvas.height % (this.texResolution[1] * this.texScale[1]))];
+
+        this.refitWebglToCanvas();
     };
 
 
@@ -1010,8 +1033,10 @@ function PositionMaker(){
         this.positions.push(
             x1, y1,
             x1, y2,
-            x2, y2,
-            x2, y1
+            x2, y1,
+            x2, y1,
+            x1, y2,
+            x2, y2
         );
     }
 
@@ -1167,10 +1192,11 @@ function CanvasDrawer(info){
      * 
      * @param {Object} info 
      * @param {string} info.id id of canvas element
-     * @param {function} info.errorFunction callback function for when user cannot use webgl
-     * @param {boolean} info.isCartographerEnable value is True when you want zoomin/out and translation with mouse
-     * @param {float} info.zoomInRate zoomin rate default:1.1 (just if isCartographerEnable enabled)
-     * @param {float} info.zoomOutRate zoomout rate default:0.9 (just if isCartographerEnable enabled)
+     * @param {function} info.error callback function for when user cannot use webgl
+     * @param {boolean} info.cartographer value is True when you want zoomin/out and translation with mouse
+     * @param {float} info.zoominrate zoomin rate default:1.1 (just if isCartographerEnable enabled)
+     * @param {float} info.zoomoutrate zoomout rate default:0.9 (just if isCartographerEnable enabled)
+     * @param {float} info.zoompreventtime zoomout rate default:0.9 (just if isCartographerEnable enabled)
      */
     this.constructor = function(info){
         this.info = info;
@@ -1180,6 +1206,7 @@ function CanvasDrawer(info){
         var isCartographerEnable = this.loadDataFromInfo('cartographer', false);
         var zoomInRate = this.loadDataFromInfo('zoominrate', 1.1);
         var zoomOutRate = this.loadDataFromInfo('zoomoutrate', 0.9);
+        var zoomPreventTime = this.loadDataFromInfo('zoompreventtime', 10);
 
         if(id === false){
             console.log("CanvasDrawer can not found element with id that you pass or maybe you don't pass any id!");
@@ -1216,7 +1243,15 @@ function CanvasDrawer(info){
                 drawer.updateScaleIntoPoint(scale * zoomOutRate,x,y);
             }
 
-            this.cartographer = new Cartographer(id, setReativeTranslation, getPinPoint, getTexturePinPoint, zoominAction, zoomoutAction);
+            this.cartographer = new Cartographer(
+                id, 
+                setReativeTranslation, 
+                getPinPoint, 
+                getTexturePinPoint, 
+                zoominAction, 
+                zoomoutAction,
+                zoomPreventTime
+            );
         }
 
         // Set Position Maker

@@ -84,7 +84,7 @@ function GameMaker(canvasDrawer, loadFunction=()=>{}){
         this.positionMaker = new PositionMaker();
 
         this.canvasDrawer.drawer.enableBlending();
-        loadFunction("Loading game entities ...", 50, false);
+        loadFunction("Loading game entities ...", 90, false);
     }
     
     // calc

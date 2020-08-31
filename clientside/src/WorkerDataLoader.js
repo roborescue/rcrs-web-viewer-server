@@ -38,6 +38,13 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         return this.info;
     }
 
+    this.checkForIcon = function(entity){
+        let icon = EntityHandler.getIcon(entity);
+        if(icon){
+            this.entitiesWithIcon.push(entity);
+        }
+    }
+
     this.createBaseCycle = function(data, loadFunction){
         this.minX = Number.MAX_SAFE_INTEGER;
         this.minY = Number.MAX_SAFE_INTEGER;
@@ -51,6 +58,7 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         let entities = {all: {}, building: {}, road: {}, blockade:{}, human:{}};
         for(let i = 0;i < map.Entities.length;i ++){
             let entity = new Entity(map.Entities[i]);
+            this.checkForIcon(entity);
             let entityId = EntityHandler.getId(entity);
             entities.all[entityId] = entity;
             if(EntityHandler.isHuman(entity)) {
@@ -96,10 +104,13 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
     }
 
     this.fillCycle = function(cycle){
+        let prevCycleNumber = this.cycles.length - 1;
         // Deep clone last cycle
         let newCycle = JSON.parse(JSON.stringify(
-            this.cycles[this.cycles.length - 1]
+            this.getCycleObject(prevCycleNumber)
         ));
+        this.releaseCycleMemory(prevCycleNumber);
+        newCycle.road = {};
 
         let thisCycle = data[cycle];
         for(let j in thisCycle.Entities){
@@ -162,6 +173,8 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         this.fillHistoryWithObject(historyManager, cycleObject.building);
         this.fillHistoryWithObject(historyManager, cycleObject.blockade);
         this.fillHistoryWithObject(historyManager, cycleObject.human);
+        
+        this.fillHistoryWithObjectIcons(historyManager, this.entitiesWithIcon);
 
         return historyManager;
     }
@@ -186,34 +199,36 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
             historyManager.submitVanilla(
                 positionsList
             );
-
-            // Draw Icon
-            let icon = EntityHandler.getIcon(entity);
-            if(icon){
-                let point = EntityHandler.getCenterOfPolygon(entity);
-                historyManager.setTextureSlut(textures[icon]);
-                historyManager.setTextureResolution(SETTING_ICON_RADIUS*4, SETTING_ICON_RADIUS*4);
-                historyManager.setTextureTranslation(
-                    point[0] - SETTING_ICON_RADIUS,
-                    SETTING_ICON_RADIUS - point[1]
-                );
-
-                let x1 = point[0] - SETTING_ICON_RADIUS;
-                let y1 = point[1] - SETTING_ICON_RADIUS;
-                let x2 = point[0] + SETTING_ICON_RADIUS;
-                let y2 = point[1] + SETTING_ICON_RADIUS;
-
-                historyManager.submitVanilla([
-                    x1, -y1,
-                    x1, -y2,
-                    x2, -y1,
-                    x2, -y1,
-                    x1, -y2,
-                    x2, -y2
-                ]);
-            }
         }
         
+        return historyManager;
+    }
+
+    this.fillHistoryWithObjectIcons = function(historyManager, entities){
+        for (const entity of entities) {
+            let icon = EntityHandler.getIcon(entity);
+            let point = EntityHandler.getCenterOfPolygon(entity);
+            historyManager.setTextureSlut(textures[icon]);
+            historyManager.setTextureResolution(SETTING_ICON_RADIUS*4, SETTING_ICON_RADIUS*4);
+            historyManager.setTextureTranslation(
+                point[0] - SETTING_ICON_RADIUS,
+                SETTING_ICON_RADIUS - point[1]
+            );
+
+            let x1 = point[0] - SETTING_ICON_RADIUS;
+            let y1 = point[1] - SETTING_ICON_RADIUS;
+            let x2 = point[0] + SETTING_ICON_RADIUS;
+            let y2 = point[1] + SETTING_ICON_RADIUS;
+
+            historyManager.submitVanilla([
+                x1, -y1,
+                x1, -y2,
+                x2, -y1,
+                x2, -y1,
+                x1, -y2,
+                x2, -y2
+            ]);
+        }
         return historyManager;
     }
 
@@ -221,6 +236,7 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         this.positionMaker = new PositionMaker();
         this.baseHistorian = new Historian();
 
+        this.entitiesWithIcon = [];
         this.createBaseCycle(data, loadFunction);
         this.fillCycles(data, loadFunction);
     }
