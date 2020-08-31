@@ -4,8 +4,6 @@ function UIController(info){
     };
 
     this.start = async function(){
-        this.buttons.start.prop("disabled", true);
-
         if(this.isPlaying !== false){
             return;
         }
@@ -13,18 +11,20 @@ function UIController(info){
         this.isPlaying = setInterval(() => {
             let next = this.nextCycle();
             if(! next){
-                clearInterval(this.isPlaying);
+                this.pause();
             }
         }, this.playingDelay);
+
+        this.reloadControllPanel();
     }
 
     this.pause = function(){
         if(this.isPlaying !== false){
-            this.buttons.start.prop("disabled", false);
             clearInterval(this.isPlaying);
         }
 
         this.isPlaying = false;
+        this.reloadControllPanel();
     }
 
     this.reset = function(){
@@ -32,29 +32,46 @@ function UIController(info){
         this.setCycle(0);
     }
 
-    this.setCycle = function(cycle){
-        if(cycle == 0){
+    this.setLoadedCycle = function(cycle){
+        if(this.lastLoadedCycle < cycle){
+            this.lastLoadedCycle = cycle;
+            this.reloadControllPanel();
+        }
+    }
+
+    this.reloadControllPanel = function(){
+        if(this.isPlaying !== false || this.currentCycle >= this.lastLoadedCycle){
+            this.buttons.start.prop("disabled", true);
+        }
+        else{
+            this.buttons.start.prop("disabled", false);
+        }
+
+        if(this.currentCycle == 0){
             this.buttons.back.prop("disabled", true);
         }
         else{
             this.buttons.back.prop("disabled", false);
         }
 
-        if(cycle >= this.lastCycle){
+        if(this.currentCycle >= this.lastLoadedCycle){
             this.buttons.next.prop("disabled", true);
         }
         else{
             this.buttons.next.prop("disabled", false);
         }
+    }
 
+    this.setCycle = function(cycle){
         $("#cycle-number").html(cycle + " / " + this.lastCycle);
 
         this.currentCycle = cycle;
         this.showCycle(cycle);
+        this.reloadControllPanel();
     }
 
     this.nextCycle = function(){
-        if(this.currentCycle >= this.lastCycle){
+        if(this.currentCycle >= this.lastLoadedCycle){
             return false;
         }
 
@@ -88,6 +105,7 @@ function UIController(info){
     this.info = info;
     this.currentCycle = 0;
     this.isPlaying = false;
+    this.lastLoadedCycle = -1;
 
     /**
      * @param {integer} cycle

@@ -6,6 +6,10 @@
  * @param {function} loadFunction
  */
 function GameMaker(canvasDrawer, loadFunction=()=>{}){
+    
+    this.histories = [];
+    this.currentCycle = 0;
+    this.lastLoadedCycle = -1;
 
     /**
      * 
@@ -18,6 +22,10 @@ function GameMaker(canvasDrawer, loadFunction=()=>{}){
 
     this.getLastCycleNumber = function(){
         return this.getInfo().lastCycle;
+    }
+
+    this.getLastLoadedCycleNumber = function(){
+        return this.lastLoadedCycle;
     }
 
     /**
@@ -49,6 +57,8 @@ function GameMaker(canvasDrawer, loadFunction=()=>{}){
 
     this.loadCycle = function(cycle, data){
         this.histories[cycle] = data;
+        if(cycle > this.lastLoadedCycle)
+            this.lastLoadedCycle = cycle;
     }
 
     this.getInfo = function(){
@@ -66,8 +76,6 @@ function GameMaker(canvasDrawer, loadFunction=()=>{}){
      * @param {Object} canvasDrawer 
      */
     this.constructor = function(canvasDrawer, loadFunction){
-        this.histories = [];
-        this.currentCycle = 0;
         this.canvasDrawer = canvasDrawer;
         this.allCycles = 0; //TODO
         this.infoObject = {};

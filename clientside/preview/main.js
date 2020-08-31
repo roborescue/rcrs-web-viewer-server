@@ -3,6 +3,7 @@
 // Constants
 const CANVAS_ID = 'canv';
 const JLOG_FILE = "data/vc.jlog";
+const PLAYING_DELAY = 100;
 const WORKER_FILE = '../src/Worker.js';
 const WORKER_COMMAND_LOADDATA = 'load_data';
 const WORKER_COMMAND_PROGRESSREPORT = 'progress_report';
@@ -25,7 +26,7 @@ let canvas = document.getElementById(CANVAS_ID);
 canvas.width = cbw-5;
 canvas.height = cbh-10;
 
-// UI Setup
+// Functions
 function UISetup(gameMaker){
     let info = gameMaker.getInfo();
 
@@ -34,7 +35,7 @@ function UISetup(gameMaker){
         mapName: info.MapName,
         showCycle: (cycle) => {gameMaker.drawCycle(cycle);}, 
         lastCycle: gameMaker.getLastCycleNumber(),
-        playingDelay: 500
+        playingDelay: PLAYING_DELAY
     });
 }
 
@@ -56,6 +57,7 @@ function loadFunction(text, progress=-1, end=false){
     }
 }
 
+// Main
 $(() => {
     let worker = new Worker(WORKER_FILE);
     
@@ -79,15 +81,17 @@ $(() => {
                 let historian = new Historian();
                 historian.memo = e.data.data.memo;
                 historian.keys = e.data.data.keys;
+                let cycleNumber = e.data.cycle;
 
                 gameMaker.loadCycle(
-                    e.data.cycle, 
+                    cycleNumber, 
                     historian
                 );
-                if(e.data.cycle == 0){
+                uiController.setLoadedCycle(cycleNumber);
+                if(cycleNumber == 0){
                     uiController.setCycle(0);
                 }
-                if(e.data.cycle == 2){
+                if(cycleNumber == 2){
                     loadFunction("Completed.", 100, true);
                 }
                 break;
@@ -101,7 +105,6 @@ $(() => {
 
     loadFunction("Downloading cycles data ...", 5);
     $.get(JLOG_FILE, function(data) {
-
         loadFunction("Map file downloaded ...",10);
         data = data.split("\n");
         data = data.filter(x => x.trim().length > 0);
