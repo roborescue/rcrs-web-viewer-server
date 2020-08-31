@@ -46,6 +46,10 @@ EntityHandler.getType = function(entity){
     return entity.EntityName;
 }
 
+EntityHandler.getHP = function(entity){
+    return entity.HP;
+}
+
 /**
  * @param {Object} entity
  * @returns {boolean}
