@@ -52,8 +52,18 @@ EntityHandler.getHP = function(entity){
 
 EntityHandler.getIcon = function(entity){
     switch(this.getType(entity)){
+        case ENTITY_NAME_HYDRANT:
+            return ICONS_HYDRANT;
         case ENTITY_NAME_POLICE_OFFICE:
             return ICONS_POLICE_OFFICE;
+        case ENTITY_NAME_AMBULANCE_CENTRE:
+            return ICONS_AMBULANCE_CENTRE;
+        case ENTITY_NAME_FIRE_STATION:
+            return ICONS_FIRE_STATION;
+        case ENTITY_NAME_REFUGE:
+            return ICONS_REFUGE;
+        case ENTITY_NAME_GAS_STATION:
+            return ICONS_GAS_STATION;
     }
     return false;
 };

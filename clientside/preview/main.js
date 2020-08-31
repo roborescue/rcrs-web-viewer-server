@@ -127,7 +127,12 @@ $(() => {
         });
 
         let textures = [
-            ICONS_POLICE_OFFICE
+            ICONS_POLICE_OFFICE,
+            ICONS_AMBULANCE_CENTRE,
+            ICONS_FIRE_STATION,
+            ICONS_REFUGE,
+            ICONS_GAS_STATION,
+            ICONS_HYDRANT
         ];
 
         canvasDrawer.loadTextures(textures, (texturesData) => {

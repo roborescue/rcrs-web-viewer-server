@@ -23,6 +23,11 @@ const ENTITY_ATTR_POSITION = "Pos";
 
 // Icons
 const ICONS_POLICE_OFFICE = "image/po.png";
+const ICONS_AMBULANCE_CENTRE = "image/ac.png";
+const ICONS_FIRE_STATION = "image/fs.png";
+const ICONS_REFUGE = "image/rf.png";
+const ICONS_GAS_STATION = "image/gs.png";
+const ICONS_HYDRANT = "image/hy.png";
 
 // Icon Setting
 const SETTING_ICON_RADIUS = 7000;
