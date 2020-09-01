@@ -12,6 +12,7 @@ const LOADING_MODAL = '#loadingModal';
 var gameMaker;
 var uiController;
 var canvasDrawer;
+var worker;
 
 // Functions
 function resizeCanvasToFit(){
@@ -51,6 +52,7 @@ function setProgressBarSize(x,y=100){
 }
 
 function loadFunction(text, progress=-1, end=false){
+    console.log(text);
     document.getElementById("status").innerText = text;
 
     if(progress > 0){
@@ -61,6 +63,77 @@ function loadFunction(text, progress=-1, end=false){
         $(LOADING_MODAL).modal('hide');
         setTimeout(function(){ $(LOADING_MODAL).modal('hide'); }, 1000);
     }
+}
+
+function workerMassageParser(e){
+    let command = e.data.command;
+    switch(command){
+        case WORKER_COMMAND_PROGRESSREPORT:
+            loadFunction(e.data.text, e.data.percent);
+            break;
+
+        case WORKER_COMMAND_MAPBOUNDS:
+            gameMaker.setCorrectScaleAndTranslation(
+                e.data.minX,
+                e.data.minY,
+                e.data.maxX,
+                e.data.maxY,
+            );
+            break;
+        
+        case WORKER_COMMAND_CYCLEDATA:
+            let historian = new Historian();
+            historian.memo = e.data.data.memo;
+            historian.keys = e.data.data.keys;
+            let cycleNumber = e.data.cycle;
+
+            gameMaker.loadCycle(
+                cycleNumber, 
+                historian
+            );
+            uiController.setLoadedCycle(cycleNumber);
+            if(cycleNumber == 0){
+                uiController.setCycle(0);
+            }
+            if(cycleNumber == 2){
+                loadFunction("Completed.", 100, true);
+            }
+            break;
+        
+        case WORKER_COMMAND_INFO:
+            gameMaker.setInfo(e.data.info);
+            UISetup(gameMaker);
+            break;
+    }
+}
+
+function parseShowJLOGFile(data){
+    loadFunction("Map file downloaded ...",80);
+    data = data.split("\n");
+    data = data.filter(x => x.trim().length > 0);
+    data = data.map(x => JSON.parse(x));
+
+    loadFunction("Map file loaded ...",82);
+
+    let textures = [
+        ICONS_POLICE_OFFICE,
+        ICONS_AMBULANCE_CENTRE,
+        ICONS_FIRE_STATION,
+        ICONS_REFUGE,
+        ICONS_GAS_STATION,
+        ICONS_HYDRANT
+    ];
+
+    canvasDrawer.loadTextures(textures, (texturesData) => {
+        loadFunction("Texture files loaded ...",90);
+
+        gameMaker = new GameMaker(canvasDrawer, loadFunction);
+        worker.postMessage({
+            command: WORKER_COMMAND_LOADDATA,
+            data: data,
+            textures: texturesData
+        });
+    });
 }
 
 // Main
@@ -89,78 +162,19 @@ $(() => {
         canvasDrawer.drawer.refitWebglToCanvas();
     }
 
-    let worker = new Worker(WORKER_FILE);
-    
-    worker.onmessage = function(e){
-        let command = e.data.command;
-        switch(command){
-            case WORKER_COMMAND_PROGRESSREPORT:
-                loadFunction(e.data.text, e.data.percent);
-                break;
+    worker = new Worker(WORKER_FILE);
+    worker.onmessage = workerMassageParser;
 
-            case WORKER_COMMAND_MAPBOUNDS:
-                gameMaker.setCorrectScaleAndTranslation(
-                    e.data.minX,
-                    e.data.minY,
-                    e.data.maxX,
-                    e.data.maxY,
-                );
-                break;
-            
-            case WORKER_COMMAND_CYCLEDATA:
-                let historian = new Historian();
-                historian.memo = e.data.data.memo;
-                historian.keys = e.data.data.keys;
-                let cycleNumber = e.data.cycle;
+    loadFunction("Downloading cycles data ...", 0);
 
-                gameMaker.loadCycle(
-                    cycleNumber, 
-                    historian
-                );
-                uiController.setLoadedCycle(cycleNumber);
-                if(cycleNumber == 0){
-                    uiController.setCycle(0);
-                }
-                if(cycleNumber == 2){
-                    loadFunction("Completed.", 100, true);
-                }
-                break;
-            
-            case WORKER_COMMAND_INFO:
-                gameMaker.setInfo(e.data.info);
-                UISetup(gameMaker);
-                break;
+    $.ajax(JLOG_FILE, {
+        progress: function(e) {
+            if(e.lengthComputable){
+                let percent = Math.round(80 * e.loaded / e.total);
+                loadFunction("Downloading cycles data ... (" + percent + "%)", percent);
+            }
         }
-    }
-
-    loadFunction("Downloading cycles data ...", 5);
-    $.get(JLOG_FILE, function(data) {
-        loadFunction("Map file downloaded ...",50);
-        data = data.split("\n");
-        data = data.filter(x => x.trim().length > 0);
-        data = data.map(x => JSON.parse(x));
-
-        loadFunction("Map file loaded ...",60);
-
-        let textures = [
-            ICONS_POLICE_OFFICE,
-            ICONS_AMBULANCE_CENTRE,
-            ICONS_FIRE_STATION,
-            ICONS_REFUGE,
-            ICONS_GAS_STATION,
-            ICONS_HYDRANT
-        ];
-
-        canvasDrawer.loadTextures(textures, (texturesData) => {
-            loadFunction("Texture files loaded ...",70);
-    
-            gameMaker = new GameMaker(canvasDrawer, loadFunction);
-            worker.postMessage({
-                command: WORKER_COMMAND_LOADDATA,
-                data: data,
-                textures: texturesData
-            });
-        });
-
+    }).done((msg) => {
+        parseShowJLOGFile(msg);
     });
 })

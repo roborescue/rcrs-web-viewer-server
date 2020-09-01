@@ -9,7 +9,9 @@
   "author": "Amir Aslan Aslani",
   "license": "Apache-2.0",
   "dependencies": {
+    "bootstrap": "^4.5.2",
     "earcut": "^2.2.2",
+    "jq-ajax-progress": "^1.0.0",
     "jquery": "^3.5.1"
   }
 }
