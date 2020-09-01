@@ -9,10 +9,9 @@
 
         <script>module = {}</script>
 
-        <script src="../node_modules/jquery/dist/jquery.min.js"></script>
-        <script src="../node_modules/jq-ajax-progress/src/jq-ajax-progress.min.js"></script>
-        <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-        <script src="../node_modules/earcut/src/earcut.js"></script>
+        {{#modules}}
+        <script src="../node_modules/{{{.}}}"></script>
+        {{/modules}}
         <script src="CanvasDrawer.js"></script>
 
     </head>
@@ -116,16 +115,15 @@
         </div>
 
         
-        <script src="../src/Constants.js"></script>
-        <script src="../src/GameMaker.js"></script>
-        <script src="../src/UIController.js"></script>
-        <script src="../src/Main.js"></script>
+        {{#files}}
+        <script src="../{{{.}}}"></script>
+        {{/files}}
 
         <script>
             const CANVAS_ID = 'canv';
             const JLOG_FILE = "data/ist.jlog";
             const PLAYING_DELAY = 100;
-            const WORKER_FILE = '../src/WorkerLoader.js';
+            const WORKER_FILE = '{{{ param.workerFile }}}';
             const ERROR_MODAL = '#errorModal';
             const LOADING_MODAL = '#loadingModal';
 

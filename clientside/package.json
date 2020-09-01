@@ -4,14 +4,29 @@
   "description": "GameMaker",
   "main": "src/GameMaker.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "node scripts/compile.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roborescue/rcrs-web-viewer.git"
   },
   "author": "Amir Aslan Aslani",
-  "license": "Apache-2.0",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/roborescue/rcrs-web-viewer/issues"
+  },
+  "homepage": "https://github.com/roborescue/rcrs-web-viewer#readme",
   "dependencies": {
     "bootstrap": "^4.5.2",
     "earcut": "^2.2.2",
     "jq-ajax-progress": "^1.0.0",
     "jquery": "^3.5.1"
+  },
+  "devDependencies": {
+    "jsdoc-to-markdown": "^6.0.1",
+    "mustache": "^4.0.1",
+    "terser": "^5.2.0",
+    "chalk": "^4.1.0"
   }
 }
