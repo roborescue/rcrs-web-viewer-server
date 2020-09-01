@@ -1,17 +1,7 @@
-module = {}
 
-// Imports
-importScripts('../src/Constants.js');
-importScripts('../src/Entity.js');
-importScripts('../src/EntityColor.js');
-importScripts('../src/EntityHandler.js');
-importScripts('../src/WorkerDataLoader.js');
+module = {};
+
 importScripts('../node_modules/earcut/src/earcut.js');
-// importScripts('../src/HistoryManager.js');
-// importScripts('../src/Historian.js');
-// importScripts('../src/PositionMaker.js');
-
-// Just for PositionMaker, Historian and HistoryManager
 importScripts('../preview/CanvasDrawer.js'); 
 
 

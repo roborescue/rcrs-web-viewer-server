@@ -128,58 +128,58 @@ const HUMAN_HP_CRITICAL = 1000;
 // Humans Color
 //
 
-/** @const {float[3]} */
+/** @const {float[]} */
 const COLOR_HUMAN_TYPE_CIVILIAN = [0, 1, 0];
 
-/** @const {float[3]} */
+/** @const {float[]} */
 const COLOR_HUMAN_TYPE_FIRE_BRIGADE = [1, 0, 0];
 
-/** @const {float[3]} */
+/** @const {float[]} */
 const COLOR_HUMAN_TYPE_AMBULANCE_TEAM = [1, 1, 1];
 
-/** @const {float[3]} */
+/** @const {float[]} */
 const COLOR_HUMAN_TYPE_POLICE_FORCE = [0, 0, 1];
 
-/** @const {float[3]} */
+/** @const {float[]} */
 const COLOR_HUMAN_TYPE_DEAD = [0, 0, 0];
 
 //
 // Surfaces Color
 //
 
-/** @const {float[3]} */
+/** @const {float[]} */
 const COLOR_ROAD_DEFAULT = [0.72, 0.72, 0.72];
 
-/** @const {float[3]} */
+/** @const {float[]} */
 const COLOR_BLOCKADE_DEFAULT = [0, 0, 0];
 
 //
 // Buildings Color
 //
 
-/** @const {float[3]} */
+/** @const {float[]} */
 const COLOR_BUILDING_FIERYNESS_UNBURNT = [0.52, 0.52, 0.52];
 
-/** @const {float[3]} */
+/** @const {float[]} */
 const COLOR_BUILDING_FIERYNESS_HEATING = [0.69, 0.69, 0.21];
 
-/** @const {float[3]} */
+/** @const {float[]} */
 const COLOR_BUILDING_FIERYNESS_BURNING = [0.8, 0.47, 0.19];
 
-/** @const {float[3]} */
+/** @const {float[]} */
 const COLOR_BUILDING_FIERYNESS_INFERNO = [0.62, 0.20, 0.20];
 
-/** @const {float[3]} */
+/** @const {float[]} */
 const COLOR_BUILDING_FIERYNESS_WATER_DAMAGE = [0.19, 0.47, 0.51];
 
-/** @const {float[3]} */
+/** @const {float[]} */
 const COLOR_BUILDING_FIERYNESS_MINOR_DAMAGE = [0.39, 0.54, 0.82];
 
-/** @const {float[3]} */
+/** @const {float[]} */
 const COLOR_BUILDING_FIERYNESS_MODERATE_DAMAGE = [0.39, 0.27, 0.74];
 
-/** @const {float[3]} */
+/** @const {float[]} */
 const COLOR_BUILDING_FIERYNESS_SEVERE_DAMAGE = [0.31, 0.23, 0.54];
 
-/** @const {float[3]} */
+/** @const {float[]} */
 const COLOR_BUILDING_FIERYNESS_BURNT_OUT = [0.0, 0.0, 0.0];

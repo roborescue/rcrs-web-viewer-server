@@ -11,8 +11,8 @@ EntityColor = {};
 /**
  * Darken the color
  * 
- * @param {float[3]} color - color
- * @returns {float[3]} - dark color
+ * @param {float[]} color - color
+ * @returns {float[]} - dark color
  */
 EntityColor.getDarker = function(color){
     return [
@@ -26,7 +26,7 @@ EntityColor.getDarker = function(color){
  * Get building color
  * 
  * @param {integer} fieryness - fieryness value of building (0-8)
- * @returns {float[3]} color
+ * @returns {float[]} color
  */
 EntityColor.getBuildingColor = function(fieryness){
     switch(fieryness){
@@ -57,7 +57,7 @@ EntityColor.getBuildingColor = function(fieryness){
  * 
  * @param {string} type - human's EntityName
  * @param {integer} hp - HP value of human
- * @returns {float[3]} - color
+ * @returns {float[]} - color
  */
 EntityColor.getHumanColor = function(type, hp){
     if(hp == 0)
@@ -95,7 +95,7 @@ EntityColor.getHumanColor = function(type, hp){
  * Get color of Entity
  * 
  * @param {Object} entity - Entity object
- * @returns {float[3]} - color
+ * @returns {float[]} - color
  */
 EntityColor.getColor = function(entity){
     if(EntityHandler.isRoad(entity))

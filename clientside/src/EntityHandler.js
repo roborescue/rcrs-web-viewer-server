@@ -88,7 +88,7 @@ EntityHandler.blockades = [
  * Get color of Entity
  * 
  * @param {Object} entity entity object
- * @returns {float[3]} - color
+ * @returns {float[]} - color
  */
 EntityHandler.getColor = function(entity){
     return EntityColor.getColor(entity);
@@ -211,7 +211,7 @@ EntityHandler.getId = function(entity){
  * Get center of polygon
  * 
  * @param {Object} entity entity object
- * @returns {float[2]|boolean} coordinates (returns false when entity hasn't apexes)
+ * @returns {float[]|boolean} coordinates (returns false when entity hasn't apexes)
  */
 EntityHandler.getCenterOfPolygon = function(entity){
     let apexes = entity[ENTITY_ATTR_APEXES];
