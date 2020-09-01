@@ -1,9 +1,24 @@
+
+/**
+ * 
+ * @param {Object} info info object
+ */
 function UIController(info){
+
+    /**
+     * 
+     * @param {string} name 
+     * @param {*} defaultValue 
+     * @returns {*}
+     */
     this.loadDataFromInfo = function(name, defaultValue) {
         return (name in this.info) ? this.info[name] : defaultValue;
     };
 
-    this.start = async function(){
+    /**
+     * Play logs
+     */
+    this.start = function(){
         if(this.isPlaying !== false){
             return;
         }
@@ -18,6 +33,9 @@ function UIController(info){
         this.reloadControllPanel();
     }
 
+    /**
+     * Pause logs
+     */
     this.pause = function(){
         if(this.isPlaying !== false){
             clearInterval(this.isPlaying);
@@ -27,11 +45,19 @@ function UIController(info){
         this.reloadControllPanel();
     }
 
+    /**
+     * Reset player to #0 cycle
+     */
     this.reset = function(){
         this.pause();
         this.setCycle(0);
     }
 
+    /**
+     * Set cycle as loaded and controller updated.
+     * 
+     * @param {integer} cycle cycle number
+     */
     this.setLoadedCycle = function(cycle){
         if(this.lastLoadedCycle < cycle){
             this.lastLoadedCycle = cycle;
@@ -39,6 +65,9 @@ function UIController(info){
         }
     }
 
+    /**
+     * Update controll buttons status
+     */
     this.reloadControllPanel = function(){
         if(this.isPlaying !== false || this.currentCycle >= this.lastLoadedCycle){
             this.buttons.start.prop("disabled", true);
@@ -62,6 +91,10 @@ function UIController(info){
         }
     }
 
+    /**
+     * Show cycle
+     * @param {integer} cycle 
+     */
     this.setCycle = function(cycle){
         $("#cycle-number").html(cycle + " / " + this.lastCycle);
 
@@ -70,6 +103,9 @@ function UIController(info){
         this.reloadControllPanel();
     }
 
+    /**
+     * Show next cycle
+     */
     this.nextCycle = function(){
         if(this.currentCycle >= this.lastLoadedCycle){
             return false;
@@ -79,6 +115,9 @@ function UIController(info){
         return true;
     }
 
+    /**
+     * Show previous cycle
+     */
     this.prevCycle = function(){
         if(this.currentCycle <= 0){
             return false;
@@ -102,15 +141,38 @@ function UIController(info){
     // Setup
     //
     
+    /**
+     * Info object
+     * 
+     * @type {Object}
+     */
     this.info = info;
+
+    /**
+     * Current showing cycle
+     * 
+     * @type {integer}
+     */
     this.currentCycle = 0;
+
+    /**
+     * Is playing
+     * 
+     * @type {boolean}
+     */
     this.isPlaying = false;
+
+    /**
+     * Last loaded cycle
+     * 
+     * @type {integer}
+     */
     this.lastLoadedCycle = -1;
 
     /**
      * @param {integer} cycle
      */
-    let getScore = this.loadDataFromInfo("getScore", (cycle) => {return -1;});
+    this.getScore = this.loadDataFromInfo("getScore", (cycle) => {return -1;});
     
     /**
      * @param {integer} cycle
@@ -118,17 +180,25 @@ function UIController(info){
     this.showCycle = this.loadDataFromInfo("showCycle", (cycle) => {});
     
     /**
-     * 
+     * Last cycle number.
      */
     this.lastCycle = this.loadDataFromInfo("lastCycle", 0);
     
     /**
-     * 
+     * Playing delay.
      */
     this.playingDelay = this.loadDataFromInfo("playingDelay", 1500);
     
+    /**
+     * Team name
+     */
     let teamName = this.loadDataFromInfo("teamName", "Unknown");
+
+    /**
+     * Map name
+     */
     let mapName = this.loadDataFromInfo("mapName", "Unknown");
+
 
     $("#team-name-field").html(teamName);
     $("#map-name-field").html(mapName);

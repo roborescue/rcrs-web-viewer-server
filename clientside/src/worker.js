@@ -19,15 +19,35 @@ importScripts('../preview/CanvasDrawer.js');
 var dataLoader = {};
 var textures;
 
+
+/**
+ * Submit log for Worker.
+ * 
+ * @param {string} log log content
+ */
 function wl(log){
     console.log("WorkerLog: " + log);
 }
 
+/**
+ * Load function.
+ * 
+ * @param {string} text status content
+ * @param {integer} progress percentage of progress
+ * @param {boolean} end is end of progress
+ */
 function loadFunction(text, progress=-1, end=false){
     progressReport(text, progress, end);
     wl(text);
 }
 
+/**
+ * Progress report.
+ * 
+ * @param {string} text status content
+ * @param {integer} progress percentage of progress
+ * @param {boolean} end is end of progress
+ */
 function progressReport(text, percent = -1, end=false){
     postMessage({
         command: WORKER_COMMAND_PROGRESSREPORT,
@@ -37,6 +57,14 @@ function progressReport(text, percent = -1, end=false){
     });
 }
 
+/**
+ * Post map bounds.
+ * 
+ * @param {number} minX Minimum X
+ * @param {number} minY Minimum Y
+ * @param {number} maxX Maximum X
+ * @param {number} maxY Maximum Y
+ */
 function postMapbounds(minX, minY, maxX, maxY){
     wl("map bounds sent");
     postMessage({
@@ -48,6 +76,12 @@ function postMapbounds(minX, minY, maxX, maxY){
     });
 }
 
+/**
+ * Post cycle data object.
+ * 
+ * @param {integer} cycle cycle number
+ * @param {Object} data data object
+ */
 function postCycleData(cycle, data){
     wl("cycle " + cycle + " sent");
     postMessage({
@@ -57,6 +91,11 @@ function postCycleData(cycle, data){
     });
 }
 
+/**
+ * Post info object.
+ * 
+ * @param {Object} info info object
+ */
 function postInfo(info){
     wl("map info sent");
     postMessage({
@@ -65,7 +104,12 @@ function postInfo(info){
     });
 }
 
-onmessage = function(e){
+/**
+ * handle incoming massage
+ * 
+ * @param {Object} e massage object
+ */
+function handleIncomingMassage(e){
     let command = e.data.command;
     switch(command){
         case WORKER_COMMAND_LOADDATA:
@@ -73,5 +117,6 @@ onmessage = function(e){
             dataLoader = new WorkerDataLoader(e.data.data, loadFunction);
             break;
     }
-
 }
+
+onmessage = (e) => handleIncomingMassage(e);

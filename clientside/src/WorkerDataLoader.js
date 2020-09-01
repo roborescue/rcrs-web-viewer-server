@@ -1,43 +1,63 @@
 /**
+ * Multiplies each point's Y value by -1
  * 
- * @param {float[]} vertexList 
- * @returns {float[]}
+ * @param {float[]} vertexList vertex list
+ * @returns {float[]} mirrored vertex list
  */
 function mirrorYs(vertexList){
     return vertexList.map((value, index) => value * (index % 2 == 1 ? -1 : 1))
 }
 
-
+/**
+ * 
+ * @param {Object} data data object
+ * @param {function} loadFunction load function
+ */
 function WorkerDataLoader(data, loadFunction=()=>{}){
 
     /**
+     * Get cycle object.
      * 
-     * @param {integer} cycle 
-     * @returns {Object[]}
+     * @param {integer} cycle cycle number
+     * @returns {Object[]} cycle object
      */
     this.getCycleObject = function(cycle){
         return this.cycles[cycle];
     }
     
     /**
-     * @returns integer 
+     * Get cycles number.
+     * 
+     * @returns {integer} cycles number
      */
     this.getCyclesNumber = function(){
         return this.cycles.length;
     }
 
     /**
+     * Remove specific cycles data from memory.
      * 
-     * @param {integer} cycle 
+     * @param {integer} cycle cycle number
      */
     this.releaseCycleMemory = function(cycle){
         delete this.cycles[cycle];
     }
 
+    /**
+     * Get info object.
+     * 
+     * @returns {Object} info object
+     */
     this.getInfoObject = function(){
         return this.info;
     }
 
+    /**
+     * Push given entity to ``WorkerDataLoader.entitiesWithIcon`` 
+     * if entity has icon.
+     * 
+     * @param {Object} entity entity object
+     */
     this.checkForIcon = function(entity){
         let icon = EntityHandler.getIcon(entity);
         if(icon){
@@ -45,6 +65,12 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         }
     }
 
+    /**
+     * Create base cycle
+     * 
+     * @param {Object} data data object
+     * @param {function} loadFunction load function
+     */
     this.createBaseCycle = function(data, loadFunction){
         this.minX = Number.MAX_SAFE_INTEGER;
         this.minY = Number.MAX_SAFE_INTEGER;
@@ -103,6 +129,11 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         this.postCycleAfterBake(0, entities);
     }
 
+    /**
+     * Fill given cycle
+     * 
+     * @param {Object} cycle changes of the cycle
+     */
     this.fillCycle = function(cycle){
         let prevCycleNumber = this.cycles.length - 1;
         // Deep clone last cycle
@@ -147,6 +178,12 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         this.postCycleAfterBake(cycle, newCycle);
     }
 
+    /**
+     * Fill cycles
+     * 
+     * @param {Object} data data object
+     * @param {function} loadFunction load function
+     */
     this.fillCycles = function(data, loadFunction){
         for(let cycle = 1;cycle < data.length;cycle ++){
             this.fillCycle(cycle);
@@ -154,6 +191,12 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         loadFunction("Game cycle entities are loaded.");
     }
 
+    /**
+     * Post given cycles Historian.
+     * 
+     * @param {integer} cycle cycle number
+     * @param {Object} data cycle data
+     */
     this.postCycleAfterBake = function(cycle, data){
         let historyManager = new HistoryManager(this.baseHistorian.clone());
         historyManager = this.fillHistoryWithCycleObject(
@@ -164,6 +207,14 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         postCycleData(cycle, historyManager.historian);
     }
 
+    /**
+     * Fill history with cycle object.
+     * 
+     * @param {Object} historyManager object of ``HistoryManager``
+     * @param {Object} cycleObject cycle object
+     * @param {integer} cycle cycle number
+     * @returns {Object} object of ``HistoryManager``
+     */
     this.fillHistoryWithCycleObject = function(historyManager, cycleObject, cycle){
         if(cycle == 0){
             this.fillHistoryWithObject(historyManager, cycleObject.road);
@@ -179,6 +230,13 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         return historyManager;
     }
 
+    /**
+     * Fill history with object.
+     * 
+     * @param {Object} historyManager object of ``HistoryManager``
+     * @param {Object} objectList object of objects
+     * @returns {Object} object of ``HistoryManager``
+     */
     this.fillHistoryWithObject = function(historyManager, objectList){
         for(let id in objectList){
             let entity = objectList[id];
@@ -204,6 +262,12 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         return historyManager;
     }
 
+    /**
+     * Fill history with object icons.
+     * 
+     * @param {Object} historyManager object of ``HistoryManager``
+     * @param {Object[]} entities array of entity objects
+     */
     this.fillHistoryWithObjectIcons = function(historyManager, entities){
         for (const entity of entities) {
             let icon = EntityHandler.getIcon(entity);
@@ -232,6 +296,11 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         return historyManager;
     }
 
+    /**
+     * 
+     * @param {Object} data data
+     * @param {function} loadFunction load function
+     */
     this.consturctor = function(data, loadFunction){
         this.positionMaker = new PositionMaker();
         this.baseHistorian = new Historian();

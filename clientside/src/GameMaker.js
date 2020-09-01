@@ -7,8 +7,25 @@
  */
 function GameMaker(canvasDrawer, loadFunction=()=>{}){
     
+    /**
+     * Array of cycles history
+     * 
+     * @type {Object[]}
+     */
     this.histories = [];
+
+    /**
+     * Current cycle
+     * 
+     * @type {integer}
+     */
     this.currentCycle = 0;
+
+    /**
+     * Last loaded cycle
+     * 
+     * @type {integer}
+     */
     this.lastLoadedCycle = -1;
 
     /**
@@ -20,16 +37,31 @@ function GameMaker(canvasDrawer, loadFunction=()=>{}){
         this.canvasDrawer.drawer.redraw();
     }
 
+    /**
+     * Get last cycle number
+     * 
+     * @returns {integer} last cycle number
+     */
     this.getLastCycleNumber = function(){
         return this.getInfo().lastCycle;
     }
 
+    /**
+     * Get last loaded cycle
+     * 
+     * @returns {integer} last loaded cycle
+     */
     this.getLastLoadedCycleNumber = function(){
         return this.lastLoadedCycle;
     }
 
     /**
+     * Set map position on screen.
      * 
+     * @param {number} minX Minimum X
+     * @param {number} minY Minimum Y
+     * @param {number} maxX Maximum X
+     * @param {number} maxY Maximum Y
      */
     this.setCorrectScaleAndTranslation = function(minX, minY, maxX, maxY){
 
@@ -63,10 +95,20 @@ function GameMaker(canvasDrawer, loadFunction=()=>{}){
             this.lastLoadedCycle = cycle;
     }
 
+    /**
+     * Get info object
+     * 
+     * @returns {Object}
+     */
     this.getInfo = function(){
         return this.infoObject;
     }
 
+    /**
+     * Set info object
+     * 
+     * @param {Object} info info object
+     */
     this.setInfo = function(info){
         this.infoObject = info;
         this.allCycles = info.lastCycle;

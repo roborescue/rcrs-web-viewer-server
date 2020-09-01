@@ -1,3 +1,10 @@
+/**
+ * Creates Entity object.
+ * 
+ * @param {Object} data 
+ * @example 
+ * let entityObject = new Entity(entity);
+ */
 function Entity(data){
     Object.assign(this, data);
 
