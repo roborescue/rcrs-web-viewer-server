@@ -5,6 +5,8 @@ const CANVAS_ID = 'canv';
 const JLOG_FILE = "data/cycles.jlog";
 const PLAYING_DELAY = 100;
 const WORKER_FILE = '../src/Worker.js';
+const ERROR_MODAL = '#errorModal';
+const LOADING_MODAL = '#loadingModal';
 
 // Global Variables
 var gameMaker;
@@ -13,19 +15,22 @@ var canvasDrawer;
 
 // Functions
 function resizeCanvasToFit(){
-    let canvasContainer = $("#canvas-container");
-    let cbw = canvasContainer.width();
-    let cbh = canvasContainer.height()
     let canvas = document.getElementById(CANVAS_ID);
-    canvas.width = cbw-5;
-    canvas.height = cbh-10;
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
 }
 
 function showError(content){
-    $(".modal").modal('hide');
+    $(".modal").not(ERROR_MODAL).modal('hide');
     let error = "<li>" + content + "</li>";
     $("#error-message").append(error);
-    $("#errorModal").modal('show');
+    $(ERROR_MODAL).modal('show');
+}
+
+function showLoadingModal(){
+    if(!$(ERROR_MODAL).data()['bs.modal'] || !$(ERROR_MODAL).data()['bs.modal']._isShown){
+        $(LOADING_MODAL).modal('show');
+    }
 }
 
 function UISetup(gameMaker){
@@ -53,8 +58,8 @@ function loadFunction(text, progress=-1, end=false){
     }
 
     if(end){
-        $("#loadingModal").modal('hide');
-        setTimeout(function(){ $("#loadingModal").modal('hide'); }, 1000);
+        $(LOADING_MODAL).modal('hide');
+        setTimeout(function(){ $(LOADING_MODAL).modal('hide'); }, 1000);
     }
 }
 
@@ -64,10 +69,10 @@ $(() => {
 
     // Check WebWorker Support
     if(window.Worker){
-        $("#loadingModal").modal('show');
+        showLoadingModal();
     }
     else{
-        showError("WebWorker is not supported.")
+        showError("WebWorker is not supported.");
         return;
     }
 
