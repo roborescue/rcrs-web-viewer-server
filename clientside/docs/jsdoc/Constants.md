@@ -3,6 +3,10 @@
 ## Constants
 
 <dl>
+<dt><a href="#DRAW_BORDER_LINE">DRAW_BORDER_LINE</a> : <code>boolean</code></dt>
+<dd></dd>
+<dt><a href="#DRAW_BORDER_LINE_WIDTH">DRAW_BORDER_LINE_WIDTH</a> : <code>number</code></dt>
+<dd></dd>
 <dt><a href="#ENTITY_NAME_CIVILIAN">ENTITY_NAME_CIVILIAN</a> : <code>string</code></dt>
 <dd></dd>
 <dt><a href="#ENTITY_NAME_AMBULANCE_TEAM">ENTITY_NAME_AMBULANCE_TEAM</a> : <code>string</code></dt>
@@ -105,6 +109,14 @@
 <dd></dd>
 </dl>
 
+<a name="DRAW_BORDER_LINE"></a>
+
+## DRAW\_BORDER\_LINE : <code>boolean</code>
+**Kind**: global constant  
+<a name="DRAW_BORDER_LINE_WIDTH"></a>
+
+## DRAW\_BORDER\_LINE\_WIDTH : <code>number</code>
+**Kind**: global constant  
 <a name="ENTITY_NAME_CIVILIAN"></a>
 
 ## ENTITY\_NAME\_CIVILIAN : <code>string</code>

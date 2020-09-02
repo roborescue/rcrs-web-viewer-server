@@ -45,6 +45,12 @@ if entity has icon.</p>
 <dt><a href="#fillHistoryWithObjectIcons">fillHistoryWithObjectIcons(historyManager, entities)</a></dt>
 <dd><p>Fill history with object icons.</p>
 </dd>
+<dt><a href="#createLinesList">createLinesList(objectList, list)</a></dt>
+<dd><p>Create and add border lines to the specific array.</p>
+</dd>
+<dt><a href="#fillBorderLines">fillBorderLines(historyManager, lines)</a></dt>
+<dd><p>Fill history with border lines.</p>
+</dd>
 <dt><a href="#consturctor">consturctor(data, loadFunction)</a></dt>
 <dd></dd>
 </dl>
@@ -204,6 +210,30 @@ Fill history with object icons.
 | --- | --- | --- |
 | historyManager | <code>Object</code> | object of ``HistoryManager`` |
 | entities | <code>Array.&lt;Object&gt;</code> | array of entity objects |
+
+<a name="createLinesList"></a>
+
+## createLinesList(objectList, list)
+Create and add border lines to the specific array.
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| objectList | <code>Object</code> | object of objects |
+| list | <code>Array.&lt;float&gt;</code> | array that lines added to |
+
+<a name="fillBorderLines"></a>
+
+## fillBorderLines(historyManager, lines)
+Fill history with border lines.
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| historyManager | <code>Object</code> | object of ``HistoryManager`` |
+| lines | <code>Array.&lt;float&gt;</code> | apexes |
 
 <a name="consturctor"></a>
 

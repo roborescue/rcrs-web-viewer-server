@@ -5,10 +5,20 @@
  * Released under the BSD-3-Clause license
  * https://opensource.org/licenses/BSD-3-Clause
  *
- * Date: 2020-09-01T15:36:19.543Z (Tue, 01 Sep 2020 15:36:19 GMT)
+ * Date: 2020-09-02T09:30:44.303Z (Wed, 02 Sep 2020 09:30:44 GMT)
  */
 
 //
+// Drawing Setting
+//
+
+/** @const {boolean} */
+const DRAW_BORDER_LINE = true;
+
+/** @const {number} */
+const DRAW_BORDER_LINE_WIDTH = 50;
+
+//
 // Entity Names
 //
 

@@ -217,14 +217,21 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
      */
     this.fillHistoryWithCycleObject = function(historyManager, cycleObject, cycle){
         if(cycle == 0){
+            this.createLinesList(cycleObject.road, this.entitiesLineList);
+            this.createLinesList(cycleObject.building, this.entitiesLineList);
+            this.baseLineList = [...this.entitiesLineList];
+
             this.fillHistoryWithObject(historyManager, cycleObject.road);
             this.baseHistorian = historyManager.historian.clone();
+        }
+        else{
+            this.entitiesLineList = [...this.baseLineList];
         }
 
         this.fillHistoryWithObject(historyManager, cycleObject.building);
         this.fillHistoryWithObject(historyManager, cycleObject.blockade);
+        this.fillBorderLines(historyManager, this.entitiesLineList);
         this.fillHistoryWithObject(historyManager, cycleObject.human);
-        
         this.fillHistoryWithObjectIcons(historyManager, this.entitiesWithIcon);
 
         return historyManager;
@@ -242,20 +249,20 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
             let entity = objectList[id];
             
             this.positionMaker.reset();
+            let mirroredVertices = mirrorYs(
+                EntityHandler.getVertices(entity)
+            );
             this.positionMaker.addPolygon(
-                mirrorYs(
-                    EntityHandler.getVertices(entity)
-                )
+                mirroredVertices
             );
 
             // Draw Polygon
             let color = EntityHandler.getColor(entity);
             historyManager.setColor(color[0], color[1], color[2], 1);
             
-            let positionsList = this.positionMaker.getPositionsList();
-
+            // let positionsList = this.positionMaker.getPositionsList();
             historyManager.submitVanilla(
-                positionsList
+                this.positionMaker.getPositionsList()
             );
         }
         
@@ -297,6 +304,48 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
     }
 
     /**
+     * Create and add border lines to the specific array.
+     * 
+     * @param {Object} objectList object of objects
+     * @param {float[]} list array that lines added to
+     */
+    this.createLinesList = function(objectList, list){
+        for(let id in objectList){
+            let entity = objectList[id];
+            
+            let mirroredVertices = mirrorYs(
+                EntityHandler.getVertices(entity)
+            );
+
+            if(DRAW_BORDER_LINE){ // Add Lines
+                this.positionMaker.reset();
+                this.positionMaker.addClosedSequenceLine(
+                    mirroredVertices,
+                    DRAW_BORDER_LINE_WIDTH
+                );
+                Array.prototype.push.apply(
+                    list,
+                    this.positionMaker.getPositionsList()
+                );
+            }
+        }
+    }
+
+    /**
+     * Fill history with border lines.
+     * 
+     * @param {Object} historyManager object of ``HistoryManager``
+     * @param {float[]} lines apexes
+     */
+    this.fillBorderLines = function(historyManager, lines) {
+        historyManager.setColor(0, 0, 0, 1);
+        historyManager.submitVanilla(
+            lines
+        );
+        return historyManager;
+    }
+
+    /**
      * 
      * @param {Object} data data
      * @param {function} loadFunction load function
@@ -306,6 +355,7 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         this.baseHistorian = new Historian();
 
         this.entitiesWithIcon = [];
+        this.entitiesLineList = [];
         this.createBaseCycle(data, loadFunction);
         this.fillCycles(data, loadFunction);
     }

@@ -1,4 +1,14 @@
 //
+// Drawing Setting
+//
+
+/** @const {boolean} */
+const DRAW_BORDER_LINE = true;
+
+/** @const {number} */
+const DRAW_BORDER_LINE_WIDTH = 50;
+
+//
 // Entity Names
 //
 
