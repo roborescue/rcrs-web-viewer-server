@@ -82,6 +82,20 @@ function postCycleData(cycle, data){
 }
 
 /**
+ * Post cycle data object.
+ * 
+ * @param {integer} cycle cycle number
+ * @param {Object} data data object
+ */
+function postBaseData(data){
+    wl("Base data sent");
+    postMessage({
+        command: WORKER_COMMAND_BASEDATA,
+        data: data.getDataCopy()
+    });
+}
+
+/**
  * Post info object.
  * 
  * @param {Object} info info object

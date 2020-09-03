@@ -18,6 +18,9 @@
 <dt><a href="#postCycleData">postCycleData(cycle, data)</a></dt>
 <dd><p>Post cycle data object.</p>
 </dd>
+<dt><a href="#postBaseData">postBaseData(cycle, data)</a></dt>
+<dd><p>Post cycle data object.</p>
+</dd>
 <dt><a href="#postInfo">postInfo(info)</a></dt>
 <dd><p>Post info object.</p>
 </dd>
@@ -80,6 +83,18 @@ Post map bounds.
 <a name="postCycleData"></a>
 
 ## postCycleData(cycle, data)
+Post cycle data object.
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| cycle | <code>integer</code> | cycle number |
+| data | <code>Object</code> | data object |
+
+<a name="postBaseData"></a>
+
+## postBaseData(cycle, data)
 Post cycle data object.
 
 **Kind**: global function  

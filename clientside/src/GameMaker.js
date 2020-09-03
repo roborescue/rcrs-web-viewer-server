@@ -29,11 +29,28 @@ function GameMaker(canvasDrawer, loadFunction=()=>{}){
     this.lastLoadedCycle = -1;
 
     /**
+     * Base historian
+     */
+    this.baseHistorian = new Historian();
+
+    /**
+     * Set base historian.
+     * 
+     * @param {Object} historian historian
+     */
+    this.setBaseHistorian = function(historian){
+        this.baseHistorian = historian;
+    }
+
+    /**
      * 
      * @param {integer} cycle 
      */
     this.drawCycle = function(cycle = this.currentCycle){
-        this.canvasDrawer.drawer.historyManager.historians = [this.histories[cycle]];
+        this.canvasDrawer.drawer.historyManager.historians = [
+            this.baseHistorian,
+            this.histories[cycle]
+        ];
         this.canvasDrawer.drawer.redraw();
     }
 

@@ -121,6 +121,9 @@ const WORKER_COMMAND_CYCLEDATA = 'cycle_data';
 /** @const {string} */
 const WORKER_COMMAND_INFO = 'info';
 
+/** @const {string} */
+const WORKER_COMMAND_BASEDATA = 'base_data';
+
 //
 // HP Setting
 //
@@ -162,6 +165,9 @@ const COLOR_ROAD_DEFAULT = [0.72, 0.72, 0.72];
 
 /** @const {float[]} */
 const COLOR_BLOCKADE_DEFAULT = [0, 0, 0];
+
+/** @const {float[]} */
+const COLOR_BORDER_DEFAULT = [0, 0, 0];
 
 //
 // Buildings Color

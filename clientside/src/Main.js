@@ -71,7 +71,14 @@ function workerMassageParser(e){
                 e.data.maxY,
             );
             break;
-        
+
+        case WORKER_COMMAND_BASEDATA:
+            let h = new Historian();
+            h.memo = e.data.data.memo;
+            h.keys = e.data.data.keys;
+            gameMaker.setBaseHistorian(h);
+            break;
+
         case WORKER_COMMAND_CYCLEDATA:
             let historian = new Historian();
             historian.memo = e.data.data.memo;

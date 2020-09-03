@@ -69,6 +69,8 @@
 <dd></dd>
 <dt><a href="#WORKER_COMMAND_INFO">WORKER_COMMAND_INFO</a> : <code>string</code></dt>
 <dd></dd>
+<dt><a href="#WORKER_COMMAND_BASEDATA">WORKER_COMMAND_BASEDATA</a> : <code>string</code></dt>
+<dd></dd>
 <dt><a href="#HUMAN_HP_MAX">HUMAN_HP_MAX</a> : <code>integer</code></dt>
 <dd></dd>
 <dt><a href="#HUMAN_HP_INJURED">HUMAN_HP_INJURED</a> : <code>integer</code></dt>
@@ -88,6 +90,8 @@
 <dt><a href="#COLOR_ROAD_DEFAULT">COLOR_ROAD_DEFAULT</a> : <code>Array.&lt;float&gt;</code></dt>
 <dd></dd>
 <dt><a href="#COLOR_BLOCKADE_DEFAULT">COLOR_BLOCKADE_DEFAULT</a> : <code>Array.&lt;float&gt;</code></dt>
+<dd></dd>
+<dt><a href="#COLOR_BORDER_DEFAULT">COLOR_BORDER_DEFAULT</a> : <code>Array.&lt;float&gt;</code></dt>
 <dd></dd>
 <dt><a href="#COLOR_BUILDING_FIERYNESS_UNBURNT">COLOR_BUILDING_FIERYNESS_UNBURNT</a> : <code>Array.&lt;float&gt;</code></dt>
 <dd></dd>
@@ -241,6 +245,10 @@
 
 ## WORKER\_COMMAND\_INFO : <code>string</code>
 **Kind**: global constant  
+<a name="WORKER_COMMAND_BASEDATA"></a>
+
+## WORKER\_COMMAND\_BASEDATA : <code>string</code>
+**Kind**: global constant  
 <a name="HUMAN_HP_MAX"></a>
 
 ## HUMAN\_HP\_MAX : <code>integer</code>
@@ -280,6 +288,10 @@
 <a name="COLOR_BLOCKADE_DEFAULT"></a>
 
 ## COLOR\_BLOCKADE\_DEFAULT : <code>Array.&lt;float&gt;</code>
+**Kind**: global constant  
+<a name="COLOR_BORDER_DEFAULT"></a>
+
+## COLOR\_BORDER\_DEFAULT : <code>Array.&lt;float&gt;</code>
 **Kind**: global constant  
 <a name="COLOR_BUILDING_FIERYNESS_UNBURNT"></a>
 

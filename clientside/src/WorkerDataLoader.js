@@ -1,3 +1,41 @@
+
+/**
+ * Get histirian key of color.
+ * 
+ * @param {float[]} color color
+ * @returns {string} key
+ */
+function getKeyFromColor(color){
+    return "" + color[0] + " " + color[1] + " " + color[2] + " " + 1;
+}
+
+/**
+ * Creates empty Historian with empty colors
+ * 
+ * @returns {Object} history manager
+ */
+function OrdinalHistorian(){
+    let historian = new Historian();
+    historian.addKey(getKeyFromColor(COLOR_ROAD_DEFAULT));
+    historian.addKey(getKeyFromColor(COLOR_BUILDING_FIERYNESS_UNBURNT));
+    historian.addKey(getKeyFromColor(COLOR_BUILDING_FIERYNESS_HEATING));
+    historian.addKey(getKeyFromColor(COLOR_BUILDING_FIERYNESS_BURNING));
+    historian.addKey(getKeyFromColor(COLOR_BUILDING_FIERYNESS_INFERNO));
+    historian.addKey(getKeyFromColor(COLOR_BUILDING_FIERYNESS_WATER_DAMAGE));
+    historian.addKey(getKeyFromColor(COLOR_BUILDING_FIERYNESS_MINOR_DAMAGE));
+    historian.addKey(getKeyFromColor(COLOR_BUILDING_FIERYNESS_MODERATE_DAMAGE));
+    historian.addKey(getKeyFromColor(COLOR_BUILDING_FIERYNESS_SEVERE_DAMAGE));
+    historian.addKey(getKeyFromColor(COLOR_BUILDING_FIERYNESS_BURNT_OUT));
+    historian.addKey(getKeyFromColor(COLOR_BLOCKADE_DEFAULT));
+    historian.addKey(getKeyFromColor(COLOR_BORDER_DEFAULT));
+    historian.addKey(getKeyFromColor(COLOR_HUMAN_TYPE_DEAD));
+    historian.addKey(getKeyFromColor(COLOR_HUMAN_TYPE_CIVILIAN));
+    historian.addKey(getKeyFromColor(COLOR_HUMAN_TYPE_FIRE_BRIGADE));
+    historian.addKey(getKeyFromColor(COLOR_HUMAN_TYPE_AMBULANCE_TEAM));
+    historian.addKey(getKeyFromColor(COLOR_HUMAN_TYPE_POLICE_FORCE));
+    return historian;
+}
+
 /**
  * Multiplies each point's Y value by -1
  * 
@@ -219,20 +257,19 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
      */
     this.fillHistoryWithCycleObject = function(historyManager, cycleObject, cycle){
         if(cycle == 0){
-            this.createLinesList(cycleObject.road, this.entitiesLineList);
-            this.createLinesList(cycleObject.building, this.entitiesLineList);
-            this.baseLineList = [...this.entitiesLineList];
+            let h = new HistoryManager([OrdinalHistorian()]);
+           
+            let baseLineList = [];
+            this.createLinesList(cycleObject.road, baseLineList);
+            this.createLinesList(cycleObject.building, baseLineList);
 
-            this.fillHistoryWithObject(historyManager, cycleObject.road);
-            this.baseHistorian = historyManager.getActiveHistorian().clone();
-        }
-        else{
-            this.entitiesLineList = [...this.baseLineList];
+            this.fillHistoryWithObject(h, cycleObject.road);
+            this.fillBorderLines(h, baseLineList);
+            postBaseData(h.getActiveHistorian());
         }
 
         this.fillHistoryWithObject(historyManager, cycleObject.building);
         this.fillHistoryWithObject(historyManager, cycleObject.blockade);
-        this.fillBorderLines(historyManager, this.entitiesLineList);
         this.fillHistoryWithObject(historyManager, cycleObject.human);
         this.fillHistoryWithObjectIcons(historyManager, this.entitiesWithIcon);
 
@@ -340,7 +377,12 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
      * @param {float[]} lines apexes
      */
     this.fillBorderLines = function(historyManager, lines) {
-        historyManager.setColor(0, 0, 0, 1);
+        historyManager.setColor(
+            COLOR_BORDER_DEFAULT[0], 
+            COLOR_BORDER_DEFAULT[1], 
+            COLOR_BORDER_DEFAULT[2],
+            1
+        );
         historyManager.submitVanilla(
             lines
         );
@@ -354,10 +396,9 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
      */
     this.consturctor = function(data, loadFunction){
         this.positionMaker = new PositionMaker();
-        this.baseHistorian = new Historian();
+        this.baseHistorian = OrdinalHistorian();
 
         this.entitiesWithIcon = [];
-        this.entitiesLineList = [];
         this.createBaseCycle(data, loadFunction);
         this.fillCycles(data, loadFunction);
     }

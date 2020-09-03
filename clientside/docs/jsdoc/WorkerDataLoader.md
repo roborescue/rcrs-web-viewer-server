@@ -3,6 +3,12 @@
 ## Functions
 
 <dl>
+<dt><a href="#getKeyFromColor">getKeyFromColor(color)</a> ⇒ <code>string</code></dt>
+<dd><p>Get histirian key of color.</p>
+</dd>
+<dt><a href="#OrdinalHistorian">OrdinalHistorian()</a> ⇒ <code>Object</code></dt>
+<dd><p>Creates empty Historian with empty colors</p>
+</dd>
 <dt><a href="#mirrorYs">mirrorYs(vertexList)</a> ⇒ <code>Array.&lt;float&gt;</code></dt>
 <dd><p>Multiplies each point&#39;s Y value by -1</p>
 </dd>
@@ -55,6 +61,25 @@ if entity has icon.</p>
 <dd></dd>
 </dl>
 
+<a name="getKeyFromColor"></a>
+
+## getKeyFromColor(color) ⇒ <code>string</code>
+Get histirian key of color.
+
+**Kind**: global function  
+**Returns**: <code>string</code> - key  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| color | <code>Array.&lt;float&gt;</code> | color |
+
+<a name="OrdinalHistorian"></a>
+
+## OrdinalHistorian() ⇒ <code>Object</code>
+Creates empty Historian with empty colors
+
+**Kind**: global function  
+**Returns**: <code>Object</code> - history manager  
 <a name="mirrorYs"></a>
 
 ## mirrorYs(vertexList) ⇒ <code>Array.&lt;float&gt;</code>

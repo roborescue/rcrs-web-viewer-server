@@ -12,6 +12,9 @@
 <dt><a href="#lastLoadedCycle">lastLoadedCycle</a> : <code>integer</code></dt>
 <dd><p>Last loaded cycle</p>
 </dd>
+<dt><a href="#baseHistorian">baseHistorian</a></dt>
+<dd><p>Base historian</p>
+</dd>
 </dl>
 
 ## Functions
@@ -19,6 +22,9 @@
 <dl>
 <dt><a href="#GameMaker">GameMaker(canvasDrawer, loadFunction)</a></dt>
 <dd></dd>
+<dt><a href="#setBaseHistorian">setBaseHistorian(historian)</a></dt>
+<dd><p>Set base historian.</p>
+</dd>
 <dt><a href="#drawCycle">drawCycle(cycle)</a></dt>
 <dd></dd>
 <dt><a href="#getLastCycleNumber">getLastCycleNumber()</a> ⇒ <code>integer</code></dt>
@@ -58,6 +64,12 @@ Current cycle
 Last loaded cycle
 
 **Kind**: global variable  
+<a name="baseHistorian"></a>
+
+## baseHistorian
+Base historian
+
+**Kind**: global variable  
 <a name="GameMaker"></a>
 
 ## GameMaker(canvasDrawer, loadFunction)
@@ -67,6 +79,17 @@ Last loaded cycle
 | --- | --- |
 | canvasDrawer | <code>Object</code> | 
 | loadFunction | <code>function</code> | 
+
+<a name="setBaseHistorian"></a>
+
+## setBaseHistorian(historian)
+Set base historian.
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| historian | <code>Object</code> | historian |
 
 <a name="drawCycle"></a>
 

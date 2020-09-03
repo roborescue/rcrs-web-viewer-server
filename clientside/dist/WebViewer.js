@@ -5,7 +5,7 @@
  * Released under the BSD-3-Clause license
  * https://opensource.org/licenses/BSD-3-Clause
  *
- * Date: 2020-09-03T08:21:10.421Z (Thu, 03 Sep 2020 08:21:10 GMT)
+ * Date: 2020-09-03T10:41:27.343Z (Thu, 03 Sep 2020 10:41:27 GMT)
  */
 
 //
@@ -131,6 +131,9 @@ const WORKER_COMMAND_CYCLEDATA = 'cycle_data';
 /** @const {string} */
 const WORKER_COMMAND_INFO = 'info';
 
+/** @const {string} */
+const WORKER_COMMAND_BASEDATA = 'base_data';
+
 //
 // HP Setting
 //
@@ -172,6 +175,9 @@ const COLOR_ROAD_DEFAULT = [0.72, 0.72, 0.72];
 
 /** @const {float[]} */
 const COLOR_BLOCKADE_DEFAULT = [0, 0, 0];
+
+/** @const {float[]} */
+const COLOR_BORDER_DEFAULT = [0, 0, 0];
 
 //
 // Buildings Color
@@ -234,11 +240,28 @@ function GameMaker(canvasDrawer, loadFunction=()=>{}){
     this.lastLoadedCycle = -1;
 
     /**
+     * Base historian
+     */
+    this.baseHistorian = new Historian();
+
+    /**
+     * Set base historian.
+     * 
+     * @param {Object} historian historian
+     */
+    this.setBaseHistorian = function(historian){
+        this.baseHistorian = historian;
+    }
+
+    /**
      * 
      * @param {integer} cycle 
      */
     this.drawCycle = function(cycle = this.currentCycle){
-        this.canvasDrawer.drawer.historyManager.historians = [this.histories[cycle]];
+        this.canvasDrawer.drawer.historyManager.historians = [
+            this.baseHistorian,
+            this.histories[cycle]
+        ];
         this.canvasDrawer.drawer.redraw();
     }
 
@@ -635,7 +658,14 @@ function workerMassageParser(e){
                 e.data.maxY,
             );
             break;
-        
+
+        case WORKER_COMMAND_BASEDATA:
+            let h = new Historian();
+            h.memo = e.data.data.memo;
+            h.keys = e.data.data.keys;
+            gameMaker.setBaseHistorian(h);
+            break;
+
         case WORKER_COMMAND_CYCLEDATA:
             let historian = new Historian();
             historian.memo = e.data.data.memo;
