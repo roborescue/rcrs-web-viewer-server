@@ -5,7 +5,7 @@
  * Released under the BSD-3-Clause license
  * https://opensource.org/licenses/BSD-3-Clause
  *
- * Date: 2020-09-02T09:30:44.303Z (Wed, 02 Sep 2020 09:30:44 GMT)
+ * Date: 2020-09-03T08:21:10.421Z (Thu, 03 Sep 2020 08:21:10 GMT)
  */
 
 //
@@ -238,7 +238,7 @@ function GameMaker(canvasDrawer, loadFunction=()=>{}){
      * @param {integer} cycle 
      */
     this.drawCycle = function(cycle = this.currentCycle){
-        this.canvasDrawer.drawer.historyManager.historian = this.histories[cycle];
+        this.canvasDrawer.drawer.historyManager.historians = [this.histories[cycle]];
         this.canvasDrawer.drawer.redraw();
     }
 

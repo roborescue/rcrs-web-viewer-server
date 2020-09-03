@@ -198,13 +198,15 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
      * @param {Object} data cycle data
      */
     this.postCycleAfterBake = function(cycle, data){
-        let historyManager = new HistoryManager(this.baseHistorian.clone());
+        let historyManager = new HistoryManager([
+            this.baseHistorian.clone()
+        ]);
         historyManager = this.fillHistoryWithCycleObject(
             historyManager, 
             data,
             cycle
         );
-        postCycleData(cycle, historyManager.historian);
+        postCycleData(cycle, historyManager.getActiveHistorian());
     }
 
     /**
@@ -222,7 +224,7 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
             this.baseLineList = [...this.entitiesLineList];
 
             this.fillHistoryWithObject(historyManager, cycleObject.road);
-            this.baseHistorian = historyManager.historian.clone();
+            this.baseHistorian = historyManager.getActiveHistorian().clone();
         }
         else{
             this.entitiesLineList = [...this.baseLineList];

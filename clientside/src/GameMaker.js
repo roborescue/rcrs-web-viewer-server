@@ -33,7 +33,7 @@ function GameMaker(canvasDrawer, loadFunction=()=>{}){
      * @param {integer} cycle 
      */
     this.drawCycle = function(cycle = this.currentCycle){
-        this.canvasDrawer.drawer.historyManager.historian = this.histories[cycle];
+        this.canvasDrawer.drawer.historyManager.historians = [this.histories[cycle]];
         this.canvasDrawer.drawer.redraw();
     }
 
