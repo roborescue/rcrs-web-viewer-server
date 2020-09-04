@@ -119,3 +119,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+PROJECT_ROOT_DIR = BASE_DIR.parent
+PREPARED_LOG_DIR = f'{PROJECT_ROOT_DIR}/prepared_logs'
+LOG_DIR = f'{PROJECT_ROOT_DIR}/web_viewer_logs'
+RAW_LOG_FILE_FORMAT = 'jlog'
+
