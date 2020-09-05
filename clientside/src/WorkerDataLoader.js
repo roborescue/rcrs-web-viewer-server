@@ -103,6 +103,11 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         }
     }
 
+    this.fillAndPostInfo = function(data, loadFunction){
+        data[0].lastCycle = data.length - 2;
+        postInfo(data[0]);
+    }
+
     /**
      * Create base cycle
      * 
@@ -114,11 +119,8 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         this.minY = Number.MAX_SAFE_INTEGER;
         this.maxX = Number.MIN_SAFE_INTEGER;
         this.maxY = Number.MIN_SAFE_INTEGER;
-
-        data[0].Info.lastCycle = data.length - 1;
-        postInfo(data[0].Info);
         
-        let map = data[0];
+        let map = data[1];
         let entities = {all: {}, building: {}, road: {}, blockade:{}, human:{}};
         for(let i = 0;i < map.Entities.length;i ++){
             let entity = new Entity(map.Entities[i]);
@@ -172,7 +174,7 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
      * 
      * @param {Object} cycle changes of the cycle
      */
-    this.fillCycle = function(cycle){
+    this.fillCycle = function(cycle, data){
         let prevCycleNumber = this.cycles.length - 1;
         // Deep clone last cycle
         let newCycle = JSON.parse(JSON.stringify(
@@ -181,7 +183,7 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         this.releaseCycleMemory(prevCycleNumber);
         newCycle.road = {};
 
-        let thisCycle = data[cycle];
+        let thisCycle = data[cycle + 1];
         for(let j in thisCycle.Entities){
             let entityObject = thisCycle.Entities[j];
             let id = EntityHandler.getId(entityObject);
@@ -223,8 +225,8 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
      * @param {function} loadFunction load function
      */
     this.fillCycles = function(data, loadFunction){
-        for(let cycle = 1;cycle < data.length;cycle ++){
-            this.fillCycle(cycle);
+        for(let cycle = 1;cycle < data.length - 1;cycle ++){
+            this.fillCycle(cycle, data);
         }
         loadFunction("Game cycle entities are loaded.");
     }
@@ -399,8 +401,9 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         this.baseHistorian = OrdinalHistorian();
 
         this.entitiesWithIcon = [];
+        this.fillAndPostInfo(data, loadFunction);
         this.createBaseCycle(data, loadFunction);
-        this.fillCycles(data, loadFunction);
+        this.fillCycles(data, loadFunction, 2);
     }
     
     // Run

@@ -62,16 +62,16 @@ const ENTITY_ATTR_ID = "Id";
 const ENTITY_ATTR_ENTITY_NAME = "EntityName";
 
 /** @const {string} */
-const ENTITY_ATTR_HP = "HP";
+const ENTITY_ATTR_HP = "urn:rescuecore2.standard:property:hp";
 
 /** @const {string} */
-const ENTITY_ATTR_FIERYNESS = "Fieryness";
+const ENTITY_ATTR_FIERYNESS = "urn:rescuecore2.standard:property:fieryness";
 
 /** @const {string} */
-const ENTITY_ATTR_APEXES = "Apexes";
+const ENTITY_ATTR_APEXES = "urn:rescuecore2.standard:property:apexes";
 
 /** @const {string} */
-const ENTITY_ATTR_POSITION = "Pos";
+const ENTITY_ATTR_POSITION = "urn:rescuecore2.standard:property:position";
 
 //
 // Icons
