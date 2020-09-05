@@ -93,10 +93,12 @@ function UIController(info){
 
     /**
      * Show cycle
+     * 
      * @param {integer} cycle 
      */
     this.setCycle = function(cycle){
         $("#cycle-number").html(cycle + " / " + this.lastCycle);
+        $("#team-score-field").html( this.getScore(cycle) );
 
         this.currentCycle = cycle;
         this.showCycle(cycle);

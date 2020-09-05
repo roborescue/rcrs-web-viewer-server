@@ -30,6 +30,9 @@
 <dd><p>Push given entity to <code>WorkerDataLoader.entitiesWithIcon</code> 
 if entity has icon.</p>
 </dd>
+<dt><a href="#fillAndPostInfo">fillAndPostInfo(data, loadFunction)</a></dt>
+<dd><p>Post info object of given data</p>
+</dd>
 <dt><a href="#createBaseCycle">createBaseCycle(data, loadFunction)</a></dt>
 <dd><p>Create base cycle</p>
 </dd>
@@ -149,6 +152,18 @@ Push given entity to ``WorkerDataLoader.entitiesWithIcon`` if entity has icon.
 | Param | Type | Description |
 | --- | --- | --- |
 | entity | <code>Object</code> | entity object |
+
+<a name="fillAndPostInfo"></a>
+
+## fillAndPostInfo(data, loadFunction)
+Post info object of given data
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| data | <code>Object</code> | data object |
+| loadFunction | <code>function</code> | load function |
 
 <a name="createBaseCycle"></a>
 

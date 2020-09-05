@@ -15,6 +15,13 @@ function GameMaker(canvasDrawer, loadFunction=()=>{}){
     this.histories = [];
 
     /**
+     * Array of cycles info object
+     * 
+     * @type {Object[]}
+     */
+    this.infos = [];
+
+    /**
      * Current cycle
      * 
      * @type {integer}
@@ -52,6 +59,15 @@ function GameMaker(canvasDrawer, loadFunction=()=>{}){
             this.histories[cycle]
         ];
         this.canvasDrawer.drawer.redraw();
+    }
+
+    /**
+     * Get score at given cycle
+     * 
+     * @param {integer} cycle 
+     */
+    this.getScore = function(cycle){
+        return this.infos[cycle].Score;
     }
 
     /**
@@ -106,8 +122,9 @@ function GameMaker(canvasDrawer, loadFunction=()=>{}){
         this.canvasDrawer.drawer.updateTranslation(xTranslation, yTranslation + y * scale);
     }
 
-    this.loadCycle = function(cycle, data){
+    this.loadCycle = function(cycle, data, info={}){
         this.histories[cycle] = data;
+        this.infos[cycle] = info;
         if(cycle > this.lastLoadedCycle)
             this.lastLoadedCycle = cycle;
     }

@@ -5,7 +5,7 @@
  * Released under the BSD-3-Clause license
  * https://opensource.org/licenses/BSD-3-Clause
  *
- * Date: 2020-09-03T10:41:27.343Z (Thu, 03 Sep 2020 10:41:27 GMT)
+ * Date: 2020-09-05T12:44:41.723Z (Sat, 05 Sep 2020 12:44:41 GMT)
  */
 
 //
@@ -72,16 +72,16 @@ const ENTITY_ATTR_ID = "Id";
 const ENTITY_ATTR_ENTITY_NAME = "EntityName";
 
 /** @const {string} */
-const ENTITY_ATTR_HP = "HP";
+const ENTITY_ATTR_HP = "urn:rescuecore2.standard:property:hp";
 
 /** @const {string} */
-const ENTITY_ATTR_FIERYNESS = "Fieryness";
+const ENTITY_ATTR_FIERYNESS = "urn:rescuecore2.standard:property:fieryness";
 
 /** @const {string} */
-const ENTITY_ATTR_APEXES = "Apexes";
+const ENTITY_ATTR_APEXES = "urn:rescuecore2.standard:property:apexes";
 
 /** @const {string} */
-const ENTITY_ATTR_POSITION = "Pos";
+const ENTITY_ATTR_POSITION = "urn:rescuecore2.standard:property:position";
 
 //
 // Icons
@@ -726,6 +726,17 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
     }
 
     /**
+     * Post info object of given data
+     * 
+     * @param {Object} data data object
+     * @param {function} loadFunction load function
+     */
+    this.fillAndPostInfo = function(data, loadFunction){
+        data[0].lastCycle = data.length - 2;
+        postInfo(data[0]);
+    }
+
+    /**
      * Create base cycle
      * 
      * @param {Object} data data object
@@ -736,11 +747,8 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         this.minY = Number.MAX_SAFE_INTEGER;
         this.maxX = Number.MIN_SAFE_INTEGER;
         this.maxY = Number.MIN_SAFE_INTEGER;
-
-        data[0].Info.lastCycle = data.length - 1;
-        postInfo(data[0].Info);
         
-        let map = data[0];
+        let map = data[1];
         let entities = {all: {}, building: {}, road: {}, blockade:{}, human:{}};
         for(let i = 0;i < map.Entities.length;i ++){
             let entity = new Entity(map.Entities[i]);
@@ -786,7 +794,7 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         postMapbounds(this.minX, this.minY, this.maxX, this.maxY);
         loadFunction("Map entities are loaded.");
         this.cycles = [entities];
-        this.postCycleAfterBake(0, entities);
+        this.postCycleAfterBake(0, entities, map.Info);
     }
 
     /**
@@ -794,7 +802,7 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
      * 
      * @param {Object} cycle changes of the cycle
      */
-    this.fillCycle = function(cycle){
+    this.fillCycle = function(cycle, data){
         let prevCycleNumber = this.cycles.length - 1;
         // Deep clone last cycle
         let newCycle = JSON.parse(JSON.stringify(
@@ -803,7 +811,7 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         this.releaseCycleMemory(prevCycleNumber);
         newCycle.road = {};
 
-        let thisCycle = data[cycle];
+        let thisCycle = data[cycle + 1];
         for(let j in thisCycle.Entities){
             let entityObject = thisCycle.Entities[j];
             let id = EntityHandler.getId(entityObject);
@@ -835,7 +843,7 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         }
 
         this.cycles.push(newCycle);
-        this.postCycleAfterBake(cycle, newCycle);
+        this.postCycleAfterBake(cycle, newCycle, thisCycle.Info);
     }
 
     /**
@@ -845,8 +853,8 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
      * @param {function} loadFunction load function
      */
     this.fillCycles = function(data, loadFunction){
-        for(let cycle = 1;cycle < data.length;cycle ++){
-            this.fillCycle(cycle);
+        for(let cycle = 1;cycle < data.length - 1;cycle ++){
+            this.fillCycle(cycle, data);
         }
         loadFunction("Game cycle entities are loaded.");
     }
@@ -857,7 +865,7 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
      * @param {integer} cycle cycle number
      * @param {Object} data cycle data
      */
-    this.postCycleAfterBake = function(cycle, data){
+    this.postCycleAfterBake = function(cycle, data, info){
         let historyManager = new HistoryManager([
             this.baseHistorian.clone()
         ]);
@@ -866,7 +874,7 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
             data,
             cycle
         );
-        postCycleData(cycle, historyManager.getActiveHistorian());
+        postCycleData(cycle, historyManager.getActiveHistorian(), info);
     }
 
     /**
@@ -1021,8 +1029,9 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         this.baseHistorian = OrdinalHistorian();
 
         this.entitiesWithIcon = [];
+        this.fillAndPostInfo(data, loadFunction);
         this.createBaseCycle(data, loadFunction);
-        this.fillCycles(data, loadFunction);
+        this.fillCycles(data, loadFunction, 2);
     }
     
     // Run
@@ -1102,12 +1111,13 @@ function postMapbounds(minX, minY, maxX, maxY){
  * @param {integer} cycle cycle number
  * @param {Object} data data object
  */
-function postCycleData(cycle, data){
+function postCycleData(cycle, data, info={}){
     wl("cycle " + cycle + " sent");
     postMessage({
         command: WORKER_COMMAND_CYCLEDATA,
         cycle: cycle,
-        data: data.getDataCopy()
+        data: data.getDataCopy(),
+        info: info
     });
 }
 

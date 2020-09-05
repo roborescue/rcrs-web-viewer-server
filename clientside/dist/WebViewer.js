@@ -5,7 +5,7 @@
  * Released under the BSD-3-Clause license
  * https://opensource.org/licenses/BSD-3-Clause
  *
- * Date: 2020-09-03T10:41:27.343Z (Thu, 03 Sep 2020 10:41:27 GMT)
+ * Date: 2020-09-05T12:44:41.723Z (Sat, 05 Sep 2020 12:44:41 GMT)
  */
 
 //
@@ -72,16 +72,16 @@ const ENTITY_ATTR_ID = "Id";
 const ENTITY_ATTR_ENTITY_NAME = "EntityName";
 
 /** @const {string} */
-const ENTITY_ATTR_HP = "HP";
+const ENTITY_ATTR_HP = "urn:rescuecore2.standard:property:hp";
 
 /** @const {string} */
-const ENTITY_ATTR_FIERYNESS = "Fieryness";
+const ENTITY_ATTR_FIERYNESS = "urn:rescuecore2.standard:property:fieryness";
 
 /** @const {string} */
-const ENTITY_ATTR_APEXES = "Apexes";
+const ENTITY_ATTR_APEXES = "urn:rescuecore2.standard:property:apexes";
 
 /** @const {string} */
-const ENTITY_ATTR_POSITION = "Pos";
+const ENTITY_ATTR_POSITION = "urn:rescuecore2.standard:property:position";
 
 //
 // Icons
@@ -226,6 +226,13 @@ function GameMaker(canvasDrawer, loadFunction=()=>{}){
     this.histories = [];
 
     /**
+     * Array of cycles info object
+     * 
+     * @type {Object[]}
+     */
+    this.infos = [];
+
+    /**
      * Current cycle
      * 
      * @type {integer}
@@ -263,6 +270,15 @@ function GameMaker(canvasDrawer, loadFunction=()=>{}){
             this.histories[cycle]
         ];
         this.canvasDrawer.drawer.redraw();
+    }
+
+    /**
+     * Get score at given cycle
+     * 
+     * @param {integer} cycle 
+     */
+    this.getScore = function(cycle){
+        return this.infos[cycle].Score;
     }
 
     /**
@@ -317,8 +333,9 @@ function GameMaker(canvasDrawer, loadFunction=()=>{}){
         this.canvasDrawer.drawer.updateTranslation(xTranslation, yTranslation + y * scale);
     }
 
-    this.loadCycle = function(cycle, data){
+    this.loadCycle = function(cycle, data, info={}){
         this.histories[cycle] = data;
+        this.infos[cycle] = info;
         if(cycle > this.lastLoadedCycle)
             this.lastLoadedCycle = cycle;
     }
@@ -455,10 +472,12 @@ function UIController(info){
 
     /**
      * Show cycle
+     * 
      * @param {integer} cycle 
      */
     this.setCycle = function(cycle){
         $("#cycle-number").html(cycle + " / " + this.lastCycle);
+        $("#team-score-field").html( this.getScore(cycle) );
 
         this.currentCycle = cycle;
         this.showCycle(cycle);
@@ -619,6 +638,7 @@ function UISetup(gameMaker){
         teamName: info.TeamName,
         mapName: info.MapName,
         showCycle: (cycle) => {gameMaker.drawCycle(cycle);}, 
+        getScore: (cycle) => {return gameMaker.getScore(cycle);},
         lastCycle: gameMaker.getLastCycleNumber(),
         playingDelay: PLAYING_DELAY
     });
@@ -671,10 +691,12 @@ function workerMassageParser(e){
             historian.memo = e.data.data.memo;
             historian.keys = e.data.data.keys;
             let cycleNumber = e.data.cycle;
+            let info = e.data.info;
 
             gameMaker.loadCycle(
                 cycleNumber, 
-                historian
+                historian,
+                info
             );
             uiController.setLoadedCycle(cycleNumber);
             if(cycleNumber == 0){

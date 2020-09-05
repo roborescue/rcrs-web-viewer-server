@@ -6,6 +6,9 @@
 <dt><a href="#histories">histories</a> : <code>Array.&lt;Object&gt;</code></dt>
 <dd><p>Array of cycles history</p>
 </dd>
+<dt><a href="#infos">infos</a> : <code>Array.&lt;Object&gt;</code></dt>
+<dd><p>Array of cycles info object</p>
+</dd>
 <dt><a href="#currentCycle">currentCycle</a> : <code>integer</code></dt>
 <dd><p>Current cycle</p>
 </dd>
@@ -27,6 +30,9 @@
 </dd>
 <dt><a href="#drawCycle">drawCycle(cycle)</a></dt>
 <dd></dd>
+<dt><a href="#getScore">getScore(cycle)</a></dt>
+<dd><p>Get score at given cycle</p>
+</dd>
 <dt><a href="#getLastCycleNumber">getLastCycleNumber()</a> ⇒ <code>integer</code></dt>
 <dd><p>Get last cycle number</p>
 </dd>
@@ -50,6 +56,12 @@
 
 ## histories : <code>Array.&lt;Object&gt;</code>
 Array of cycles history
+
+**Kind**: global variable  
+<a name="infos"></a>
+
+## infos : <code>Array.&lt;Object&gt;</code>
+Array of cycles info object
 
 **Kind**: global variable  
 <a name="currentCycle"></a>
@@ -94,6 +106,17 @@ Set base historian.
 <a name="drawCycle"></a>
 
 ## drawCycle(cycle)
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| cycle | <code>integer</code> | 
+
+<a name="getScore"></a>
+
+## getScore(cycle)
+Get score at given cycle
+
 **Kind**: global function  
 
 | Param | Type |

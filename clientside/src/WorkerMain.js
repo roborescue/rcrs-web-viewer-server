@@ -72,12 +72,13 @@ function postMapbounds(minX, minY, maxX, maxY){
  * @param {integer} cycle cycle number
  * @param {Object} data data object
  */
-function postCycleData(cycle, data){
+function postCycleData(cycle, data, info={}){
     wl("cycle " + cycle + " sent");
     postMessage({
         command: WORKER_COMMAND_CYCLEDATA,
         cycle: cycle,
-        data: data.getDataCopy()
+        data: data.getDataCopy(),
+        info: info
     });
 }
 

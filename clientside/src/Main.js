@@ -32,6 +32,7 @@ function UISetup(gameMaker){
         teamName: info.TeamName,
         mapName: info.MapName,
         showCycle: (cycle) => {gameMaker.drawCycle(cycle);}, 
+        getScore: (cycle) => {return gameMaker.getScore(cycle);},
         lastCycle: gameMaker.getLastCycleNumber(),
         playingDelay: PLAYING_DELAY
     });
@@ -84,10 +85,12 @@ function workerMassageParser(e){
             historian.memo = e.data.data.memo;
             historian.keys = e.data.data.keys;
             let cycleNumber = e.data.cycle;
+            let info = e.data.info;
 
             gameMaker.loadCycle(
                 cycleNumber, 
-                historian
+                historian,
+                info
             );
             uiController.setLoadedCycle(cycleNumber);
             if(cycleNumber == 0){

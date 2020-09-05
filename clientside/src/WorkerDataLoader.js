@@ -103,6 +103,12 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         }
     }
 
+    /**
+     * Post info object of given data
+     * 
+     * @param {Object} data data object
+     * @param {function} loadFunction load function
+     */
     this.fillAndPostInfo = function(data, loadFunction){
         data[0].lastCycle = data.length - 2;
         postInfo(data[0]);
@@ -166,7 +172,7 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         postMapbounds(this.minX, this.minY, this.maxX, this.maxY);
         loadFunction("Map entities are loaded.");
         this.cycles = [entities];
-        this.postCycleAfterBake(0, entities);
+        this.postCycleAfterBake(0, entities, map.Info);
     }
 
     /**
@@ -215,7 +221,7 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         }
 
         this.cycles.push(newCycle);
-        this.postCycleAfterBake(cycle, newCycle);
+        this.postCycleAfterBake(cycle, newCycle, thisCycle.Info);
     }
 
     /**
@@ -237,7 +243,7 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
      * @param {integer} cycle cycle number
      * @param {Object} data cycle data
      */
-    this.postCycleAfterBake = function(cycle, data){
+    this.postCycleAfterBake = function(cycle, data, info){
         let historyManager = new HistoryManager([
             this.baseHistorian.clone()
         ]);
@@ -246,7 +252,7 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
             data,
             cycle
         );
-        postCycleData(cycle, historyManager.getActiveHistorian());
+        postCycleData(cycle, historyManager.getActiveHistorian(), info);
     }
 
     /**
