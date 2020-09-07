@@ -42,8 +42,14 @@ if entity has icon.</p>
 <dt><a href="#fillCycles">fillCycles(data, loadFunction)</a></dt>
 <dd><p>Fill cycles</p>
 </dd>
-<dt><a href="#postCycleAfterBake">postCycleAfterBake(cycle, data)</a></dt>
+<dt><a href="#postCycleAfterBake">postCycleAfterBake(cycle, data, info, commands)</a></dt>
 <dd><p>Post given cycles Historian.</p>
+</dd>
+<dt><a href="#fillHistoryWithCycleCommands">fillHistoryWithCycleCommands(historyManager, commands, cycleData)</a></dt>
+<dd><p>Fill history with cycle commands.</p>
+</dd>
+<dt><a href="#fillHistoryWithCycleCommand">fillHistoryWithCycleCommand(historyManager, command, data)</a></dt>
+<dd><p>Fill history with cycle command.</p>
 </dd>
 <dt><a href="#fillHistoryWithCycleObject">fillHistoryWithCycleObject(historyManager, cycleObject, cycle)</a> ⇒ <code>Object</code></dt>
 <dd><p>Fill history with cycle object.</p>
@@ -202,7 +208,7 @@ Fill cycles
 
 <a name="postCycleAfterBake"></a>
 
-## postCycleAfterBake(cycle, data)
+## postCycleAfterBake(cycle, data, info, commands)
 Post given cycles Historian.
 
 **Kind**: global function  
@@ -210,6 +216,34 @@ Post given cycles Historian.
 | Param | Type | Description |
 | --- | --- | --- |
 | cycle | <code>integer</code> | cycle number |
+| data | <code>Object</code> | cycle data |
+| info | <code>Object</code> | info object |
+| commands | <code>Array.&lt;Object&gt;</code> | array of command objects |
+
+<a name="fillHistoryWithCycleCommands"></a>
+
+## fillHistoryWithCycleCommands(historyManager, commands, cycleData)
+Fill history with cycle commands.
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| historyManager | <code>Object</code> | object of ``HistoryManager`` |
+| commands | <code>Array.&lt;Object&gt;</code> | array of command objects |
+| cycleData | <code>Object</code> | cycle data |
+
+<a name="fillHistoryWithCycleCommand"></a>
+
+## fillHistoryWithCycleCommand(historyManager, command, data)
+Fill history with cycle command.
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| historyManager | <code>Object</code> | object of ``HistoryManager`` |
+| command | <code>Object</code> | command object |
 | data | <code>Object</code> | cycle data |
 
 <a name="fillHistoryWithCycleObject"></a>

@@ -172,7 +172,7 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         postMapbounds(this.minX, this.minY, this.maxX, this.maxY);
         loadFunction("Map entities are loaded.");
         this.cycles = [entities];
-        this.postCycleAfterBake(0, entities, map.Info);
+        this.postCycleAfterBake(0, entities, map.Info, map.Commands);
     }
 
     /**
@@ -186,7 +186,7 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         let newCycle = JSON.parse(JSON.stringify(
             this.getCycleObject(prevCycleNumber)
         ));
-        this.releaseCycleMemory(prevCycleNumber);
+        // this.releaseCycleMemory(prevCycleNumber);
         newCycle.road = {};
 
         let thisCycle = data[cycle + 1];
@@ -221,7 +221,7 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         }
 
         this.cycles.push(newCycle);
-        this.postCycleAfterBake(cycle, newCycle, thisCycle.Info);
+        this.postCycleAfterBake(cycle, newCycle, thisCycle.Info, thisCycle.Commands);
     }
 
     /**
@@ -242,8 +242,10 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
      * 
      * @param {integer} cycle cycle number
      * @param {Object} data cycle data
+     * @param {Object} info info object
+     * @param {Object[]} commands array of command objects
      */
-    this.postCycleAfterBake = function(cycle, data, info){
+    this.postCycleAfterBake = function(cycle, data, info, commands){
         let historyManager = new HistoryManager([
             this.baseHistorian.clone()
         ]);
@@ -252,7 +254,67 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
             data,
             cycle
         );
+        historyManager = this.fillHistoryWithCycleCommands(
+            historyManager, 
+            commands,
+            data
+        );
         postCycleData(cycle, historyManager.getActiveHistorian(), info);
+    }
+
+    /**
+     * Fill history with cycle commands.
+     * 
+     * @param {Object} historyManager object of ``HistoryManager``
+     * @param {Object[]} commands array of command objects
+     * @param {Object} cycleData cycle data
+     */
+    this.fillHistoryWithCycleCommands = function(historyManager, commands=[], cycleData){
+        for (const command of commands) {
+            this.fillHistoryWithCycleCommand(historyManager, command, cycleData);
+        }
+        return historyManager;
+    }
+
+    /**
+     * Fill history with cycle command.
+     * 
+     * @param {Object} historyManager object of ``HistoryManager``
+     * @param {Object} command command object
+     * @param {Object} data cycle data
+     */
+    this.fillHistoryWithCycleCommand = function(historyManager, command, data){
+        switch (command.Name) {
+            case COMMAND_EXTINGUISH:
+                let agentId = parseInt(command.AgentId);
+                let targetId = parseInt(command.Target);
+                let agentPosition = data.all[agentId][ENTITY_ATTR_POSITION];
+                let targetPosition = EntityHandler.getCenterOfPolygon(
+                    data.all[targetId]
+                );
+
+                historyManager.setColor(
+                    COLOR_COMMAND_EXTINGUISH[0],
+                    COLOR_COMMAND_EXTINGUISH[1],
+                    COLOR_COMMAND_EXTINGUISH[2],
+                    1
+                );
+
+                this.positionMaker.reset();
+                this.positionMaker.addLine(
+                    agentPosition[0],
+                    -agentPosition[1],
+                    targetPosition[0],
+                    -targetPosition[1],
+                    COMMAND_EXTINGUISH_LINE_WIDTH
+                );
+                historyManager.submitVanilla(
+                    this.positionMaker.getPositionsList()
+                );
+
+                console.log("POS:", agentPosition);
+                break;
+        }
     }
 
     /**

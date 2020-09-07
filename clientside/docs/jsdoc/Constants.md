@@ -7,6 +7,8 @@
 <dd></dd>
 <dt><a href="#DRAW_BORDER_LINE_WIDTH">DRAW_BORDER_LINE_WIDTH</a> : <code>number</code></dt>
 <dd></dd>
+<dt><a href="#COMMAND_EXTINGUISH_LINE_WIDTH">COMMAND_EXTINGUISH_LINE_WIDTH</a> : <code>number</code></dt>
+<dd></dd>
 <dt><a href="#ENTITY_NAME_CIVILIAN">ENTITY_NAME_CIVILIAN</a> : <code>string</code></dt>
 <dd></dd>
 <dt><a href="#ENTITY_NAME_AMBULANCE_TEAM">ENTITY_NAME_AMBULANCE_TEAM</a> : <code>string</code></dt>
@@ -44,6 +46,8 @@
 <dt><a href="#ENTITY_ATTR_APEXES">ENTITY_ATTR_APEXES</a> : <code>string</code></dt>
 <dd></dd>
 <dt><a href="#ENTITY_ATTR_POSITION">ENTITY_ATTR_POSITION</a> : <code>string</code></dt>
+<dd></dd>
+<dt><a href="#COMMAND_EXTINGUISH">COMMAND_EXTINGUISH</a> : <code>string</code></dt>
 <dd></dd>
 <dt><a href="#ICONS_POLICE_OFFICE">ICONS_POLICE_OFFICE</a> : <code>string</code></dt>
 <dd></dd>
@@ -93,6 +97,8 @@
 <dd></dd>
 <dt><a href="#COLOR_BORDER_DEFAULT">COLOR_BORDER_DEFAULT</a> : <code>Array.&lt;float&gt;</code></dt>
 <dd></dd>
+<dt><a href="#COLOR_COMMAND_EXTINGUISH">COLOR_COMMAND_EXTINGUISH</a> : <code>Array.&lt;float&gt;</code></dt>
+<dd></dd>
 <dt><a href="#COLOR_BUILDING_FIERYNESS_UNBURNT">COLOR_BUILDING_FIERYNESS_UNBURNT</a> : <code>Array.&lt;float&gt;</code></dt>
 <dd></dd>
 <dt><a href="#COLOR_BUILDING_FIERYNESS_HEATING">COLOR_BUILDING_FIERYNESS_HEATING</a> : <code>Array.&lt;float&gt;</code></dt>
@@ -120,6 +126,10 @@
 <a name="DRAW_BORDER_LINE_WIDTH"></a>
 
 ## DRAW\_BORDER\_LINE\_WIDTH : <code>number</code>
+**Kind**: global constant  
+<a name="COMMAND_EXTINGUISH_LINE_WIDTH"></a>
+
+## COMMAND\_EXTINGUISH\_LINE\_WIDTH : <code>number</code>
 **Kind**: global constant  
 <a name="ENTITY_NAME_CIVILIAN"></a>
 
@@ -196,6 +206,10 @@
 <a name="ENTITY_ATTR_POSITION"></a>
 
 ## ENTITY\_ATTR\_POSITION : <code>string</code>
+**Kind**: global constant  
+<a name="COMMAND_EXTINGUISH"></a>
+
+## COMMAND\_EXTINGUISH : <code>string</code>
 **Kind**: global constant  
 <a name="ICONS_POLICE_OFFICE"></a>
 
@@ -292,6 +306,10 @@
 <a name="COLOR_BORDER_DEFAULT"></a>
 
 ## COLOR\_BORDER\_DEFAULT : <code>Array.&lt;float&gt;</code>
+**Kind**: global constant  
+<a name="COLOR_COMMAND_EXTINGUISH"></a>
+
+## COLOR\_COMMAND\_EXTINGUISH : <code>Array.&lt;float&gt;</code>
 **Kind**: global constant  
 <a name="COLOR_BUILDING_FIERYNESS_UNBURNT"></a>
 

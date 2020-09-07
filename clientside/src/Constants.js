@@ -9,6 +9,13 @@ const DRAW_BORDER_LINE = true;
 const DRAW_BORDER_LINE_WIDTH = 50;
 
 //
+// Commands Setting
+//
+
+/** @const {number} */
+const COMMAND_EXTINGUISH_LINE_WIDTH = 50;
+
+//
 // Entity Names
 //
 
@@ -72,6 +79,13 @@ const ENTITY_ATTR_APEXES = "urn:rescuecore2.standard:property:apexes";
 
 /** @const {string} */
 const ENTITY_ATTR_POSITION = "urn:rescuecore2.standard:property:position";
+
+//
+// Commands
+//
+
+/** @const {string} */
+const COMMAND_EXTINGUISH = "urn:rescuecore2.standard:message:extinguish";
 
 //
 // Icons
@@ -168,6 +182,13 @@ const COLOR_BLOCKADE_DEFAULT = [0, 0, 0];
 
 /** @const {float[]} */
 const COLOR_BORDER_DEFAULT = [0, 0, 0];
+
+//
+// Commands Color
+//
+
+/** @const {float[]} */
+const COLOR_COMMAND_EXTINGUISH = [0.2, 0.2, 1];
 
 //
 // Buildings Color
