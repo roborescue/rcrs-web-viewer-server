@@ -46,8 +46,7 @@ def match(request, competition_name, match_id):
         return notfound(request)
     
     return render(request, 'match.html', {
-        'match': match,
-        'log_file': ""
+        'match': match
     })
 
 def notfound(request):

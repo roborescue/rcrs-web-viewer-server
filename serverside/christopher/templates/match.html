@@ -124,13 +124,13 @@ JLog File: {% static match.log_file %}
         </div>
 
         
-        <script src="{% static 'view/js/webviewer.min.js' %}"></script>
+        <script src="{% static 'view/js/webviewer.js' %}"></script>
 
         <script>
             const CANVAS_ID = 'canv';
             const JLOG_FILE = "{% static match.log_file %}";
             const PLAYING_DELAY = 100;
-            const WORKER_FILE = '{% static 'view/js/webviewer_worker.min.js' %}';
+            const WORKER_FILE = '{% static 'view/js/webviewer_worker.js' %}';
             const ERROR_MODAL = '#errorModal';
             const LOADING_MODAL = '#loadingModal';
 

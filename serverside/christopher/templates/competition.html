@@ -8,7 +8,7 @@
         {% for match in matches %}
             <li>
                 {{match.team_name}}
-                (<a href="#">Open</a>)
+                (<a href="{% url 'match' competition.name match.id %}">Open</a>)
             </li>
         {% endfor %}
     <ul>
