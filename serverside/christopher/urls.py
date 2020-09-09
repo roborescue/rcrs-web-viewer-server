@@ -20,5 +20,8 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('competitions/', views.competitions, name='competitions'),
+    path('competitions/<competition_name>/<int:match_id>/', views.match, name='match'),
+    path('competitions/<competition_name>/', views.competition, name='competition'),
     path('admin/', admin.site.urls),
 ]

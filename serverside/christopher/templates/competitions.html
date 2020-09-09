@@ -1,0 +1,7 @@
+<h1> Competitions </h1>
+
+<ul>
+{% for competition in competitions %}
+    <li>{{competition.name}} (<a href="{% url 'competition' competition.name %}">Open</a>)</li>
+{% endfor %}
+</ul>

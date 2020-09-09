@@ -55,7 +55,9 @@ ROOT_URLCONF = 'christopher.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / "templates"
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -115,13 +117,22 @@ USE_L10N = True
 USE_TZ = True
 
 
+# Log files
+#
+
+PROJECT_ROOT_DIR = BASE_DIR.parent
+PREPARED_LOG_DIR = PROJECT_ROOT_DIR / "prepared_logs" # f'{PROJECT_ROOT_DIR}/prepared_logs'
+LOG_DIR = PROJECT_ROOT_DIR / "web_viewer_logs" # f'{PROJECT_ROOT_DIR}/web_viewer_logs'
+RAW_LOG_FILE_FORMAT = 'jlog'
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/files/'
+STATIC_URL_VIEW = 'view'
+STATIC_URL_LOGS = 'logs'
 
-PROJECT_ROOT_DIR = BASE_DIR.parent
-PREPARED_LOG_DIR = f'{PROJECT_ROOT_DIR}/prepared_logs'
-LOG_DIR = f'{PROJECT_ROOT_DIR}/web_viewer_logs'
-RAW_LOG_FILE_FORMAT = 'jlog'
-
+STATICFILES_DIRS = [
+    (STATIC_URL_VIEW, PROJECT_ROOT_DIR / "view"),
+    (STATIC_URL_LOGS, PREPARED_LOG_DIR)
+]

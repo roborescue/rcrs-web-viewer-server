@@ -1,0 +1,15 @@
+<h1> Competition ({{competition.name}}) </h1>
+
+{% for round, matches in rounds.items %}
+    {% if round.1 %}
+        <h2>{{round.1}}</h2>
+    {% endif %}
+    <ul>
+        {% for match in matches %}
+            <li>
+                {{match.team_name}}
+                (<a href="#">Open</a>)
+            </li>
+        {% endfor %}
+    <ul>
+{% endfor %}
