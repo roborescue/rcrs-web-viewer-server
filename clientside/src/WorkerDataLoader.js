@@ -341,7 +341,41 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         this.fillHistoryWithObject(historyManager, cycleObject.building);
         this.fillHistoryWithObject(historyManager, cycleObject.blockade);
         this.fillHistoryWithObject(historyManager, cycleObject.human);
+        this.fillHistoryWithHumanObjects(historyManager, cycleObject.human);
         this.fillHistoryWithObjectIcons(historyManager, this.entitiesWithIcon);
+
+        return historyManager;
+    }
+
+    /**
+     * Fill history with object of humans.
+     * 
+     * @param {Object} historyManager object of ``HistoryManager``
+     * @param {Object} objectList object of objects
+     * @returns {Object} object of ``HistoryManager``
+     */
+    this.fillHistoryWithHumanObjects = function(historyManager, objectList){
+        for(let id in objectList){
+            let entity = objectList[id];
+            let positionHistory = EntityHandler.getPositionHistory(entity);
+            if(positionHistory){
+                this.positionMaker.reset();
+                let mirroredHistory = mirrorYs(
+                    positionHistory
+                );
+                this.positionMaker.addSequenceLine(
+                    mirroredHistory,
+                    COMMAND_MOVEHISTORY_LINE_WIDTH
+                );
+
+                let color = COLOR_COMMAND_MOVEHISTORY;
+                historyManager.setColor(color[0], color[1], color[2], 1);
+
+                historyManager.submitVanilla(
+                    this.positionMaker.getPositionsList()
+                );
+            }
+        }
 
         return historyManager;
     }

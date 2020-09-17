@@ -208,6 +208,16 @@ EntityHandler.getId = function(entity){
 }
 
 /**
+ * Get position history
+ * 
+ * @param {Object} entity entity object
+ * @returns {float[]} line sequence
+ */
+EntityHandler.getPositionHistory = function(entity){
+    return entity[ENTITY_ATTR_POSITIONHISTORY];
+}
+
+/**
  * Get center of polygon
  * 
  * @param {Object} entity entity object

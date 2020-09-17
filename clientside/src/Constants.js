@@ -15,6 +15,9 @@ const DRAW_BORDER_LINE_WIDTH = 50;
 /** @const {number} */
 const COMMAND_EXTINGUISH_LINE_WIDTH = 50;
 
+/** @const {number} */
+const COMMAND_MOVEHISTORY_LINE_WIDTH = 50;
+
 //
 // Entity Names
 //
@@ -79,6 +82,10 @@ const ENTITY_ATTR_APEXES = "urn:rescuecore2.standard:property:apexes";
 
 /** @const {string} */
 const ENTITY_ATTR_POSITION = "urn:rescuecore2.standard:property:position";
+
+/** @const {string} */
+const ENTITY_ATTR_POSITIONHISTORY = "urn:rescuecore2.standard:property:positionhistory";
+
 
 //
 // Commands
@@ -189,6 +196,9 @@ const COLOR_BORDER_DEFAULT = [0, 0, 0];
 
 /** @const {float[]} */
 const COLOR_COMMAND_EXTINGUISH = [0.2, 0.2, 1];
+
+/** @const {float[]} */
+const COLOR_COMMAND_MOVEHISTORY = [1, 0, 0];
 
 //
 // Buildings Color
