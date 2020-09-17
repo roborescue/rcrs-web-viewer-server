@@ -18,6 +18,12 @@ const COMMAND_EXTINGUISH_LINE_WIDTH = 50;
 /** @const {number} */
 const COMMAND_MOVEHISTORY_LINE_WIDTH = 50;
 
+/** @const {number} */
+const COMMAND_CLEARAREA_LINE_WIDTH = 50;
+
+/** @const {number} */
+const COMMAND_CLEARAREA_CLEARWIDTH = 2000;
+
 //
 // Entity Names
 //
@@ -93,6 +99,12 @@ const ENTITY_ATTR_POSITIONHISTORY = "urn:rescuecore2.standard:property:positionh
 
 /** @const {string} */
 const COMMAND_EXTINGUISH = "urn:rescuecore2.standard:message:extinguish";
+
+/** @const {string} */
+const COMMAND_CLEAR = "urn:rescuecore2.standard:message:clear";
+
+/** @const {string} */ // X, Y
+const COMMAND_CLEARAREA = "urn:rescuecore2.standard:message:clear_area";
 
 //
 // Icons
@@ -199,6 +211,10 @@ const COLOR_COMMAND_EXTINGUISH = [0.2, 0.2, 1];
 
 /** @const {float[]} */
 const COLOR_COMMAND_MOVEHISTORY = [1, 0, 0];
+
+/** @const {float[]} */
+const COLOR_COMMAND_CLEARAREA = [0.4, 0.4, 1];
+
 
 //
 // Buildings Color

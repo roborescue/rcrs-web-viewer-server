@@ -28,6 +28,9 @@ function OrdinalHistorian(){
     historian.addKey(getKeyFromColor(COLOR_BUILDING_FIERYNESS_BURNT_OUT));
     historian.addKey(getKeyFromColor(COLOR_BLOCKADE_DEFAULT));
     historian.addKey(getKeyFromColor(COLOR_BORDER_DEFAULT));
+    historian.addKey(getKeyFromColor(COLOR_COMMAND_MOVEHISTORY));
+    historian.addKey(getKeyFromColor(COLOR_COMMAND_CLEARAREA));
+    historian.addKey(getKeyFromColor(COLOR_COMMAND_EXTINGUISH));
     historian.addKey(getKeyFromColor(COLOR_HUMAN_TYPE_DEAD));
     historian.addKey(getKeyFromColor(COLOR_HUMAN_TYPE_CIVILIAN));
     historian.addKey(getKeyFromColor(COLOR_HUMAN_TYPE_FIRE_BRIGADE));
@@ -148,7 +151,6 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
             
             if(EntityHandler.isSurface(entity)){
                 let entityVertices = EntityHandler.getVertices(entity);
-
                 for(let j = 0;j < entityVertices.length;j = j + 2){
                     let px = entityVertices[j];
                     let py = entityVertices[j + 1];
@@ -284,11 +286,12 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
      * @param {Object} data cycle data
      */
     this.fillHistoryWithCycleCommand = function(historyManager, command, data){
+        let agentId, agentPosition;
         switch (command.Name) {
             case COMMAND_EXTINGUISH:
-                let agentId = parseInt(command.AgentId);
+                agentId = parseInt(command.AgentId);
                 let targetId = parseInt(command.Target);
-                let agentPosition = data.all[agentId][ENTITY_ATTR_POSITION];
+                agentPosition = data.all[agentId][ENTITY_ATTR_POSITION];
                 let targetPosition = EntityHandler.getCenterOfPolygon(
                     data.all[targetId]
                 );
@@ -311,8 +314,44 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
                 historyManager.submitVanilla(
                     this.positionMaker.getPositionsList()
                 );
+                break;
 
-                console.log("POS:", agentPosition);
+            case COMMAND_CLEARAREA:
+                agentId = parseInt(command.AgentId);
+                agentPosition = data.all[agentId][ENTITY_ATTR_POSITION];
+                let location_x = parseFloat(command.X);
+                let location_y = parseFloat(command.Y);
+                
+                let width = COMMAND_CLEARAREA_CLEARWIDTH;
+                let a = location_x-agentPosition[0], b = location_y-agentPosition[1];
+                let vectorLen = Math.sqrt(a*a + b*b);
+                let U = [-b/vectorLen, a/vectorLen];
+                let A = [agentPosition[0], agentPosition[1]];
+                let B = [location_x, location_y];
+                let tmp1 = [A[0] + U[0] * width, A[1] + U[1] * width];
+                let tmp2 = [A[0] - U[0] * width, A[1] - U[1] * width];
+                let tmp3 = [B[0] - U[0] * width, B[1] - U[1] * width];
+                let tmp4 = [B[0] + U[0] * width, B[1] + U[1] * width];
+                
+                historyManager.setColor(
+                    COLOR_COMMAND_CLEARAREA[0],
+                    COLOR_COMMAND_CLEARAREA[1],
+                    COLOR_COMMAND_CLEARAREA[2],
+                    1
+                );
+                this.positionMaker.reset();
+                this.positionMaker.addClosedSequenceLine(
+                    mirrorYs([
+                        tmp1[0], tmp1[1],
+                        tmp4[0], tmp4[1],
+                        tmp3[0], tmp3[1],
+                        tmp2[0], tmp2[1]
+                    ]),
+                    COMMAND_CLEARAREA_LINE_WIDTH
+                );
+                historyManager.submitVanilla(
+                    this.positionMaker.getPositionsList()
+                );
                 break;
         }
     }
