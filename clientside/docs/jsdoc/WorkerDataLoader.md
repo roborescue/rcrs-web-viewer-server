@@ -54,6 +54,9 @@ if entity has icon.</p>
 <dt><a href="#fillHistoryWithCycleObject">fillHistoryWithCycleObject(historyManager, cycleObject, cycle)</a> ⇒ <code>Object</code></dt>
 <dd><p>Fill history with cycle object.</p>
 </dd>
+<dt><a href="#fillHistoryWithHumanObjects">fillHistoryWithHumanObjects(historyManager, objectList)</a> ⇒ <code>Object</code></dt>
+<dd><p>Fill history with object of humans.</p>
+</dd>
 <dt><a href="#fillHistoryWithObject">fillHistoryWithObject(historyManager, objectList)</a> ⇒ <code>Object</code></dt>
 <dd><p>Fill history with object.</p>
 </dd>
@@ -259,6 +262,19 @@ Fill history with cycle object.
 | historyManager | <code>Object</code> | object of ``HistoryManager`` |
 | cycleObject | <code>Object</code> | cycle object |
 | cycle | <code>integer</code> | cycle number |
+
+<a name="fillHistoryWithHumanObjects"></a>
+
+## fillHistoryWithHumanObjects(historyManager, objectList) ⇒ <code>Object</code>
+Fill history with object of humans.
+
+**Kind**: global function  
+**Returns**: <code>Object</code> - object of ``HistoryManager``  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| historyManager | <code>Object</code> | object of ``HistoryManager`` |
+| objectList | <code>Object</code> | object of objects |
 
 <a name="fillHistoryWithObject"></a>
 

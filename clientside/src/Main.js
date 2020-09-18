@@ -166,6 +166,18 @@ function main(){
     worker = new Worker(WORKER_FILE);
     worker.onmessage = workerMassageParser;
 
+    worker.postMessage({
+        command: WORKER_COMMAND_SETICONS,
+        icons: {
+            po: ICONS_POLICE_OFFICE,
+            ac: ICONS_AMBULANCE_CENTRE,
+            fs: ICONS_FIRE_STATION,
+            rf: ICONS_REFUGE,
+            gs: ICONS_GAS_STATION,
+            hy: ICONS_HYDRANT
+        }
+    });
+
     loadFunction("Downloading cycles data ...", 0);
 
     $.ajax(JLOG_FILE, {

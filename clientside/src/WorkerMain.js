@@ -8,6 +8,12 @@ importScripts('../preview/CanvasDrawer.js');
 // Global Variables
 var dataLoader = {};
 var textures;
+var ICONS_POLICE_OFFICE, 
+    ICONS_AMBULANCE_CENTRE, 
+    ICONS_FIRE_STATION,
+    ICONS_REFUGE,
+    ICONS_GAS_STATION,
+    ICONS_HYDRANT;
 
 
 /**
@@ -120,6 +126,15 @@ function handleIncomingMassage(e){
         case WORKER_COMMAND_LOADDATA:
             textures = e.data.textures;
             dataLoader = new WorkerDataLoader(e.data.data, loadFunction);
+            break;
+
+        case WORKER_COMMAND_SETICONS:
+            ICONS_POLICE_OFFICE = e.data.icons.po;
+            ICONS_AMBULANCE_CENTRE = e.data.icons.ac;
+            ICONS_FIRE_STATION = e.data.icons.fs;
+            ICONS_REFUGE = e.data.icons.rf;
+            ICONS_GAS_STATION = e.data.icons.gs;
+            ICONS_HYDRANT = e.data.icons.hy;
             break;
     }
 }

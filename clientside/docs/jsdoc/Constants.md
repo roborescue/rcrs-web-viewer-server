@@ -9,6 +9,12 @@
 <dd></dd>
 <dt><a href="#COMMAND_EXTINGUISH_LINE_WIDTH">COMMAND_EXTINGUISH_LINE_WIDTH</a> : <code>number</code></dt>
 <dd></dd>
+<dt><a href="#COMMAND_MOVEHISTORY_LINE_WIDTH">COMMAND_MOVEHISTORY_LINE_WIDTH</a> : <code>number</code></dt>
+<dd></dd>
+<dt><a href="#COMMAND_CLEARAREA_LINE_WIDTH">COMMAND_CLEARAREA_LINE_WIDTH</a> : <code>number</code></dt>
+<dd></dd>
+<dt><a href="#COMMAND_CLEARAREA_CLEARWIDTH">COMMAND_CLEARAREA_CLEARWIDTH</a> : <code>number</code></dt>
+<dd></dd>
 <dt><a href="#ENTITY_NAME_CIVILIAN">ENTITY_NAME_CIVILIAN</a> : <code>string</code></dt>
 <dd></dd>
 <dt><a href="#ENTITY_NAME_AMBULANCE_TEAM">ENTITY_NAME_AMBULANCE_TEAM</a> : <code>string</code></dt>
@@ -47,23 +53,19 @@
 <dd></dd>
 <dt><a href="#ENTITY_ATTR_POSITION">ENTITY_ATTR_POSITION</a> : <code>string</code></dt>
 <dd></dd>
+<dt><a href="#ENTITY_ATTR_POSITIONHISTORY">ENTITY_ATTR_POSITIONHISTORY</a> : <code>string</code></dt>
+<dd></dd>
 <dt><a href="#COMMAND_EXTINGUISH">COMMAND_EXTINGUISH</a> : <code>string</code></dt>
 <dd></dd>
-<dt><a href="#ICONS_POLICE_OFFICE">ICONS_POLICE_OFFICE</a> : <code>string</code></dt>
+<dt><a href="#COMMAND_CLEAR">COMMAND_CLEAR</a> : <code>string</code></dt>
 <dd></dd>
-<dt><a href="#ICONS_AMBULANCE_CENTRE">ICONS_AMBULANCE_CENTRE</a> : <code>string</code></dt>
-<dd></dd>
-<dt><a href="#ICONS_FIRE_STATION">ICONS_FIRE_STATION</a> : <code>string</code></dt>
-<dd></dd>
-<dt><a href="#ICONS_REFUGE">ICONS_REFUGE</a> : <code>string</code></dt>
-<dd></dd>
-<dt><a href="#ICONS_GAS_STATION">ICONS_GAS_STATION</a> : <code>string</code></dt>
-<dd></dd>
-<dt><a href="#ICONS_HYDRANT">ICONS_HYDRANT</a> : <code>string</code></dt>
+<dt><a href="#COMMAND_CLEARAREA">COMMAND_CLEARAREA</a> : <code>string</code></dt>
 <dd></dd>
 <dt><a href="#SETTING_ICON_RADIUS">SETTING_ICON_RADIUS</a> : <code>number</code></dt>
 <dd></dd>
 <dt><a href="#WORKER_COMMAND_LOADDATA">WORKER_COMMAND_LOADDATA</a> : <code>string</code></dt>
+<dd></dd>
+<dt><a href="#WORKER_COMMAND_SETICONS">WORKER_COMMAND_SETICONS</a> : <code>string</code></dt>
 <dd></dd>
 <dt><a href="#WORKER_COMMAND_PROGRESSREPORT">WORKER_COMMAND_PROGRESSREPORT</a> : <code>string</code></dt>
 <dd></dd>
@@ -99,6 +101,10 @@
 <dd></dd>
 <dt><a href="#COLOR_COMMAND_EXTINGUISH">COLOR_COMMAND_EXTINGUISH</a> : <code>Array.&lt;float&gt;</code></dt>
 <dd></dd>
+<dt><a href="#COLOR_COMMAND_MOVEHISTORY">COLOR_COMMAND_MOVEHISTORY</a> : <code>Array.&lt;float&gt;</code></dt>
+<dd></dd>
+<dt><a href="#COLOR_COMMAND_CLEARAREA">COLOR_COMMAND_CLEARAREA</a> : <code>Array.&lt;float&gt;</code></dt>
+<dd></dd>
 <dt><a href="#COLOR_BUILDING_FIERYNESS_UNBURNT">COLOR_BUILDING_FIERYNESS_UNBURNT</a> : <code>Array.&lt;float&gt;</code></dt>
 <dd></dd>
 <dt><a href="#COLOR_BUILDING_FIERYNESS_HEATING">COLOR_BUILDING_FIERYNESS_HEATING</a> : <code>Array.&lt;float&gt;</code></dt>
@@ -130,6 +136,18 @@
 <a name="COMMAND_EXTINGUISH_LINE_WIDTH"></a>
 
 ## COMMAND\_EXTINGUISH\_LINE\_WIDTH : <code>number</code>
+**Kind**: global constant  
+<a name="COMMAND_MOVEHISTORY_LINE_WIDTH"></a>
+
+## COMMAND\_MOVEHISTORY\_LINE\_WIDTH : <code>number</code>
+**Kind**: global constant  
+<a name="COMMAND_CLEARAREA_LINE_WIDTH"></a>
+
+## COMMAND\_CLEARAREA\_LINE\_WIDTH : <code>number</code>
+**Kind**: global constant  
+<a name="COMMAND_CLEARAREA_CLEARWIDTH"></a>
+
+## COMMAND\_CLEARAREA\_CLEARWIDTH : <code>number</code>
 **Kind**: global constant  
 <a name="ENTITY_NAME_CIVILIAN"></a>
 
@@ -207,33 +225,21 @@
 
 ## ENTITY\_ATTR\_POSITION : <code>string</code>
 **Kind**: global constant  
+<a name="ENTITY_ATTR_POSITIONHISTORY"></a>
+
+## ENTITY\_ATTR\_POSITIONHISTORY : <code>string</code>
+**Kind**: global constant  
 <a name="COMMAND_EXTINGUISH"></a>
 
 ## COMMAND\_EXTINGUISH : <code>string</code>
 **Kind**: global constant  
-<a name="ICONS_POLICE_OFFICE"></a>
+<a name="COMMAND_CLEAR"></a>
 
-## ICONS\_POLICE\_OFFICE : <code>string</code>
+## COMMAND\_CLEAR : <code>string</code>
 **Kind**: global constant  
-<a name="ICONS_AMBULANCE_CENTRE"></a>
+<a name="COMMAND_CLEARAREA"></a>
 
-## ICONS\_AMBULANCE\_CENTRE : <code>string</code>
-**Kind**: global constant  
-<a name="ICONS_FIRE_STATION"></a>
-
-## ICONS\_FIRE\_STATION : <code>string</code>
-**Kind**: global constant  
-<a name="ICONS_REFUGE"></a>
-
-## ICONS\_REFUGE : <code>string</code>
-**Kind**: global constant  
-<a name="ICONS_GAS_STATION"></a>
-
-## ICONS\_GAS\_STATION : <code>string</code>
-**Kind**: global constant  
-<a name="ICONS_HYDRANT"></a>
-
-## ICONS\_HYDRANT : <code>string</code>
+## COMMAND\_CLEARAREA : <code>string</code>
 **Kind**: global constant  
 <a name="SETTING_ICON_RADIUS"></a>
 
@@ -242,6 +248,10 @@
 <a name="WORKER_COMMAND_LOADDATA"></a>
 
 ## WORKER\_COMMAND\_LOADDATA : <code>string</code>
+**Kind**: global constant  
+<a name="WORKER_COMMAND_SETICONS"></a>
+
+## WORKER\_COMMAND\_SETICONS : <code>string</code>
 **Kind**: global constant  
 <a name="WORKER_COMMAND_PROGRESSREPORT"></a>
 
@@ -310,6 +320,14 @@
 <a name="COLOR_COMMAND_EXTINGUISH"></a>
 
 ## COLOR\_COMMAND\_EXTINGUISH : <code>Array.&lt;float&gt;</code>
+**Kind**: global constant  
+<a name="COLOR_COMMAND_MOVEHISTORY"></a>
+
+## COLOR\_COMMAND\_MOVEHISTORY : <code>Array.&lt;float&gt;</code>
+**Kind**: global constant  
+<a name="COLOR_COMMAND_CLEARAREA"></a>
+
+## COLOR\_COMMAND\_CLEARAREA : <code>Array.&lt;float&gt;</code>
 **Kind**: global constant  
 <a name="COLOR_BUILDING_FIERYNESS_UNBURNT"></a>
 

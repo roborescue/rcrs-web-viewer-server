@@ -5,7 +5,7 @@
  * Released under the BSD-3-Clause license
  * https://opensource.org/licenses/BSD-3-Clause
  *
- * Date: 2020-09-07T12:35:11.528Z (Mon, 07 Sep 2020 12:35:11 GMT)
+ * Date: 2020-09-18T07:22:39.551Z (Fri, 18 Sep 2020 07:22:39 GMT)
  */
 
 //
@@ -24,6 +24,15 @@ const DRAW_BORDER_LINE_WIDTH = 50;
 
 /** @const {number} */
 const COMMAND_EXTINGUISH_LINE_WIDTH = 50;
+
+/** @const {number} */
+const COMMAND_MOVEHISTORY_LINE_WIDTH = 50;
+
+/** @const {number} */
+const COMMAND_CLEARAREA_LINE_WIDTH = 50;
+
+/** @const {number} */
+const COMMAND_CLEARAREA_CLEARWIDTH = 2000;
 
 //
 // Entity Names
@@ -90,6 +99,9 @@ const ENTITY_ATTR_APEXES = "urn:rescuecore2.standard:property:apexes";
 /** @const {string} */
 const ENTITY_ATTR_POSITION = "urn:rescuecore2.standard:property:position";
 
+/** @const {string} */
+const ENTITY_ATTR_POSITIONHISTORY = "urn:rescuecore2.standard:property:positionhistory";
+
 //
 // Commands
 //
@@ -97,27 +109,11 @@ const ENTITY_ATTR_POSITION = "urn:rescuecore2.standard:property:position";
 /** @const {string} */
 const COMMAND_EXTINGUISH = "urn:rescuecore2.standard:message:extinguish";
 
-//
-// Icons
-//
-
 /** @const {string} */
-const ICONS_POLICE_OFFICE = "image/po.png";
+const COMMAND_CLEAR = "urn:rescuecore2.standard:message:clear";
 
-/** @const {string} */
-const ICONS_AMBULANCE_CENTRE = "image/ac.png";
-
-/** @const {string} */
-const ICONS_FIRE_STATION = "image/fs.png";
-
-/** @const {string} */
-const ICONS_REFUGE = "image/rf.png";
-
-/** @const {string} */
-const ICONS_GAS_STATION = "image/gs.png";
-
-/** @const {string} */
-const ICONS_HYDRANT = "image/hy.png";
+/** @const {string} */ // X, Y
+const COMMAND_CLEARAREA = "urn:rescuecore2.standard:message:clear_area";
 
 //
 // Icon Setting
@@ -132,6 +128,9 @@ const SETTING_ICON_RADIUS = 7000;
 
 /** @const {string} */
 const WORKER_COMMAND_LOADDATA = 'load_data';
+
+/** @const {string} */
+const WORKER_COMMAND_SETICONS = 'sync_icons';
 
 /** @const {string} */
 const WORKER_COMMAND_PROGRESSREPORT = 'progress_report';
@@ -199,6 +198,13 @@ const COLOR_BORDER_DEFAULT = [0, 0, 0];
 
 /** @const {float[]} */
 const COLOR_COMMAND_EXTINGUISH = [0.2, 0.2, 1];
+
+/** @const {float[]} */
+const COLOR_COMMAND_MOVEHISTORY = [1, 0, 0];
+
+/** @const {float[]} */
+const COLOR_COMMAND_CLEARAREA = [0.4, 0.4, 1];
+
 
 //
 // Buildings Color
@@ -792,6 +798,18 @@ function main(){
 
     worker = new Worker(WORKER_FILE);
     worker.onmessage = workerMassageParser;
+
+    worker.postMessage({
+        command: WORKER_COMMAND_SETICONS,
+        icons: {
+            po: ICONS_POLICE_OFFICE,
+            ac: ICONS_AMBULANCE_CENTRE,
+            fs: ICONS_FIRE_STATION,
+            rf: ICONS_REFUGE,
+            gs: ICONS_GAS_STATION,
+            hy: ICONS_HYDRANT
+        }
+    });
 
     loadFunction("Downloading cycles data ...", 0);
 

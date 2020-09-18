@@ -92,7 +92,6 @@ const ENTITY_ATTR_POSITION = "urn:rescuecore2.standard:property:position";
 /** @const {string} */
 const ENTITY_ATTR_POSITIONHISTORY = "urn:rescuecore2.standard:property:positionhistory";
 
-
 //
 // Commands
 //
@@ -107,28 +106,6 @@ const COMMAND_CLEAR = "urn:rescuecore2.standard:message:clear";
 const COMMAND_CLEARAREA = "urn:rescuecore2.standard:message:clear_area";
 
 //
-// Icons
-//
-
-/** @const {string} */
-const ICONS_POLICE_OFFICE = "image/po.png";
-
-/** @const {string} */
-const ICONS_AMBULANCE_CENTRE = "image/ac.png";
-
-/** @const {string} */
-const ICONS_FIRE_STATION = "image/fs.png";
-
-/** @const {string} */
-const ICONS_REFUGE = "image/rf.png";
-
-/** @const {string} */
-const ICONS_GAS_STATION = "image/gs.png";
-
-/** @const {string} */
-const ICONS_HYDRANT = "image/hy.png";
-
-//
 // Icon Setting
 //
 
@@ -141,6 +118,9 @@ const SETTING_ICON_RADIUS = 7000;
 
 /** @const {string} */
 const WORKER_COMMAND_LOADDATA = 'load_data';
+
+/** @const {string} */
+const WORKER_COMMAND_SETICONS = 'sync_icons';
 
 /** @const {string} */
 const WORKER_COMMAND_PROGRESSREPORT = 'progress_report';

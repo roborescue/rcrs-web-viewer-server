@@ -44,6 +44,7 @@
     * [.isBlockade(entity)](#EntityHandler.isBlockade) ⇒ <code>boolean</code>
     * [.isBuilding(entity)](#EntityHandler.isBuilding) ⇒ <code>boolean</code>
     * [.getId(entity)](#EntityHandler.getId) ⇒ <code>integer</code>
+    * [.getPositionHistory(entity)](#EntityHandler.getPositionHistory) ⇒ <code>Array.&lt;float&gt;</code>
     * [.getCenterOfPolygon(entity)](#EntityHandler.getCenterOfPolygon) ⇒ <code>Array.&lt;float&gt;</code> \| <code>boolean</code>
     * [.getHumanVertices(cx, cy, r, cuts)](#EntityHandler.getHumanVertices) ⇒ <code>Array.&lt;float&gt;</code>
     * [.getVertices(entity)](#EntityHandler.getVertices) ⇒ <code>Array.&lt;float&gt;</code>
@@ -193,6 +194,18 @@ Get ID
 
 **Kind**: static method of [<code>EntityHandler</code>](#EntityHandler)  
 **Returns**: <code>integer</code> - entity id  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| entity | <code>Object</code> | entity object |
+
+<a name="EntityHandler.getPositionHistory"></a>
+
+### EntityHandler.getPositionHistory(entity) ⇒ <code>Array.&lt;float&gt;</code>
+Get position history
+
+**Kind**: static method of [<code>EntityHandler</code>](#EntityHandler)  
+**Returns**: <code>Array.&lt;float&gt;</code> - line sequence  
 
 | Param | Type | Description |
 | --- | --- | --- |
