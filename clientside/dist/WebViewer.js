@@ -5,7 +5,7 @@
  * Released under the BSD-3-Clause license
  * https://opensource.org/licenses/BSD-3-Clause
  *
- * Date: 2020-09-18T07:22:39.551Z (Fri, 18 Sep 2020 07:22:39 GMT)
+ * Date: 2020-09-21T09:18:45.718Z (Mon, 21 Sep 2020 09:18:45 GMT)
  */
 
 //
@@ -33,6 +33,9 @@ const COMMAND_CLEARAREA_LINE_WIDTH = 50;
 
 /** @const {number} */
 const COMMAND_CLEARAREA_CLEARWIDTH = 2000;
+
+/** @const {number} */
+const COMMAND_CLEARAREA_CLEARLENGTH = 10000;
 
 //
 // Entity Names

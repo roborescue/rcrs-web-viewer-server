@@ -24,6 +24,9 @@ const COMMAND_CLEARAREA_LINE_WIDTH = 50;
 /** @const {number} */
 const COMMAND_CLEARAREA_CLEARWIDTH = 2000;
 
+/** @const {number} */
+const COMMAND_CLEARAREA_CLEARLENGTH = 10000;
+
 //
 // Entity Names
 //

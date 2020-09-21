@@ -5,7 +5,7 @@
  * Released under the BSD-3-Clause license
  * https://opensource.org/licenses/BSD-3-Clause
  *
- * Date: 2020-09-18T07:22:39.551Z (Fri, 18 Sep 2020 07:22:39 GMT)
+ * Date: 2020-09-21T09:18:45.718Z (Mon, 21 Sep 2020 09:18:45 GMT)
  */
 
 //
@@ -33,6 +33,9 @@ const COMMAND_CLEARAREA_LINE_WIDTH = 50;
 
 /** @const {number} */
 const COMMAND_CLEARAREA_CLEARWIDTH = 2000;
+
+/** @const {number} */
+const COMMAND_CLEARAREA_CLEARLENGTH = 10000;
 
 //
 // Entity Names
@@ -980,13 +983,36 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
                 agentPosition = data.all[agentId][ENTITY_ATTR_POSITION];
                 let location_x = parseFloat(command.X);
                 let location_y = parseFloat(command.Y);
-                
-                let width = COMMAND_CLEARAREA_CLEARWIDTH;
-                let a = location_x-agentPosition[0], b = location_y-agentPosition[1];
-                let vectorLen = Math.sqrt(a*a + b*b);
-                let U = [-b/vectorLen, a/vectorLen];
+
                 let A = [agentPosition[0], agentPosition[1]];
                 let B = [location_x, location_y];
+                let a = B[0] - A[0], 
+                    b = B[1] - A[1];
+                let vectorLen = Math.sqrt(a*a + b*b);
+
+                let allowedLength = COMMAND_CLEARAREA_CLEARLENGTH;
+                let lengthIsOK = allowedLength > vectorLen;
+                
+                if(! lengthIsOK){
+                    let unitVector = [
+                        a / vectorLen,
+                        b / vectorLen
+                    ];
+
+                    B = [
+                        A[0] + unitVector[0] * allowedLength,
+                        A[1] + unitVector[1] * allowedLength
+                    ];
+
+                    a = B[0] - A[0], 
+                    b = B[1] - A[1];
+
+                    vectorLen = allowedLength;
+                }
+
+                let width = COMMAND_CLEARAREA_CLEARWIDTH;
+                let U = [-b/vectorLen, a/vectorLen];
+                
                 let tmp1 = [A[0] + U[0] * width, A[1] + U[1] * width];
                 let tmp2 = [A[0] - U[0] * width, A[1] - U[1] * width];
                 let tmp3 = [B[0] - U[0] * width, B[1] - U[1] * width];

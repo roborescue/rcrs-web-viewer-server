@@ -15,6 +15,8 @@
 <dd></dd>
 <dt><a href="#COMMAND_CLEARAREA_CLEARWIDTH">COMMAND_CLEARAREA_CLEARWIDTH</a> : <code>number</code></dt>
 <dd></dd>
+<dt><a href="#COMMAND_CLEARAREA_CLEARLENGTH">COMMAND_CLEARAREA_CLEARLENGTH</a> : <code>number</code></dt>
+<dd></dd>
 <dt><a href="#ENTITY_NAME_CIVILIAN">ENTITY_NAME_CIVILIAN</a> : <code>string</code></dt>
 <dd></dd>
 <dt><a href="#ENTITY_NAME_AMBULANCE_TEAM">ENTITY_NAME_AMBULANCE_TEAM</a> : <code>string</code></dt>
@@ -148,6 +150,10 @@
 <a name="COMMAND_CLEARAREA_CLEARWIDTH"></a>
 
 ## COMMAND\_CLEARAREA\_CLEARWIDTH : <code>number</code>
+**Kind**: global constant  
+<a name="COMMAND_CLEARAREA_CLEARLENGTH"></a>
+
+## COMMAND\_CLEARAREA\_CLEARLENGTH : <code>number</code>
 **Kind**: global constant  
 <a name="ENTITY_NAME_CIVILIAN"></a>
 
