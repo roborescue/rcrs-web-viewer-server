@@ -13,4 +13,9 @@
   margin-bottom: 0.5rem;
 }
 
+.sharp-top-radius {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
 /*# sourceMappingURL=main_pages.css.map */
