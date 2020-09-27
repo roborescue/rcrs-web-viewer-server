@@ -23,6 +23,8 @@ class Match(models.Model):
     competition = models.ForeignKey(Competition, on_delete=models.DO_NOTHING)
     round = models.ForeignKey(Round, on_delete=models.DO_NOTHING, default=None, null=True)
     team_name = models.CharField(max_length=64)
+    map_name = models.CharField(max_length=64, null=True)
+    score = models.FloatField(null=True)
     log_name = models.CharField(max_length=128, unique=True)
 
     @property
