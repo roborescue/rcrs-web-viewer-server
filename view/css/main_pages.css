@@ -1,15 +1,16 @@
+.map-p svg, .score-p svg, .link-p svg, .date-p svg {
+  vertical-align: sub;
+}
+
 .date-p {
   font-weight: lighter;
 }
 .date-p strong {
   font-weight: bolder;
 }
-.date-p svg {
-  vertical-align: sub;
-}
 
-.link-p svg {
-  vertical-align: sub;
+.card.match-card p {
+  margin-bottom: 0.5rem;
 }
 
 /*# sourceMappingURL=main_pages.css.map */
