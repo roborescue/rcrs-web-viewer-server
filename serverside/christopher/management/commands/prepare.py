@@ -53,11 +53,18 @@ def create_match(competition, summary, log_file_name):
         match.competition = competition
         match.round = None
         match.team_name = summary['TeamName']
+        match.map_name = summary['MapName']
         match.log_name = log_file_name
         match.save()
+        
     except Match.DoesNotExist:
-        Match.objects.create(competition=competition, round=None, team_name=summary['TeamName'],
-                             log_name=log_file_name)
+        Match.objects.create(
+            competition=competition, 
+            round=None, 
+            team_name=summary['TeamName'],
+            map_name=summary['MapName'],
+            log_name=log_file_name
+        )
 
 
 def read_log_summary(file_name):
