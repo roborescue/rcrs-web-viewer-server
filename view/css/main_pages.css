@@ -1,0 +1,15 @@
+.date-p {
+  font-weight: lighter;
+}
+.date-p strong {
+  font-weight: bolder;
+}
+.date-p svg {
+  vertical-align: sub;
+}
+
+.link-p svg {
+  vertical-align: sub;
+}
+
+/*# sourceMappingURL=main_pages.css.map */
