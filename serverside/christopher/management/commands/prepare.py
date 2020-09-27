@@ -40,34 +40,34 @@ def prepare_competition(competition):
     for log_file_name in glob.glob(f"*.{RAW_LOG_FILE_FORMAT}"):
         try:
             logging.info(log_file_name)
-            summery = read_log_summery(log_file_name)
-            create_match(competition, summery, log_file_name)
+            summary = read_log_summary(log_file_name)
+            create_match(competition, summary, log_file_name)
             copy2(log_file_name, competition_prepared_log_dir)
         except CommandError as err:
             logging.error(err)
 
 
-def create_match(competition, summery, log_file_name):
+def create_match(competition, summary, log_file_name):
     try:
         match = Match.objects.get(log_name=log_file_name)
         match.competition = competition
         match.round = None
-        match.team_name = summery['TeamName']
+        match.team_name = summary['TeamName']
         match.log_name = log_file_name
         match.save()
     except Match.DoesNotExist:
-        Match.objects.create(competition=competition, round=None, team_name=summery['TeamName'],
+        Match.objects.create(competition=competition, round=None, team_name=summary['TeamName'],
                              log_name=log_file_name)
 
 
-def read_log_summery(file_name):
+def read_log_summary(file_name):
     try:
         with open(file_name, 'rb') as log_file:
-            summery_string = log_file.readline()
-        summery_dict = json.loads(summery_string)
-        return summery_dict
+            summary_string = log_file.readline()
+        summary_dict = json.loads(summary_string)
+        return summary_dict
 
     except IOError:
-        raise CommandError(f"Could not read summery: {file_name}")
+        raise CommandError(f"Could not read summary: {file_name}")
     except ValueError:
-        raise CommandError(f"Could not load summery: {file_name} / {summery_string}")
+        raise CommandError(f"Could not load summary: {file_name} / {summary_string}")
