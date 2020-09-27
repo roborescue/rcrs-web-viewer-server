@@ -41,22 +41,23 @@ def prepare_competition(competition):
         try:
             logging.info(log_file_name)
             summary = read_log_summary(log_file_name)
-            create_match(competition, summary, log_file_name)
+            score = read_last_score(log_file_name)
+            create_match(competition, summary, log_file_name, score)
             copy2(log_file_name, competition_prepared_log_dir)
         except CommandError as err:
             logging.error(err)
 
 
-def create_match(competition, summary, log_file_name):
+def create_match(competition, summary, log_file_name, score=None):
     try:
         match = Match.objects.get(log_name=log_file_name)
         match.competition = competition
-        match.round = None
         match.team_name = summary['TeamName']
         match.map_name = summary['MapName']
+        match.score = score
         match.log_name = log_file_name
         match.save()
-        
+
     except Match.DoesNotExist:
         Match.objects.create(
             competition=competition, 
@@ -71,6 +72,7 @@ def read_log_summary(file_name):
     try:
         with open(file_name, 'rb') as log_file:
             summary_string = log_file.readline()
+            log_file.close()
         summary_dict = json.loads(summary_string)
         return summary_dict
 
@@ -78,3 +80,18 @@ def read_log_summary(file_name):
         raise CommandError(f"Could not read summary: {file_name}")
     except ValueError:
         raise CommandError(f"Could not load summary: {file_name} / {summary_string}")
+
+def read_last_score(file_name):
+    try:
+        with open(file_name, 'rb') as log_file:
+            lines = log_file.readlines()
+            log_file.close()
+            last_line = lines[-1]
+        last_line_dict = json.loads(last_line)
+        last_line_info = last_line_dict["Info"]
+        last_line_score = last_line_info["Score"]
+        return float(last_line_score)
+    except IOError:
+        raise CommandError(f"Could not read last score: {file_name}")
+    except ValueError:
+        raise CommandError(f"Could not load last score: {file_name} / {last_line}")
