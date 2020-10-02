@@ -56,7 +56,7 @@ let minifiedSingleFiles = [];
 let headComment = getHeadComment();
 
 CONFIG.compile.forEach(compile => {
-    let finalCode = headComment;
+    let finalCode = headComment + LINE_BREAK;
     let lines = 0;
     let inPreview = compile.inPreview;
     compile.files.forEach(async (file) => {
@@ -79,7 +79,7 @@ CONFIG.compile.forEach(compile => {
         if(inPreview)
             allFilesList.push(file);
 
-        finalCode = finalCode + LINE_BREAK + contents;
+        finalCode = finalCode + contents + LINE_BREAK;
         fileLog(file, "readed and added to memory");
     });
 
@@ -99,7 +99,11 @@ CONFIG.compile.forEach(compile => {
     (async () => {
         let minifiedFile = DIST_PATH + compile.dist.minified;
         var minifiedCode = await minify(finalCode, { sourceMap: true });
-        fs.writeFileSync(minifiedFile, minifiedCode.code, {flag: "w"}); 
+        fs.writeFileSync(
+            minifiedFile, 
+            minifiedCode.code + LINE_BREAK, 
+            {flag: "w"}
+        ); 
         fileLog(minifiedFile, "File updated");
     })();
 

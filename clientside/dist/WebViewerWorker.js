@@ -5,7 +5,7 @@
  * Released under the BSD-3-Clause license
  * https://opensource.org/licenses/BSD-3-Clause
  *
- * Date: 2020-10-02T23:31:38.040Z (Fri, 02 Oct 2020 23:31:38 GMT)
+ * Date: 2020-10-02T23:43:51.245Z (Fri, 02 Oct 2020 23:43:51 GMT)
  */
 
 //
@@ -846,6 +846,7 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
      */
     this.fillCycle = function(cycle, data){
         let prevCycleNumber = this.cycles.length - 1;
+        
         // Deep clone last cycle
         let newCycle = JSON.parse(JSON.stringify(
             this.getCycleObject(prevCycleNumber)
@@ -860,13 +861,13 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
             let entityId = thisCycle.DeletedEntities[j];
             let entityObject = newCycle.all[entityId];
 
-            if(EntityHandler.isHuman(entity)) {
+            if(EntityHandler.isHuman(entityObject)) {
                 delete newCycle.human[entityId];
             }
-            else if(EntityHandler.isBlockade(entity)){
+            else if(EntityHandler.isBlockade(entityObject)){
                 delete newCycle.blockade[entityId];
             }
-            else if(EntityHandler.isRoad(entity)) {
+            else if(EntityHandler.isRoad(entityObject)) {
                 delete newCycle.road[entityId];
             }
             else{
@@ -1400,3 +1401,5 @@ function handleIncomingMassage(e){
 }
 
 onmessage = (e) => handleIncomingMassage(e);
+
+
