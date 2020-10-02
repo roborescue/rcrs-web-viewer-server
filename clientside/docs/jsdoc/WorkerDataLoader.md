@@ -43,7 +43,7 @@ if entity has icon.</p>
 <dd><p>Fill cycles</p>
 </dd>
 <dt><a href="#postCycleAfterBake">postCycleAfterBake(cycle, data, info, commands)</a></dt>
-<dd><p>Post given cycles Historian.</p>
+<dd><p>Post given cycles Historian. (Create Historian object from entities)</p>
 </dd>
 <dt><a href="#fillHistoryWithCycleCommands">fillHistoryWithCycleCommands(historyManager, commands, cycleData)</a></dt>
 <dd><p>Fill history with cycle commands.</p>
@@ -212,7 +212,7 @@ Fill cycles
 <a name="postCycleAfterBake"></a>
 
 ## postCycleAfterBake(cycle, data, info, commands)
-Post given cycles Historian.
+Post given cycles Historian. (Create Historian object from entities)
 
 **Kind**: global function  
 

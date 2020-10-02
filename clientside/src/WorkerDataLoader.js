@@ -184,6 +184,7 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
      */
     this.fillCycle = function(cycle, data){
         let prevCycleNumber = this.cycles.length - 1;
+        
         // Deep clone last cycle
         let newCycle = JSON.parse(JSON.stringify(
             this.getCycleObject(prevCycleNumber)
@@ -192,6 +193,29 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         newCycle.road = {};
 
         let thisCycle = data[cycle + 1];
+
+        // Remove deleted entities
+        for(let j in thisCycle.DeletedEntities){
+            let entityId = thisCycle.DeletedEntities[j];
+            let entityObject = newCycle.all[entityId];
+
+            if(EntityHandler.isHuman(entityObject)) {
+                delete newCycle.human[entityId];
+            }
+            else if(EntityHandler.isBlockade(entityObject)){
+                delete newCycle.blockade[entityId];
+            }
+            else if(EntityHandler.isRoad(entityObject)) {
+                delete newCycle.road[entityId];
+            }
+            else{
+                delete newCycle.building[entityId];
+            }
+
+            delete newCycle.all[entityId];
+        }
+
+        // Fill new or changed entities
         for(let j in thisCycle.Entities){
             let entityObject = thisCycle.Entities[j];
             let id = EntityHandler.getId(entityObject);
@@ -240,7 +264,7 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
     }
 
     /**
-     * Post given cycles Historian.
+     * Post given cycles Historian. (Create Historian object from entities)
      * 
      * @param {integer} cycle cycle number
      * @param {Object} data cycle data

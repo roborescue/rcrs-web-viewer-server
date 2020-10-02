@@ -5,7 +5,8 @@
   "main": "src/GameMaker.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compile": "node scripts/compile.js"
+    "compile": "node scripts/compile.js",
+    "php-server": "php -S localhost:8000 -t .\\"
   },
   "repository": {
     "type": "git",

@@ -5,7 +5,7 @@
  * Released under the BSD-3-Clause license
  * https://opensource.org/licenses/BSD-3-Clause
  *
- * Date: 2020-09-21T09:18:45.718Z (Mon, 21 Sep 2020 09:18:45 GMT)
+ * Date: 2020-10-02T23:31:38.040Z (Fri, 02 Oct 2020 23:31:38 GMT)
  */
 
 //
@@ -854,6 +854,29 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         newCycle.road = {};
 
         let thisCycle = data[cycle + 1];
+
+        // Remove deleted entities
+        for(let j in thisCycle.DeletedEntities){
+            let entityId = thisCycle.DeletedEntities[j];
+            let entityObject = newCycle.all[entityId];
+
+            if(EntityHandler.isHuman(entity)) {
+                delete newCycle.human[entityId];
+            }
+            else if(EntityHandler.isBlockade(entity)){
+                delete newCycle.blockade[entityId];
+            }
+            else if(EntityHandler.isRoad(entity)) {
+                delete newCycle.road[entityId];
+            }
+            else{
+                delete newCycle.building[entityId];
+            }
+
+            delete newCycle.all[entityId];
+        }
+
+        // Fill new or changed entities
         for(let j in thisCycle.Entities){
             let entityObject = thisCycle.Entities[j];
             let id = EntityHandler.getId(entityObject);
@@ -902,7 +925,7 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
     }
 
     /**
-     * Post given cycles Historian.
+     * Post given cycles Historian. (Create Historian object from entities)
      * 
      * @param {integer} cycle cycle number
      * @param {Object} data cycle data
