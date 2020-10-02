@@ -1,16 +1,15 @@
 # Christopher  
 
 Christopher is a  rcrs-webviwer backend.
-## Make virtualenv
 
-Before Deploy:
+### Before Deploy:
 
 ```sh
     python manage migrate
     python manage collactstatic
 ```
 
-Add competition:
+### Add competition:
 
 ```sh
     python manage.py shell
@@ -21,7 +20,7 @@ Add competition:
     python manage.py prepare <COMPEITION_ID>
 ```
 
-Deploy:
+### Deploy:
 ```sh
     docker-compose up
 ```
