@@ -20,12 +20,12 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'h^9dcyav5i)by+qy80^!70(8#cn+u9f%2j=^cu!_20sxb@)zd5'
+SECRET_KEY = 'This is for development'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'christopher.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'db/db.sqlite3',
     }
 }
 
@@ -128,7 +128,7 @@ RAW_LOG_FILE_FORMAT = 'jlog'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/files/'
+STATIC_URL = '/static/'
 STATIC_URL_VIEW = 'view'
 STATIC_URL_LOGS = 'logs'
 
@@ -136,3 +136,5 @@ STATICFILES_DIRS = [
     (STATIC_URL_VIEW, PROJECT_ROOT_DIR / "view"),
     (STATIC_URL_LOGS, PREPARED_LOG_DIR)
 ]
+
+STATIC_ROOT = BASE_DIR / "statics"
