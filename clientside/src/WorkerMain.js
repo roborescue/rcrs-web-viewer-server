@@ -1,9 +1,4 @@
-
 module = {};
-
-importScripts('../node_modules/earcut/src/earcut.js');
-importScripts('../preview/CanvasDrawer.js'); 
-
 
 // Global Variables
 var dataLoader = {};
@@ -123,6 +118,11 @@ function postInfo(info){
 function handleIncomingMassage(e){
     let command = e.data.command;
     switch(command){
+        case WORKER_COMMAND_IMPORTSCRIPT:
+            let scriptUrl = e.data.script;
+            importScripts(scriptUrl);
+            break;
+
         case WORKER_COMMAND_LOADDATA:
             textures = e.data.textures;
             dataLoader = new WorkerDataLoader(e.data.data, loadFunction);

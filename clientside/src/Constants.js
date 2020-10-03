@@ -123,6 +123,9 @@ const SETTING_ICON_RADIUS = 7000;
 const WORKER_COMMAND_LOADDATA = 'load_data';
 
 /** @const {string} */
+const WORKER_COMMAND_IMPORTSCRIPT = 'import_script';
+
+/** @const {string} */
 const WORKER_COMMAND_SETICONS = 'sync_icons';
 
 /** @const {string} */

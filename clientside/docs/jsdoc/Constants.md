@@ -67,6 +67,8 @@
 <dd></dd>
 <dt><a href="#WORKER_COMMAND_LOADDATA">WORKER_COMMAND_LOADDATA</a> : <code>string</code></dt>
 <dd></dd>
+<dt><a href="#WORKER_COMMAND_IMPORTSCRIPT">WORKER_COMMAND_IMPORTSCRIPT</a> : <code>string</code></dt>
+<dd></dd>
 <dt><a href="#WORKER_COMMAND_SETICONS">WORKER_COMMAND_SETICONS</a> : <code>string</code></dt>
 <dd></dd>
 <dt><a href="#WORKER_COMMAND_PROGRESSREPORT">WORKER_COMMAND_PROGRESSREPORT</a> : <code>string</code></dt>
@@ -254,6 +256,10 @@
 <a name="WORKER_COMMAND_LOADDATA"></a>
 
 ## WORKER\_COMMAND\_LOADDATA : <code>string</code>
+**Kind**: global constant  
+<a name="WORKER_COMMAND_IMPORTSCRIPT"></a>
+
+## WORKER\_COMMAND\_IMPORTSCRIPT : <code>string</code>
 **Kind**: global constant  
 <a name="WORKER_COMMAND_SETICONS"></a>
 

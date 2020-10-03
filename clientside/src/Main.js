@@ -166,6 +166,18 @@ function main(){
     worker = new Worker(WORKER_FILE);
     worker.onmessage = workerMassageParser;
 
+    // Import Scripts Im Worker
+    let scriptsToImportInWorker = [
+        SCRIPT_EARCUT,
+        SCRIPT_CANVASDRAWER
+    ];
+    for(let script in scriptsToImportInWorker){
+        worker.postMessage({
+            command: WORKER_COMMAND_IMPORTSCRIPT,
+            script: scriptsToImportInWorker[script]
+        })
+    }
+
     worker.postMessage({
         command: WORKER_COMMAND_SETICONS,
         icons: {

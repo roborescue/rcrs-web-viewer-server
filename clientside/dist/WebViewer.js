@@ -5,7 +5,7 @@
  * Released under the BSD-3-Clause license
  * https://opensource.org/licenses/BSD-3-Clause
  *
- * Date: 2020-10-02T23:43:51.245Z (Fri, 02 Oct 2020 23:43:51 GMT)
+ * Date: 2020-10-03T12:03:10.994Z (Sat, 03 Oct 2020 12:03:10 GMT)
  */
 
 //
@@ -131,6 +131,9 @@ const SETTING_ICON_RADIUS = 7000;
 
 /** @const {string} */
 const WORKER_COMMAND_LOADDATA = 'load_data';
+
+/** @const {string} */
+const WORKER_COMMAND_IMPORTSCRIPT = 'import_script';
 
 /** @const {string} */
 const WORKER_COMMAND_SETICONS = 'sync_icons';
@@ -801,6 +804,18 @@ function main(){
 
     worker = new Worker(WORKER_FILE);
     worker.onmessage = workerMassageParser;
+
+    // Import Scripts Im Worker
+    let scriptsToImportInWorker = [
+        SCRIPT_EARCUT,
+        SCRIPT_CANVASDRAWER
+    ];
+    for(let script in scriptsToImportInWorker){
+        worker.postMessage({
+            command: WORKER_COMMAND_IMPORTSCRIPT,
+            script: scriptsToImportInWorker[script]
+        })
+    }
 
     worker.postMessage({
         command: WORKER_COMMAND_SETICONS,

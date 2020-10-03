@@ -5,7 +5,7 @@
  * Released under the BSD-3-Clause license
  * https://opensource.org/licenses/BSD-3-Clause
  *
- * Date: 2020-10-02T23:43:51.245Z (Fri, 02 Oct 2020 23:43:51 GMT)
+ * Date: 2020-10-03T12:03:10.994Z (Sat, 03 Oct 2020 12:03:10 GMT)
  */
 
 //
@@ -131,6 +131,9 @@ const SETTING_ICON_RADIUS = 7000;
 
 /** @const {string} */
 const WORKER_COMMAND_LOADDATA = 'load_data';
+
+/** @const {string} */
+const WORKER_COMMAND_IMPORTSCRIPT = 'import_script';
 
 /** @const {string} */
 const WORKER_COMMAND_SETICONS = 'sync_icons';
@@ -1262,8 +1265,8 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
 
 module = {};
 
-importScripts('../node_modules/earcut/src/earcut.js');
-importScripts('../preview/CanvasDrawer.js'); 
+// importScripts('../node_modules/earcut/src/earcut.js');
+// importScripts('../preview/CanvasDrawer.js'); 
 
 
 // Global Variables
@@ -1384,6 +1387,11 @@ function postInfo(info){
 function handleIncomingMassage(e){
     let command = e.data.command;
     switch(command){
+        case WORKER_COMMAND_IMPORTSCRIPT:
+            let scriptUrl = e.data.script;
+            importScripts(scriptUrl);
+            break;
+
         case WORKER_COMMAND_LOADDATA:
             textures = e.data.textures;
             dataLoader = new WorkerDataLoader(e.data.data, loadFunction);
