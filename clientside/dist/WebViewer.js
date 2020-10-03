@@ -1,11 +1,11 @@
 /*!
- * RCRS Web Viewer v0.1.0
+ * RCRS Web Viewer v0.2.1601730499334
  * https://github.com/roborescue/rcrs-web-viewer
  * 
  * Released under the BSD-3-Clause license
  * https://opensource.org/licenses/BSD-3-Clause
  *
- * Date: 2020-10-03T12:03:10.994Z (Sat, 03 Oct 2020 12:03:10 GMT)
+ * Date: 2020-10-03T13:08:19.334Z (Sat, 03 Oct 2020 13:08:19 GMT)
  */
 
 //

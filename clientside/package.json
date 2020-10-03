@@ -1,12 +1,12 @@
 {
-  "name": "game-maker",
-  "version": "1.0.0",
-  "description": "GameMaker",
-  "main": "src/GameMaker.js",
+  "name": "rcrs-web-viewer",
+  "version": "0.2.1601730499334",
+  "description": "Robocup Rescue Simulation(RCRS) Web Viewer.",
+  "main": "src/Main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "node scripts/compile.js",
-    "php-server": "php -S localhost:8000 -t .\\"
+    "php-server": "php -S localhost:1715 -t .\\"
   },
   "repository": {
     "type": "git",

@@ -5,15 +5,20 @@ const mustache = require('mustache');
 const chalk = require('chalk');
 const jsdoc2md = require('jsdoc-to-markdown')
 const path = require('path');
+const execSync = require('child_process').execSync;
 
 const CONFIG = require('../config.json');
 
 const DIST_PATH = CONFIG.dist_path;
 const LINE_BREAK = "\n\r";
 
+const CURRENT_VERSION = CONFIG.version + "." + Date.now()
+const NOW = new Date();
+
 function createTemplateFile(previewFile, filesToLoad, template, params) {
     var view = {
         title: CONFIG.preview.title,
+        version: CURRENT_VERSION,
         modules: CONFIG.preview.modules,
         files: filesToLoad,
         file_name: previewFile,
@@ -28,11 +33,11 @@ function createTemplateFile(previewFile, filesToLoad, template, params) {
 
 function getHeadComment(){
     let template = fs.readFileSync(CONFIG.preview.comment, 'utf8');
-    let now = new Date();
+    let now = NOW;
 
     var view = {
         title: CONFIG.preview.title,
-        version: CONFIG.version,
+        version: CURRENT_VERSION,
         homepage: CONFIG.homepage,
         date: now.toISOString() + " (" + now.toUTCString() + ")"
     };
@@ -116,3 +121,7 @@ createTemplateFile("dist.html", singleFiles, template, CONFIG.preview.param['dis
 createTemplateFile("dist.min.html", minifiedSingleFiles, template, CONFIG.preview.param['dist.min']);
 
 console.log(chalk.bold.green(totalLines + " Lines of code readed. Good job!"));
+
+// Update version of package.json
+let output = execSync('npm version ' + CURRENT_VERSION, { encoding: 'utf-8' })
+console.log(chalk.bold.green("Version: " + output.trim()));
