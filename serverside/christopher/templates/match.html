@@ -1,10 +1,4 @@
-<!-- {% load static %}
-
-<h1> Match </h1>
-
-JLog File: {% static match.log_file %}
- -->
-
+{% load static %}
 
 <!DOCTYPE html>
 <html>
@@ -124,13 +118,16 @@ JLog File: {% static match.log_file %}
         </div>
 
         
-        <script src="{% static 'view/js/webviewer.js' %}"></script>
+        <script src="{% static 'view/js/webviewer.min.js' %}"></script>
 
         <script>
+            const SCRIPT_EARCUT = '{% static 'view/js/earcut.min.js' %}';
+            const SCRIPT_CANVASDRAWER = '{% static 'view/js/canvasdrawer.min.js' %}';
+
             const CANVAS_ID = 'canv';
             const JLOG_FILE = "{% static match.log_file %}";
             const PLAYING_DELAY = 100;
-            const WORKER_FILE = '{% static 'view/js/webviewer_worker.js' %}';
+            const WORKER_FILE = '{% static 'view/js/webviewer_worker.min.js' %}';
             const ERROR_MODAL = '#errorModal';
             const LOADING_MODAL = '#loadingModal';
 
