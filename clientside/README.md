@@ -1,7 +1,5 @@
 # RCRS Web Viewer  [ Client Side ]
 
-![Screenshot of RCRS Web Viewer](https://user-images.githubusercontent.com/13227657/94995109-d28c8080-05a8-11eb-9897-3040aac9238f.PNG)
-
 ## Requirements
 - Modern browser (supports Web Workers and WebGL)
 - ``nodejs`` (development and installing dependencies)
