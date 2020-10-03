@@ -70,7 +70,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'christopher.wsgi.application'
+WSGI_APPLICATION = 'wsgi.application'
 
 
 # Database
@@ -116,6 +116,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+import mimetypes
+mimetypes.add_type("application/javascript", ".js", True)
 
 # Log files
 #
