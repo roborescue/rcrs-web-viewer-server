@@ -5,11 +5,10 @@
  * Released under the BSD-3-Clause license
  * https://opensource.org/licenses/BSD-3-Clause
  *
- * Date: 2020-09-07T12:35:11.528Z (Mon, 07 Sep 2020 12:35:11 GMT)
+ * Date: 2020-10-02T23:43:51.245Z (Fri, 02 Oct 2020 23:43:51 GMT)
  */
 
-
-//
+//
 // Drawing Setting
 //
 
@@ -25,6 +24,18 @@ const DRAW_BORDER_LINE_WIDTH = 50;
 
 /** @const {number} */
 const COMMAND_EXTINGUISH_LINE_WIDTH = 50;
+
+/** @const {number} */
+const COMMAND_MOVEHISTORY_LINE_WIDTH = 50;
+
+/** @const {number} */
+const COMMAND_CLEARAREA_LINE_WIDTH = 50;
+
+/** @const {number} */
+const COMMAND_CLEARAREA_CLEARWIDTH = 2000;
+
+/** @const {number} */
+const COMMAND_CLEARAREA_CLEARLENGTH = 10000;
 
 //
 // Entity Names
@@ -91,6 +102,9 @@ const ENTITY_ATTR_APEXES = "urn:rescuecore2.standard:property:apexes";
 /** @const {string} */
 const ENTITY_ATTR_POSITION = "urn:rescuecore2.standard:property:position";
 
+/** @const {string} */
+const ENTITY_ATTR_POSITIONHISTORY = "urn:rescuecore2.standard:property:positionhistory";
+
 //
 // Commands
 //
@@ -98,27 +112,11 @@ const ENTITY_ATTR_POSITION = "urn:rescuecore2.standard:property:position";
 /** @const {string} */
 const COMMAND_EXTINGUISH = "urn:rescuecore2.standard:message:extinguish";
 
-//
-// Icons
-//
-
 /** @const {string} */
-const ICONS_POLICE_OFFICE = "/files/view/image/po.png";
+const COMMAND_CLEAR = "urn:rescuecore2.standard:message:clear";
 
-/** @const {string} */
-const ICONS_AMBULANCE_CENTRE = "/files/view/image/ac.png";
-
-/** @const {string} */
-const ICONS_FIRE_STATION = "/files/view/image/fs.png";
-
-/** @const {string} */
-const ICONS_REFUGE = "/files/view/image/rf.png";
-
-/** @const {string} */
-const ICONS_GAS_STATION = "/files/view/image/gs.png";
-
-/** @const {string} */
-const ICONS_HYDRANT = "/files/view/image/hy.png";
+/** @const {string} */ // X, Y
+const COMMAND_CLEARAREA = "urn:rescuecore2.standard:message:clear_area";
 
 //
 // Icon Setting
@@ -133,6 +131,9 @@ const SETTING_ICON_RADIUS = 7000;
 
 /** @const {string} */
 const WORKER_COMMAND_LOADDATA = 'load_data';
+
+/** @const {string} */
+const WORKER_COMMAND_SETICONS = 'sync_icons';
 
 /** @const {string} */
 const WORKER_COMMAND_PROGRESSREPORT = 'progress_report';
@@ -201,6 +202,13 @@ const COLOR_BORDER_DEFAULT = [0, 0, 0];
 /** @const {float[]} */
 const COLOR_COMMAND_EXTINGUISH = [0.2, 0.2, 1];
 
+/** @const {float[]} */
+const COLOR_COMMAND_MOVEHISTORY = [1, 0, 0];
+
+/** @const {float[]} */
+const COLOR_COMMAND_CLEARAREA = [0.4, 0.4, 1];
+
+
 //
 // Buildings Color
 //
@@ -231,8 +239,7 @@ const COLOR_BUILDING_FIERYNESS_SEVERE_DAMAGE = [0.31, 0.23, 0.54];
 
 /** @const {float[]} */
 const COLOR_BUILDING_FIERYNESS_BURNT_OUT = [0.0, 0.0, 0.0];
-
-/**
+/**
  * Creates Entity object.
  * 
  * @param {Object} data 
@@ -258,8 +265,7 @@ function Entity(data){
         this[ENTITY_ATTR_FIERYNESS] = parseInt(data[ENTITY_ATTR_FIERYNESS]);
     }
 }
-
-
+
 /**
  * @namespace
  * @property {function} getDarker
@@ -374,8 +380,7 @@ EntityColor.getColor = function(entity){
 
     return [0, 0, 0];
 };
-
-/**
+/**
  * @namespace
  * @property {string[]} humans
  * @property {string[]} surfaces
@@ -585,6 +590,16 @@ EntityHandler.getId = function(entity){
 }
 
 /**
+ * Get position history
+ * 
+ * @param {Object} entity entity object
+ * @returns {float[]} line sequence
+ */
+EntityHandler.getPositionHistory = function(entity){
+    return entity[ENTITY_ATTR_POSITIONHISTORY];
+}
+
+/**
  * Get center of polygon
  * 
  * @param {Object} entity entity object
@@ -645,8 +660,7 @@ EntityHandler.getVertices = function(entity){
     }
     return [];
 }
-
-
+
 /**
  * Get histirian key of color.
  * 
@@ -676,6 +690,9 @@ function OrdinalHistorian(){
     historian.addKey(getKeyFromColor(COLOR_BUILDING_FIERYNESS_BURNT_OUT));
     historian.addKey(getKeyFromColor(COLOR_BLOCKADE_DEFAULT));
     historian.addKey(getKeyFromColor(COLOR_BORDER_DEFAULT));
+    historian.addKey(getKeyFromColor(COLOR_COMMAND_MOVEHISTORY));
+    historian.addKey(getKeyFromColor(COLOR_COMMAND_CLEARAREA));
+    historian.addKey(getKeyFromColor(COLOR_COMMAND_EXTINGUISH));
     historian.addKey(getKeyFromColor(COLOR_HUMAN_TYPE_DEAD));
     historian.addKey(getKeyFromColor(COLOR_HUMAN_TYPE_CIVILIAN));
     historian.addKey(getKeyFromColor(COLOR_HUMAN_TYPE_FIRE_BRIGADE));
@@ -796,7 +813,6 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
             
             if(EntityHandler.isSurface(entity)){
                 let entityVertices = EntityHandler.getVertices(entity);
-
                 for(let j = 0;j < entityVertices.length;j = j + 2){
                     let px = entityVertices[j];
                     let py = entityVertices[j + 1];
@@ -830,6 +846,7 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
      */
     this.fillCycle = function(cycle, data){
         let prevCycleNumber = this.cycles.length - 1;
+        
         // Deep clone last cycle
         let newCycle = JSON.parse(JSON.stringify(
             this.getCycleObject(prevCycleNumber)
@@ -838,6 +855,29 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         newCycle.road = {};
 
         let thisCycle = data[cycle + 1];
+
+        // Remove deleted entities
+        for(let j in thisCycle.DeletedEntities){
+            let entityId = thisCycle.DeletedEntities[j];
+            let entityObject = newCycle.all[entityId];
+
+            if(EntityHandler.isHuman(entityObject)) {
+                delete newCycle.human[entityId];
+            }
+            else if(EntityHandler.isBlockade(entityObject)){
+                delete newCycle.blockade[entityId];
+            }
+            else if(EntityHandler.isRoad(entityObject)) {
+                delete newCycle.road[entityId];
+            }
+            else{
+                delete newCycle.building[entityId];
+            }
+
+            delete newCycle.all[entityId];
+        }
+
+        // Fill new or changed entities
         for(let j in thisCycle.Entities){
             let entityObject = thisCycle.Entities[j];
             let id = EntityHandler.getId(entityObject);
@@ -886,7 +926,7 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
     }
 
     /**
-     * Post given cycles Historian.
+     * Post given cycles Historian. (Create Historian object from entities)
      * 
      * @param {integer} cycle cycle number
      * @param {Object} data cycle data
@@ -932,11 +972,12 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
      * @param {Object} data cycle data
      */
     this.fillHistoryWithCycleCommand = function(historyManager, command, data){
+        let agentId, agentPosition;
         switch (command.Name) {
             case COMMAND_EXTINGUISH:
-                let agentId = parseInt(command.AgentId);
+                agentId = parseInt(command.AgentId);
                 let targetId = parseInt(command.Target);
-                let agentPosition = data.all[agentId][ENTITY_ATTR_POSITION];
+                agentPosition = data.all[agentId][ENTITY_ATTR_POSITION];
                 let targetPosition = EntityHandler.getCenterOfPolygon(
                     data.all[targetId]
                 );
@@ -959,8 +1000,67 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
                 historyManager.submitVanilla(
                     this.positionMaker.getPositionsList()
                 );
+                break;
 
-                console.log("POS:", agentPosition);
+            case COMMAND_CLEARAREA:
+                agentId = parseInt(command.AgentId);
+                agentPosition = data.all[agentId][ENTITY_ATTR_POSITION];
+                let location_x = parseFloat(command.X);
+                let location_y = parseFloat(command.Y);
+
+                let A = [agentPosition[0], agentPosition[1]];
+                let B = [location_x, location_y];
+                let a = B[0] - A[0], 
+                    b = B[1] - A[1];
+                let vectorLen = Math.sqrt(a*a + b*b);
+
+                let allowedLength = COMMAND_CLEARAREA_CLEARLENGTH;
+                let lengthIsOK = allowedLength > vectorLen;
+                
+                if(! lengthIsOK){
+                    let unitVector = [
+                        a / vectorLen,
+                        b / vectorLen
+                    ];
+
+                    B = [
+                        A[0] + unitVector[0] * allowedLength,
+                        A[1] + unitVector[1] * allowedLength
+                    ];
+
+                    a = B[0] - A[0], 
+                    b = B[1] - A[1];
+
+                    vectorLen = allowedLength;
+                }
+
+                let width = COMMAND_CLEARAREA_CLEARWIDTH;
+                let U = [-b/vectorLen, a/vectorLen];
+                
+                let tmp1 = [A[0] + U[0] * width, A[1] + U[1] * width];
+                let tmp2 = [A[0] - U[0] * width, A[1] - U[1] * width];
+                let tmp3 = [B[0] - U[0] * width, B[1] - U[1] * width];
+                let tmp4 = [B[0] + U[0] * width, B[1] + U[1] * width];
+                
+                historyManager.setColor(
+                    COLOR_COMMAND_CLEARAREA[0],
+                    COLOR_COMMAND_CLEARAREA[1],
+                    COLOR_COMMAND_CLEARAREA[2],
+                    1
+                );
+                this.positionMaker.reset();
+                this.positionMaker.addClosedSequenceLine(
+                    mirrorYs([
+                        tmp1[0], tmp1[1],
+                        tmp4[0], tmp4[1],
+                        tmp3[0], tmp3[1],
+                        tmp2[0], tmp2[1]
+                    ]),
+                    COMMAND_CLEARAREA_LINE_WIDTH
+                );
+                historyManager.submitVanilla(
+                    this.positionMaker.getPositionsList()
+                );
                 break;
         }
     }
@@ -989,7 +1089,41 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
         this.fillHistoryWithObject(historyManager, cycleObject.building);
         this.fillHistoryWithObject(historyManager, cycleObject.blockade);
         this.fillHistoryWithObject(historyManager, cycleObject.human);
+        this.fillHistoryWithHumanObjects(historyManager, cycleObject.human);
         this.fillHistoryWithObjectIcons(historyManager, this.entitiesWithIcon);
+
+        return historyManager;
+    }
+
+    /**
+     * Fill history with object of humans.
+     * 
+     * @param {Object} historyManager object of ``HistoryManager``
+     * @param {Object} objectList object of objects
+     * @returns {Object} object of ``HistoryManager``
+     */
+    this.fillHistoryWithHumanObjects = function(historyManager, objectList){
+        for(let id in objectList){
+            let entity = objectList[id];
+            let positionHistory = EntityHandler.getPositionHistory(entity);
+            if(positionHistory){
+                this.positionMaker.reset();
+                let mirroredHistory = mirrorYs(
+                    positionHistory
+                );
+                this.positionMaker.addSequenceLine(
+                    mirroredHistory,
+                    COMMAND_MOVEHISTORY_LINE_WIDTH
+                );
+
+                let color = COLOR_COMMAND_MOVEHISTORY;
+                historyManager.setColor(color[0], color[1], color[2], 1);
+
+                historyManager.submitVanilla(
+                    this.positionMaker.getPositionsList()
+                );
+            }
+        }
 
         return historyManager;
     }
@@ -1125,17 +1259,22 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
     // Run
     this.consturctor(data, loadFunction);
 }
-
-
+
 module = {};
 
-importScripts('earcut.min.js');
-importScripts('canvasdrawer.min.js'); 
+importScripts('../node_modules/earcut/src/earcut.js');
+importScripts('../preview/CanvasDrawer.js'); 
 
 
 // Global Variables
 var dataLoader = {};
 var textures;
+var ICONS_POLICE_OFFICE, 
+    ICONS_AMBULANCE_CENTRE, 
+    ICONS_FIRE_STATION,
+    ICONS_REFUGE,
+    ICONS_GAS_STATION,
+    ICONS_HYDRANT;
 
 
 /**
@@ -1249,7 +1388,18 @@ function handleIncomingMassage(e){
             textures = e.data.textures;
             dataLoader = new WorkerDataLoader(e.data.data, loadFunction);
             break;
+
+        case WORKER_COMMAND_SETICONS:
+            ICONS_POLICE_OFFICE = e.data.icons.po;
+            ICONS_AMBULANCE_CENTRE = e.data.icons.ac;
+            ICONS_FIRE_STATION = e.data.icons.fs;
+            ICONS_REFUGE = e.data.icons.rf;
+            ICONS_GAS_STATION = e.data.icons.gs;
+            ICONS_HYDRANT = e.data.icons.hy;
+            break;
     }
 }
 
 onmessage = (e) => handleIncomingMassage(e);
+
+
