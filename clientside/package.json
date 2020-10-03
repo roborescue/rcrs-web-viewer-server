@@ -1,6 +1,6 @@
 {
   "name": "rcrs-web-viewer",
-  "version": "0.2.1601730499334",
+  "version": "0.2.1601739821197",
   "description": "Robocup Rescue Simulation(RCRS) Web Viewer.",
   "main": "src/Main.js",
   "scripts": {
@@ -20,6 +20,7 @@
   "homepage": "https://github.com/roborescue/rcrs-web-viewer#readme",
   "dependencies": {
     "bootstrap": "^4.5.2",
+    "canvas-drawer": "git+https://github.com/amiraslanaslani/Canvas-Drawer.git",
     "earcut": "^2.2.2",
     "jq-ajax-progress": "^1.0.0",
     "jquery": "^3.5.1"
