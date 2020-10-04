@@ -1,0 +1,34 @@
+{
+  "name": "rcrs-web-viewer",
+  "version": "0.2.1601818778620",
+  "description": "Robocup Rescue Simulation(RCRS) Web Viewer.",
+  "main": "src/Main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "node scripts/compile.js",
+    "php-server": "php -S localhost:1715"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roborescue/rcrs-web-viewer.git"
+  },
+  "author": "Amir Aslan Aslani (https://github.com/amiraslanaslani)",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/roborescue/rcrs-web-viewer/issues"
+  },
+  "homepage": "https://github.com/roborescue/rcrs-web-viewer#readme",
+  "dependencies": {
+    "bootstrap": "^4.5.2",
+    "canvas-drawer": "git+https://github.com/amiraslanaslani/Canvas-Drawer.git",
+    "earcut": "^2.2.2",
+    "jq-ajax-progress": "^1.0.0",
+    "jquery": "^3.5.1"
+  },
+  "devDependencies": {
+    "jsdoc-to-markdown": "^6.0.1",
+    "mustache": "^4.0.1",
+    "terser": "^5.2.0",
+    "chalk": "^4.1.0"
+  }
+}
