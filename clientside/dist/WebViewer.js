@@ -8,7 +8,8 @@
  * Date: 2020-10-03T15:43:41.197Z (Sat, 03 Oct 2020 15:43:41 GMT)
  */
 
-//
+
+//
 // Drawing Setting
 //
 
@@ -242,7 +243,8 @@ const COLOR_BUILDING_FIERYNESS_SEVERE_DAMAGE = [0.31, 0.23, 0.54];
 
 /** @const {float[]} */
 const COLOR_BUILDING_FIERYNESS_BURNT_OUT = [0.0, 0.0, 0.0];
-"use strict";
+
+"use strict";
 
 /**
  * 
@@ -410,7 +412,8 @@ function GameMaker(canvasDrawer, loadFunction=()=>{}){
     // calc
     this.constructor(canvasDrawer, loadFunction);
 }
-
+
+
 /**
  * 
  * @param {Object} info info object
@@ -637,7 +640,8 @@ function UIController(info){
         uiController.reset();
     });
 }
-
+
+
 // Global Variables
 var gameMaker;
 var uiController;
@@ -842,4 +846,3 @@ function main(){
         parseShowJLOGFile(msg);
     });
 }
-
