@@ -154,7 +154,8 @@ Get info object.
 <a name="checkForIcon"></a>
 
 ## checkForIcon(entity)
-Push given entity to ``WorkerDataLoader.entitiesWithIcon`` if entity has icon.
+Push given entity to ``WorkerDataLoader.entitiesWithIcon`` 
+if entity has icon.
 
 **Kind**: global function  
 
@@ -334,6 +335,5 @@ Fill history with border lines.
 | --- | --- | --- |
 | data | <code>Object</code> | data |
 | loadFunction | <code>function</code> | load function |
-
 
 

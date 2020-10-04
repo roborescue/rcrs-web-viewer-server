@@ -251,4 +251,3 @@ Get vertices of entity
 | entity | <code>Object</code> | entity object |
 
 
-

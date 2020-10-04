@@ -70,4 +70,3 @@ Get color of Entity
 | entity | <code>Object</code> | Entity object |
 
 
-

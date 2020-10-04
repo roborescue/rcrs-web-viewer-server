@@ -10,7 +10,7 @@ const execSync = require('child_process').execSync;
 const CONFIG = require('../config.json');
 
 const DIST_PATH = CONFIG.dist_path;
-const LINE_BREAK = "\n\r";
+const LINE_BREAK = "\n";
 
 const CURRENT_VERSION = CONFIG.version + "." + Date.now()
 const NOW = new Date();

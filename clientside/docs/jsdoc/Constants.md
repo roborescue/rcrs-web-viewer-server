@@ -378,4 +378,3 @@
 ## COLOR\_BUILDING\_FIERYNESS\_BURNT\_OUT : <code>Array.&lt;float&gt;</code>
 **Kind**: global constant  
 
-

@@ -1,14 +1,14 @@
 /*!
- * RCRS Web Viewer v0.2.1601739821197
+ * RCRS Web Viewer v0.2.1601818778620
  * https://github.com/roborescue/rcrs-web-viewer
  * 
  * Released under the BSD-3-Clause license
  * https://opensource.org/licenses/BSD-3-Clause
  *
- * Date: 2020-10-03T15:43:41.197Z (Sat, 03 Oct 2020 15:43:41 GMT)
+ * Date: 2020-10-04T13:39:38.620Z (Sun, 04 Oct 2020 13:39:38 GMT)
  */
 
-//
+//
 // Drawing Setting
 //
 
@@ -242,7 +242,8 @@ const COLOR_BUILDING_FIERYNESS_SEVERE_DAMAGE = [0.31, 0.23, 0.54];
 
 /** @const {float[]} */
 const COLOR_BUILDING_FIERYNESS_BURNT_OUT = [0.0, 0.0, 0.0];
-/**
+
+/**
  * Creates Entity object.
  * 
  * @param {Object} data 
@@ -268,7 +269,8 @@ function Entity(data){
         this[ENTITY_ATTR_FIERYNESS] = parseInt(data[ENTITY_ATTR_FIERYNESS]);
     }
 }
-
+
+
 /**
  * @namespace
  * @property {function} getDarker
@@ -383,7 +385,8 @@ EntityColor.getColor = function(entity){
 
     return [0, 0, 0];
 };
-/**
+
+/**
  * @namespace
  * @property {string[]} humans
  * @property {string[]} surfaces
@@ -663,7 +666,8 @@ EntityHandler.getVertices = function(entity){
     }
     return [];
 }
-
+
+
 /**
  * Get histirian key of color.
  * 
@@ -1262,7 +1266,8 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
     // Run
     this.consturctor(data, loadFunction);
 }
-module = {};
+
+module = {};
 
 // Global Variables
 var dataLoader = {};
@@ -1405,4 +1410,3 @@ function handleIncomingMassage(e){
 
 onmessage = (e) => handleIncomingMassage(e);
 
-

@@ -16,4 +16,3 @@ Creates Entity object.
 let entityObject = new Entity(entity);
 ```
 
-

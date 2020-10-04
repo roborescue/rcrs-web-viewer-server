@@ -1,13 +1,12 @@
 /*!
- * RCRS Web Viewer v0.2.1601739821197
+ * RCRS Web Viewer v0.2.1601818778620
  * https://github.com/roborescue/rcrs-web-viewer
  * 
  * Released under the BSD-3-Clause license
  * https://opensource.org/licenses/BSD-3-Clause
  *
- * Date: 2020-10-03T15:43:41.197Z (Sat, 03 Oct 2020 15:43:41 GMT)
+ * Date: 2020-10-04T13:39:38.620Z (Sun, 04 Oct 2020 13:39:38 GMT)
  */
-
 
 //
 // Drawing Setting
@@ -846,3 +845,4 @@ function main(){
         parseShowJLOGFile(msg);
     });
 }
+

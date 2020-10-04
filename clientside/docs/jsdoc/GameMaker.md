@@ -179,4 +179,3 @@ Set info object
 | canvasDrawer | <code>Object</code> | 
 
 
-
