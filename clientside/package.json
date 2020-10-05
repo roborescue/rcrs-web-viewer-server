@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "node scripts/compile.js",
-    "php-server": "php -S localhost:1715"
+    "php-server": "php -S localhost:1715",
+    "correspondence": "bash ./scripts/correspondence.sh -f ./correspondences.txt"
   },
   "repository": {
     "type": "git",
