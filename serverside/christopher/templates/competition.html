@@ -17,6 +17,12 @@
                     <li class="breadcrumb-item active" aria-current="page">{{competition.name}}</li>
                 </ol>
             </nav>
+            
+            {% if alert_msg %}
+                <div class="alert alert-warning" role="alert">
+                    {{alert_msg}}
+                </div>
+            {% endif %}
 
             {% for round, matches in rounds.items %}
                 {% if round.1 %}

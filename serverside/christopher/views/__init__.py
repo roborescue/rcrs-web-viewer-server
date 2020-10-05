@@ -6,17 +6,18 @@ from collections import OrderedDict
 def index(request):
     return competitions(request)
 
-def competitions(request):
+def competitions(request, alert_msg=None, status=200):
     comps = Competition.objects.all()
     
     return render(request, 'competitions.html', {
-        'competitions': comps
-    })
+        'competitions': comps,
+        'alert_msg': alert_msg
+    }, status=status)
 
-def competition(request, competition_name):
+def competition(request, competition_name, alert_msg=None, status=200):
     competition = Competition.objects.filter(name=competition_name).first()
     if not competition:
-        return notfound(request)
+        return competition_notfound(request)
 
     rounds = {}
     matches = Match.objects.filter(competition=competition)
@@ -33,21 +34,34 @@ def competition(request, competition_name):
 
     return render(request, 'competition.html', {
         'competition': competition,
-        'rounds': sortedRounds
-    })
+        'rounds': sortedRounds,
+        'alert_msg': alert_msg
+    }, status=status)
 
 def match(request, competition_name, match_id):
     competition = Competition.objects.filter(name=competition_name).first()
     if not competition:
-        return notfound(request)
+        return competition_notfound(request)
 
     match = Match.objects.filter(id=match_id).first()
     if not match:
-        return notfound(request)
+        return match_notfound(request, competition_name)
     
     return render(request, 'match.html', {
         'match': match
     })
 
-def notfound(request):
-    return HttpResponse("404 notfound")
+def competition_notfound(request):
+    return competitions(
+        request, 
+        alert_msg="Your requested competition doesn't exist.", 
+        status=404
+    )
+
+def match_notfound(request, competition_name):
+    return competition(
+        request,
+        competition_name=competition_name,
+        alert_msg="Your requested match doesn't exist.", 
+        status=404
+    )
