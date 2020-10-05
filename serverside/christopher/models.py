@@ -7,8 +7,8 @@ class Competition(models.Model):
     start_date = models.DateTimeField(null=True)
     end_date = models.DateTimeField(null=True)
     url = models.URLField(null=True)
-    icon_path = models.FilePathField(null=True)
-    log_file_dir = models.FilePathField(allow_folders=True, allow_files=False, null=False)
+    icon_path = models.CharField(null=True, max_length=128)
+    log_file_dir = models.CharField(null=False, max_length=128)
 
 
 class Round(models.Model):
