@@ -4,70 +4,65 @@
 # Functions
 
 f_copy_file () {
-    local src=$1
-    local des=$2
+    local SRC=$1 DES=$2
 
-    echo "Copy $src --> $des"
-    cp $src $des
+    echo "Copy $SRC --> $DES"
+    cp $SRC $DES
 }
 
 
 d_copy_directory () {
-    local src=$1
-    local des=$2
+    local SRC=$1 DES=$2
 
-    echo "Copy $src/* --> $des"
-    cp $src/* $des
+    echo "Copy $SRC/* --> $DES"
+    cp -r $SRC/* $DES
+}
+
+
+handle_copy () {
+    local MODE=$1 SRC=$2 DES=$3
+
+    case $MODE in
+        f)
+            f_copy_file $SRC $DES
+            ;;
+        d)
+            d_copy_directory $SRC $DES
+            ;;
+    esac
 }
 
 
 ###
 # Set cor. file ($input_file)
 
-while getopts f: flag
+while getopts f: FLAG
 do
-    case "${flag}" in
-        f) arg_f=${OPTARG};;
+    case "${FLAG}" in
+        f) ARG_F=${OPTARG};;
     esac
 done
 
-if [ -z "$arg_f" ]
+if [ -z "$ARG_F" ]
 then
-    input_file="./correspondences.txt"
+    INPUT_FILE="./correspondences.txt"
 else
-    input_file=$arg_f
+    INPUT_FILE=$ARG_F
 fi
 
 
 ###
 # Read file
 
-file_content=$(cat $input_file)
-cleaned_content=$(echo "$file_content" | sed "s/#.*$//;/^ *$/d" -)
+FILE_CONTENT=$(cat $INPUT_FILE)
+CLEANED_CONTENT=$(
+    echo "$FILE_CONTENT" | 
+    sed "s/#.*$//g;/^ *$/d;s/:/\n/g" - 
+)
 
-lines=()
-while IFS= read -r line; do
-    lines+=( $(echo $line | xargs) ) 
-done <<< "$cleaned_content"
-
-
-###
-# Process lines
-
-for line in ${lines[@]}; do
-    IFS=':' read -ra LC <<< "$line"
-    
-    mode=${LC[0]}
-    src=${LC[1]}
-    des=${LC[2]}
-    
-    case $mode in
-        f)
-            f_copy_file $src $des
-            ;;
-        d)
-            d_copy_directory $src $des
-            ;;
-    esac
-done
-
+while read -r MODE
+do
+    read -r SRC
+    read -r DES
+    handle_copy $MODE $SRC $DES
+done <<< "$CLEANED_CONTENT"
