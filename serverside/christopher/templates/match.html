@@ -126,7 +126,7 @@
             const SCRIPT_CANVASDRAWER = '{% static 'view/js/canvasdrawer.min.js' %}';
 
             const JLOG_ZIP_FILE = "{% static match.log_file %}";
-            const JLOG_INNER_FILE = "{% static match.inner_log_name %}";
+            const JLOG_INNER_FILE = "{{match.inner_log_name}}";
 
             const CANVAS_ID = 'canv';
             const PLAYING_DELAY = 100;

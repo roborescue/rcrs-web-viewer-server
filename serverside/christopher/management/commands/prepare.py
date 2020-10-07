@@ -49,7 +49,7 @@ def prepare_competition(competition):
             create_match(competition, summary, prepared_file_name, score)
 
             prepared_zip_file_path = os.path.join(competition_prepared_log_dir, prepared_file_name)
-            with zipfile.ZipFile(prepared_zip_file_path, mode='w', compression=zipfile.ZIP_BZIP2, compresslevel=9) as logzip:
+            with zipfile.ZipFile(prepared_zip_file_path, mode='w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as logzip:
                 logzip.write(log_file_name, 'log.jlog')
                 logging.info("zip file created: " + prepared_zip_file_path)
 
