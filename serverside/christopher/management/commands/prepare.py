@@ -50,7 +50,7 @@ def prepare_competition(competition):
 
             prepared_zip_file_path = os.path.join(competition_prepared_log_dir, prepared_file_name)
             with zipfile.ZipFile(prepared_zip_file_path, mode='w', compression=zipfile.ZIP_BZIP2, compresslevel=9) as logzip:
-                logzip.write(log_file_name)
+                logzip.write(log_file_name, 'log.jlog')
                 logging.info("zip file created: " + prepared_zip_file_path)
 
         except CommandError as err:
@@ -59,12 +59,12 @@ def prepare_competition(competition):
 
 def create_match(competition, summary, prepared_file_name, score=None):
     try:
-        match = Match.objects.get(log_name=prepared_file_name)
+        match = Match.objects.get(served_file_name=prepared_file_name)
         match.competition = competition
         match.team_name = summary['TeamName']
         match.map_name = summary['MapName']
         match.score = score
-        match.log_name = prepared_file_name
+        match.served_file_name = prepared_file_name
         match.save()
 
     except Match.DoesNotExist:
@@ -74,7 +74,7 @@ def create_match(competition, summary, prepared_file_name, score=None):
             team_name=summary['TeamName'],
             map_name=summary['MapName'],
             score=score,
-            log_name=prepared_file_name
+            served_file_name=prepared_file_name
         )
 
 

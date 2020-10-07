@@ -25,12 +25,15 @@ class Match(models.Model):
     team_name = models.CharField(max_length=64)
     map_name = models.CharField(max_length=64, null=True)
     score = models.FloatField(null=True)
-    log_name = models.CharField(max_length=128, unique=True)
+    served_file_name = models.CharField(max_length=128, unique=True)
+    inner_log_name = models.CharField(max_length=128, default="log.jlog")
 
     @property
     def log_file(self):
         logs_dir = settings.STATIC_URL_LOGS
         comp_dir = self.competition.log_file_dir
-        file_name = self.log_name
+        file_name = self.served_file_name
         return f"{logs_dir}/{comp_dir}/{file_name}"
+
+
 
