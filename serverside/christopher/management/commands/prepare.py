@@ -2,7 +2,8 @@ import glob
 import json
 import logging
 import os
-from shutil import copy2
+# from shutil import copy2
+import zipfile
 
 from django.core.management.base import BaseCommand, CommandError
 
@@ -39,23 +40,31 @@ def prepare_competition(competition):
 
     for log_file_name in glob.glob(f"*.{RAW_LOG_FILE_FORMAT}"):
         try:
-            logging.info(log_file_name)
+            logging.info("start preparing: " + log_file_name)
+
+            prepared_file_name = os.path.basename(log_file_name) + ".zip"
+
             summary = read_log_summary(log_file_name)
             score = read_last_score(log_file_name)
-            create_match(competition, summary, log_file_name, score)
-            copy2(log_file_name, competition_prepared_log_dir)
+            create_match(competition, summary, prepared_file_name, score)
+
+            prepared_zip_file_path = os.path.join(competition_prepared_log_dir, prepared_file_name)
+            with zipfile.ZipFile(prepared_zip_file_path, mode='w', compression=zipfile.ZIP_BZIP2, compresslevel=9) as logzip:
+                logzip.write(log_file_name)
+                logging.info("zip file created: " + prepared_zip_file_path)
+
         except CommandError as err:
             logging.error(err)
 
 
-def create_match(competition, summary, log_file_name, score=None):
+def create_match(competition, summary, prepared_file_name, score=None):
     try:
-        match = Match.objects.get(log_name=log_file_name)
+        match = Match.objects.get(log_name=prepared_file_name)
         match.competition = competition
         match.team_name = summary['TeamName']
         match.map_name = summary['MapName']
         match.score = score
-        match.log_name = log_file_name
+        match.log_name = prepared_file_name
         match.save()
 
     except Match.DoesNotExist:
@@ -64,7 +73,8 @@ def create_match(competition, summary, log_file_name, score=None):
             round=None, 
             team_name=summary['TeamName'],
             map_name=summary['MapName'],
-            log_name=log_file_name
+            score=score,
+            log_name=prepared_file_name
         )
 
 
