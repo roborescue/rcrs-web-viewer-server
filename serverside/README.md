@@ -2,14 +2,13 @@
 
 Christopher is a backend of RCRS-Webviwer.
 
-### Before Deploy:
+### Before Deployment:
 
 ```sh
-    python manage migrate
-    python manage collectstatic
+    make deploy
 ```
 
-### Add competition:
+### Add Competition:
 
 ```sh
     python manage.py shell
@@ -17,7 +16,7 @@ Christopher is a backend of RCRS-Webviwer.
     >>> from christopher.models import competition
     >>> competition.objects.create(<ARGS>);
 
-    # COPY LOG files into web_viewer_logs
+    # COPY zipped JLog files into web_viewer_logs
     python manage.py prepare <COMPEITION_ID>
 ```
 
