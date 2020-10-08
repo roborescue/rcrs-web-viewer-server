@@ -14,7 +14,7 @@ f:./node_modules/bootstrap/dist/js/bootstrap.min.js.map:./../view/js/bootstrap.m
 
 # canvas-drawer
 f:./node_modules/canvas-drawer/dist/CanvasDrawer.min.js:./../view/js/canvasdrawer.min.js
-    
+
 # earcut
 f:./node_modules/earcut/dist/earcut.min.js:./../view/js/earcut.min.js
 
@@ -23,5 +23,8 @@ f:./node_modules/jq-ajax-progress/src/jq-ajax-progress.min.js:./../view/js/jq-aj
 
 # jquery
 f:./node_modules/jquery/dist/jquery.min.js:./../view/js/jquery.min.js
+
+# jszip
+f:./node_modules/jszip/dist/jszip.min.js:./../view/js/jszip.min.js
 
 #! End newline (\n) is important

@@ -1,11 +1,11 @@
 /*!
- * RCRS Web Viewer v0.2.1601818778620
+ * RCRS Web Viewer v0.2.1602107046121
  * https://github.com/roborescue/rcrs-web-viewer
  * 
  * Released under the BSD-3-Clause license
  * https://opensource.org/licenses/BSD-3-Clause
  *
- * Date: 2020-10-04T13:39:38.620Z (Sun, 04 Oct 2020 13:39:38 GMT)
+ * Date: 2020-10-07T21:44:06.121Z (Wed, 07 Oct 2020 21:44:06 GMT)
  */
 
 //
@@ -833,8 +833,13 @@ function main(){
     });
 
     loadFunction("Downloading cycles data ...", 0);
-
-    $.ajax(JLOG_FILE, {
+    var xhrOverride = new XMLHttpRequest();
+    xhrOverride.responseType = 'arraybuffer';
+    
+    $.ajax(JLOG_ZIP_FILE, {
+        xhr: function() {
+            return xhrOverride;
+        },
         progress: function(e) {
             if(e.lengthComputable){
                 let percent = Math.round(80 * e.loaded / e.total);
@@ -842,7 +847,14 @@ function main(){
             }
         }
     }).done((msg) => {
-        parseShowJLOGFile(msg);
+        console.log(msg);
+        let z = new JSZip();
+
+        z.loadAsync(msg).then(function(zip) {
+            zip.file(JLOG_INNER_FILE).async("string").then(function(msg){
+                parseShowJLOGFile(msg);
+            });
+        });
     });
 }
 

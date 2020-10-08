@@ -191,8 +191,13 @@ function main(){
     });
 
     loadFunction("Downloading cycles data ...", 0);
-
-    $.ajax(JLOG_FILE, {
+    var xhrOverride = new XMLHttpRequest();
+    xhrOverride.responseType = 'arraybuffer';
+    
+    $.ajax(JLOG_ZIP_FILE, {
+        xhr: function() {
+            return xhrOverride;
+        },
         progress: function(e) {
             if(e.lengthComputable){
                 let percent = Math.round(80 * e.loaded / e.total);
@@ -200,6 +205,13 @@ function main(){
             }
         }
     }).done((msg) => {
-        parseShowJLOGFile(msg);
+        console.log(msg);
+        let z = new JSZip();
+
+        z.loadAsync(msg).then(function(zip) {
+            zip.file(JLOG_INNER_FILE).async("string").then(function(msg){
+                parseShowJLOGFile(msg);
+            });
+        });
     });
 }
