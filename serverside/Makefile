@@ -31,7 +31,7 @@ service: root_check
 	# !! You should be root !!
 
 directories:
-	@echo [*] mkdir -p ../prepared_logs ../web_viewer_logs
+	@echo [*] mkdir -p ../prepared_logs ../web_viewer_logs ../nginx_logs
 	@mkdir -p $(CURRENT_DIR)/../prepared_logs $(CURRENT_DIR)/../web_viewer_logs
 
 collectstatic:
@@ -45,9 +45,9 @@ migrate:
 ready_to_deploy: service directories collectstatic migrate
 
 deploy: root_check ready_to_deploy
-	@echo [*] docker-compose -f $(DOCKER_COMPOSE_YAML) up -d
-	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_YAML) up -d
+	@echo [*] docker-compose -f $(DOCKER_COMPOSE_YAML) up --build -d
+	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_YAML) up --build -d
 
-down: root_check
+down:
 	@echo [*] docker-compose -f $(DOCKER_COMPOSE_YAML) down
 	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_YAML) down
