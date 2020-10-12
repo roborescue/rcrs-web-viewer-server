@@ -1,6 +1,6 @@
 {
   "name": "rcrs-web-viewer",
-  "version": "0.2.1602107046121",
+  "version": "0.2.1602497903434",
   "description": "Robocup Rescue Simulation(RCRS) Web Viewer.",
   "main": "src/Main.js",
   "scripts": {
