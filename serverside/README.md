@@ -2,13 +2,13 @@
 
 Christopher is a backend of RCRS-Webviwer.
 
-### Before Deployment:
+## Deployment:
 
 ```sh
     make deploy
 ```
 
-### Add Competition:
+## Add Competition:
 
 ```sh
     python manage.py shell
@@ -18,10 +18,4 @@ Christopher is a backend of RCRS-Webviwer.
 
     # COPY zipped JLog files into web_viewer_logs
     python manage.py prepare <COMPEITION_ID>
-```
-
-### Deploy:
-
-```sh
-    docker-compose up
 ```
