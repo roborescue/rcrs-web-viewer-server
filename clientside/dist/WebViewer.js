@@ -1,11 +1,11 @@
 /*!
- * RCRS Web Viewer v0.2.1602107046121
+ * RCRS Web Viewer v0.2.1602582868556
  * https://github.com/roborescue/rcrs-web-viewer
  * 
  * Released under the BSD-3-Clause license
  * https://opensource.org/licenses/BSD-3-Clause
  *
- * Date: 2020-10-07T21:44:06.121Z (Wed, 07 Oct 2020 21:44:06 GMT)
+ * Date: 2020-10-13T09:54:28.556Z (Tue, 13 Oct 2020 09:54:28 GMT)
  */
 
 //
@@ -17,6 +17,12 @@ const DRAW_BORDER_LINE = true;
 
 /** @const {number} */
 const DRAW_BORDER_LINE_WIDTH = 50;
+
+/** @const {number} */
+const DRAW_AGENT_CIRCLE_RADIUS = 1500;
+
+/** @const {number} */
+const DRAW_AGENT_CIRCLE_CUTS = 15;
 
 //
 // Commands Setting
@@ -36,6 +42,9 @@ const COMMAND_CLEARAREA_CLEARWIDTH = 2000;
 
 /** @const {number} */
 const COMMAND_CLEARAREA_CLEARLENGTH = 10000;
+
+/** @const {number} */
+const COMMAND_RESCUE_MARGIN = 500;
 
 //
 // Entity Names
@@ -117,6 +126,9 @@ const COMMAND_CLEAR = "urn:rescuecore2.standard:message:clear";
 
 /** @const {string} */ // X, Y
 const COMMAND_CLEARAREA = "urn:rescuecore2.standard:message:clear_area";
+
+/** @const {string} */ // X, Y
+const COMMAND_RESCUE = "urn:rescuecore2.standard:message:rescue";
 
 //
 // Icon Setting

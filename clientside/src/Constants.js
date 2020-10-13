@@ -8,6 +8,12 @@ const DRAW_BORDER_LINE = true;
 /** @const {number} */
 const DRAW_BORDER_LINE_WIDTH = 50;
 
+/** @const {number} */
+const DRAW_AGENT_CIRCLE_RADIUS = 1500;
+
+/** @const {number} */
+const DRAW_AGENT_CIRCLE_CUTS = 15;
+
 //
 // Commands Setting
 //
@@ -26,6 +32,9 @@ const COMMAND_CLEARAREA_CLEARWIDTH = 2000;
 
 /** @const {number} */
 const COMMAND_CLEARAREA_CLEARLENGTH = 10000;
+
+/** @const {number} */
+const COMMAND_RESCUE_MARGIN = 500;
 
 //
 // Entity Names
@@ -107,6 +116,9 @@ const COMMAND_CLEAR = "urn:rescuecore2.standard:message:clear";
 
 /** @const {string} */ // X, Y
 const COMMAND_CLEARAREA = "urn:rescuecore2.standard:message:clear_area";
+
+/** @const {string} */ // X, Y
+const COMMAND_RESCUE = "urn:rescuecore2.standard:message:rescue";
 
 //
 // Icon Setting

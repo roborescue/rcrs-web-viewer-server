@@ -400,6 +400,31 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
                     this.positionMaker.getPositionsList()
                 );
                 break;
+
+            case COMMAND_RESCUE:
+                agentId = parseInt(command.AgentId);
+                let entity = data.all[agentId];
+                agentPosition = entity[ENTITY_ATTR_POSITION];
+                
+                this.positionMaker.reset();
+                let mirroredVertices = mirrorYs(
+                    EntityHandler.getHumanVertices(
+                        agentPosition[0], 
+                        agentPosition[1],
+                        DRAW_AGENT_CIRCLE_RADIUS + COMMAND_RESCUE_MARGIN
+                    )
+                );
+                this.positionMaker.addPolygon(
+                    mirroredVertices
+                );
+
+                let color = EntityHandler.getColor(entity);
+                historyManager.setColor(color[0], color[1], color[2], 1);
+
+                historyManager.submitVanilla(
+                    this.positionMaker.getPositionsList()
+                );
+                break;
         }
     }
 

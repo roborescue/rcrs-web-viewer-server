@@ -246,7 +246,7 @@ EntityHandler.getCenterOfPolygon = function(entity){
  * @param {*} cuts - Circle cuts
  * @returns {float[]} - apexes
  */
-EntityHandler.getHumanVertices = function(cx, cy, r=1500,cuts=15){
+EntityHandler.getHumanVertices = function(cx, cy, r=DRAW_AGENT_CIRCLE_RADIUS,cuts=DRAW_AGENT_CIRCLE_CUTS){
     let x,y;
     let cut = (Math.PI*2)/cuts;
     let ox = cx + r * Math.cos(0);

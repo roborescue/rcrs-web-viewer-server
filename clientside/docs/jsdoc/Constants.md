@@ -7,6 +7,10 @@
 <dd></dd>
 <dt><a href="#DRAW_BORDER_LINE_WIDTH">DRAW_BORDER_LINE_WIDTH</a> : <code>number</code></dt>
 <dd></dd>
+<dt><a href="#DRAW_AGENT_CIRCLE_RADIUS">DRAW_AGENT_CIRCLE_RADIUS</a> : <code>number</code></dt>
+<dd></dd>
+<dt><a href="#DRAW_AGENT_CIRCLE_CUTS">DRAW_AGENT_CIRCLE_CUTS</a> : <code>number</code></dt>
+<dd></dd>
 <dt><a href="#COMMAND_EXTINGUISH_LINE_WIDTH">COMMAND_EXTINGUISH_LINE_WIDTH</a> : <code>number</code></dt>
 <dd></dd>
 <dt><a href="#COMMAND_MOVEHISTORY_LINE_WIDTH">COMMAND_MOVEHISTORY_LINE_WIDTH</a> : <code>number</code></dt>
@@ -16,6 +20,8 @@
 <dt><a href="#COMMAND_CLEARAREA_CLEARWIDTH">COMMAND_CLEARAREA_CLEARWIDTH</a> : <code>number</code></dt>
 <dd></dd>
 <dt><a href="#COMMAND_CLEARAREA_CLEARLENGTH">COMMAND_CLEARAREA_CLEARLENGTH</a> : <code>number</code></dt>
+<dd></dd>
+<dt><a href="#COMMAND_RESCUE_MARGIN">COMMAND_RESCUE_MARGIN</a> : <code>number</code></dt>
 <dd></dd>
 <dt><a href="#ENTITY_NAME_CIVILIAN">ENTITY_NAME_CIVILIAN</a> : <code>string</code></dt>
 <dd></dd>
@@ -62,6 +68,8 @@
 <dt><a href="#COMMAND_CLEAR">COMMAND_CLEAR</a> : <code>string</code></dt>
 <dd></dd>
 <dt><a href="#COMMAND_CLEARAREA">COMMAND_CLEARAREA</a> : <code>string</code></dt>
+<dd></dd>
+<dt><a href="#COMMAND_RESCUE">COMMAND_RESCUE</a> : <code>string</code></dt>
 <dd></dd>
 <dt><a href="#SETTING_ICON_RADIUS">SETTING_ICON_RADIUS</a> : <code>number</code></dt>
 <dd></dd>
@@ -137,6 +145,14 @@
 
 ## DRAW\_BORDER\_LINE\_WIDTH : <code>number</code>
 **Kind**: global constant  
+<a name="DRAW_AGENT_CIRCLE_RADIUS"></a>
+
+## DRAW\_AGENT\_CIRCLE\_RADIUS : <code>number</code>
+**Kind**: global constant  
+<a name="DRAW_AGENT_CIRCLE_CUTS"></a>
+
+## DRAW\_AGENT\_CIRCLE\_CUTS : <code>number</code>
+**Kind**: global constant  
 <a name="COMMAND_EXTINGUISH_LINE_WIDTH"></a>
 
 ## COMMAND\_EXTINGUISH\_LINE\_WIDTH : <code>number</code>
@@ -156,6 +172,10 @@
 <a name="COMMAND_CLEARAREA_CLEARLENGTH"></a>
 
 ## COMMAND\_CLEARAREA\_CLEARLENGTH : <code>number</code>
+**Kind**: global constant  
+<a name="COMMAND_RESCUE_MARGIN"></a>
+
+## COMMAND\_RESCUE\_MARGIN : <code>number</code>
 **Kind**: global constant  
 <a name="ENTITY_NAME_CIVILIAN"></a>
 
@@ -248,6 +268,10 @@
 <a name="COMMAND_CLEARAREA"></a>
 
 ## COMMAND\_CLEARAREA : <code>string</code>
+**Kind**: global constant  
+<a name="COMMAND_RESCUE"></a>
+
+## COMMAND\_RESCUE : <code>string</code>
 **Kind**: global constant  
 <a name="SETTING_ICON_RADIUS"></a>
 
