@@ -34,6 +34,7 @@ function OrdinalHistorian(){
     historian.addKey(getKeyFromColor(COLOR_HUMAN_TYPE_DEAD));
     historian.addKey(getKeyFromColor(COLOR_HUMAN_TYPE_CIVILIAN));
     historian.addKey(getKeyFromColor(COLOR_HUMAN_TYPE_FIRE_BRIGADE));
+    historian.addKey(getKeyFromColor(COLOR_COMMAND_RESCUE));
     historian.addKey(getKeyFromColor(COLOR_HUMAN_TYPE_AMBULANCE_TEAM));
     historian.addKey(getKeyFromColor(COLOR_HUMAN_TYPE_POLICE_FORCE));
     return historian;
@@ -411,15 +412,22 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
                     EntityHandler.getHumanVertices(
                         agentPosition[0], 
                         agentPosition[1],
-                        DRAW_AGENT_CIRCLE_RADIUS + COMMAND_RESCUE_MARGIN
+                        DRAW_AGENT_CIRCLE_RADIUS + COMMAND_RESCUE_MARGIN,
+                        COMMAND_RESCUE_CUTS
                     )
                 );
                 this.positionMaker.addPolygon(
                     mirroredVertices
                 );
 
-                let color = EntityHandler.getColor(entity);
-                historyManager.setColor(color[0], color[1], color[2], 1);
+                // let color = EntityHandler.getColor(entity);
+                // historyManager.setColor(color[0], color[1], color[2], 1);
+                historyManager.setColor(
+                    COLOR_COMMAND_RESCUE[0], 
+                    COLOR_COMMAND_RESCUE[1], 
+                    COLOR_COMMAND_RESCUE[2], 
+                    1
+                );
 
                 historyManager.submitVanilla(
                     this.positionMaker.getPositionsList()

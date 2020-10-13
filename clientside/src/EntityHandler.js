@@ -274,7 +274,20 @@ EntityHandler.getVertices = function(entity){
     }
     else if(this.isHuman(entity)){
         let position = entity[ENTITY_ATTR_POSITION];
-        return this.getHumanVertices(position[0], position[1]);
+
+        let radius;
+        if(this.getType(entity) == ENTITY_NAME_CIVILIAN){
+            radius = DRAW_CIVILIAN_CIRCLE_RADIUS
+        }
+        else{
+            radius = DRAW_AGENT_CIRCLE_RADIUS;
+        }
+
+        return this.getHumanVertices(
+            position[0], 
+            position[1], 
+            radius
+        );
     }
     return [];
 }

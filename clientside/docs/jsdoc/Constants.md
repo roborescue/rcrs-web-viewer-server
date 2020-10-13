@@ -9,6 +9,8 @@
 <dd></dd>
 <dt><a href="#DRAW_AGENT_CIRCLE_RADIUS">DRAW_AGENT_CIRCLE_RADIUS</a> : <code>number</code></dt>
 <dd></dd>
+<dt><a href="#DRAW_CIVILIAN_CIRCLE_RADIUS">DRAW_CIVILIAN_CIRCLE_RADIUS</a> : <code>number</code></dt>
+<dd></dd>
 <dt><a href="#DRAW_AGENT_CIRCLE_CUTS">DRAW_AGENT_CIRCLE_CUTS</a> : <code>number</code></dt>
 <dd></dd>
 <dt><a href="#COMMAND_EXTINGUISH_LINE_WIDTH">COMMAND_EXTINGUISH_LINE_WIDTH</a> : <code>number</code></dt>
@@ -22,6 +24,8 @@
 <dt><a href="#COMMAND_CLEARAREA_CLEARLENGTH">COMMAND_CLEARAREA_CLEARLENGTH</a> : <code>number</code></dt>
 <dd></dd>
 <dt><a href="#COMMAND_RESCUE_MARGIN">COMMAND_RESCUE_MARGIN</a> : <code>number</code></dt>
+<dd></dd>
+<dt><a href="#COMMAND_RESCUE_CUTS">COMMAND_RESCUE_CUTS</a> : <code>number</code></dt>
 <dd></dd>
 <dt><a href="#ENTITY_NAME_CIVILIAN">ENTITY_NAME_CIVILIAN</a> : <code>string</code></dt>
 <dd></dd>
@@ -117,6 +121,8 @@
 <dd></dd>
 <dt><a href="#COLOR_COMMAND_CLEARAREA">COLOR_COMMAND_CLEARAREA</a> : <code>Array.&lt;float&gt;</code></dt>
 <dd></dd>
+<dt><a href="#COLOR_COMMAND_RESCUE">COLOR_COMMAND_RESCUE</a> : <code>number</code></dt>
+<dd></dd>
 <dt><a href="#COLOR_BUILDING_FIERYNESS_UNBURNT">COLOR_BUILDING_FIERYNESS_UNBURNT</a> : <code>Array.&lt;float&gt;</code></dt>
 <dd></dd>
 <dt><a href="#COLOR_BUILDING_FIERYNESS_HEATING">COLOR_BUILDING_FIERYNESS_HEATING</a> : <code>Array.&lt;float&gt;</code></dt>
@@ -149,6 +155,10 @@
 
 ## DRAW\_AGENT\_CIRCLE\_RADIUS : <code>number</code>
 **Kind**: global constant  
+<a name="DRAW_CIVILIAN_CIRCLE_RADIUS"></a>
+
+## DRAW\_CIVILIAN\_CIRCLE\_RADIUS : <code>number</code>
+**Kind**: global constant  
 <a name="DRAW_AGENT_CIRCLE_CUTS"></a>
 
 ## DRAW\_AGENT\_CIRCLE\_CUTS : <code>number</code>
@@ -176,6 +186,10 @@
 <a name="COMMAND_RESCUE_MARGIN"></a>
 
 ## COMMAND\_RESCUE\_MARGIN : <code>number</code>
+**Kind**: global constant  
+<a name="COMMAND_RESCUE_CUTS"></a>
+
+## COMMAND\_RESCUE\_CUTS : <code>number</code>
 **Kind**: global constant  
 <a name="ENTITY_NAME_CIVILIAN"></a>
 
@@ -364,6 +378,10 @@
 <a name="COLOR_COMMAND_CLEARAREA"></a>
 
 ## COLOR\_COMMAND\_CLEARAREA : <code>Array.&lt;float&gt;</code>
+**Kind**: global constant  
+<a name="COLOR_COMMAND_RESCUE"></a>
+
+## COLOR\_COMMAND\_RESCUE : <code>number</code>
 **Kind**: global constant  
 <a name="COLOR_BUILDING_FIERYNESS_UNBURNT"></a>
 

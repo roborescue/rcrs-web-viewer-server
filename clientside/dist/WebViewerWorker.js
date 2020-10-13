@@ -1,11 +1,11 @@
 /*!
- * RCRS Web Viewer v0.2.1602582868556
+ * RCRS Web Viewer v0.2.1602593430189
  * https://github.com/roborescue/rcrs-web-viewer
  * 
  * Released under the BSD-3-Clause license
  * https://opensource.org/licenses/BSD-3-Clause
  *
- * Date: 2020-10-13T09:54:28.556Z (Tue, 13 Oct 2020 09:54:28 GMT)
+ * Date: 2020-10-13T12:50:30.189Z (Tue, 13 Oct 2020 12:50:30 GMT)
  */
 
 //
@@ -20,6 +20,9 @@ const DRAW_BORDER_LINE_WIDTH = 50;
 
 /** @const {number} */
 const DRAW_AGENT_CIRCLE_RADIUS = 1500;
+
+/** @const {number} */
+const DRAW_CIVILIAN_CIRCLE_RADIUS = 1200;
 
 /** @const {number} */
 const DRAW_AGENT_CIRCLE_CUTS = 15;
@@ -44,7 +47,10 @@ const COMMAND_CLEARAREA_CLEARWIDTH = 2000;
 const COMMAND_CLEARAREA_CLEARLENGTH = 10000;
 
 /** @const {number} */
-const COMMAND_RESCUE_MARGIN = 500;
+const COMMAND_RESCUE_MARGIN = 300;
+
+/** @const {number} */
+const COMMAND_RESCUE_CUTS = 13;
 
 //
 // Entity Names
@@ -223,6 +229,8 @@ const COLOR_COMMAND_MOVEHISTORY = [1, 0, 0];
 /** @const {float[]} */
 const COLOR_COMMAND_CLEARAREA = [0.4, 0.4, 1];
 
+/** @const {number} */
+const COLOR_COMMAND_RESCUE = [0.9, 0.9, 0.9];
 
 //
 // Buildings Color
@@ -674,7 +682,20 @@ EntityHandler.getVertices = function(entity){
     }
     else if(this.isHuman(entity)){
         let position = entity[ENTITY_ATTR_POSITION];
-        return this.getHumanVertices(position[0], position[1]);
+
+        let radius;
+        if(this.getType(entity) == ENTITY_NAME_CIVILIAN){
+            radius = DRAW_CIVILIAN_CIRCLE_RADIUS
+        }
+        else{
+            radius = DRAW_AGENT_CIRCLE_RADIUS;
+        }
+
+        return this.getHumanVertices(
+            position[0], 
+            position[1], 
+            radius
+        );
     }
     return [];
 }
@@ -715,6 +736,7 @@ function OrdinalHistorian(){
     historian.addKey(getKeyFromColor(COLOR_HUMAN_TYPE_DEAD));
     historian.addKey(getKeyFromColor(COLOR_HUMAN_TYPE_CIVILIAN));
     historian.addKey(getKeyFromColor(COLOR_HUMAN_TYPE_FIRE_BRIGADE));
+    historian.addKey(getKeyFromColor(COLOR_COMMAND_RESCUE));
     historian.addKey(getKeyFromColor(COLOR_HUMAN_TYPE_AMBULANCE_TEAM));
     historian.addKey(getKeyFromColor(COLOR_HUMAN_TYPE_POLICE_FORCE));
     return historian;
@@ -1092,15 +1114,22 @@ function WorkerDataLoader(data, loadFunction=()=>{}){
                     EntityHandler.getHumanVertices(
                         agentPosition[0], 
                         agentPosition[1],
-                        DRAW_AGENT_CIRCLE_RADIUS + COMMAND_RESCUE_MARGIN
+                        DRAW_AGENT_CIRCLE_RADIUS + COMMAND_RESCUE_MARGIN,
+                        COMMAND_RESCUE_CUTS
                     )
                 );
                 this.positionMaker.addPolygon(
                     mirroredVertices
                 );
 
-                let color = EntityHandler.getColor(entity);
-                historyManager.setColor(color[0], color[1], color[2], 1);
+                // let color = EntityHandler.getColor(entity);
+                // historyManager.setColor(color[0], color[1], color[2], 1);
+                historyManager.setColor(
+                    COLOR_COMMAND_RESCUE[0], 
+                    COLOR_COMMAND_RESCUE[1], 
+                    COLOR_COMMAND_RESCUE[2], 
+                    1
+                );
 
                 historyManager.submitVanilla(
                     this.positionMaker.getPositionsList()

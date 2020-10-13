@@ -12,6 +12,9 @@ const DRAW_BORDER_LINE_WIDTH = 50;
 const DRAW_AGENT_CIRCLE_RADIUS = 1500;
 
 /** @const {number} */
+const DRAW_CIVILIAN_CIRCLE_RADIUS = 1200;
+
+/** @const {number} */
 const DRAW_AGENT_CIRCLE_CUTS = 15;
 
 //
@@ -34,7 +37,10 @@ const COMMAND_CLEARAREA_CLEARWIDTH = 2000;
 const COMMAND_CLEARAREA_CLEARLENGTH = 10000;
 
 /** @const {number} */
-const COMMAND_RESCUE_MARGIN = 500;
+const COMMAND_RESCUE_MARGIN = 300;
+
+/** @const {number} */
+const COMMAND_RESCUE_CUTS = 13;
 
 //
 // Entity Names
@@ -213,6 +219,8 @@ const COLOR_COMMAND_MOVEHISTORY = [1, 0, 0];
 /** @const {float[]} */
 const COLOR_COMMAND_CLEARAREA = [0.4, 0.4, 1];
 
+/** @const {number} */
+const COLOR_COMMAND_RESCUE = [0.9, 0.9, 0.9];
 
 //
 // Buildings Color
