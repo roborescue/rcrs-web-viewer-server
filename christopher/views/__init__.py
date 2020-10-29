@@ -1,10 +1,15 @@
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from christopher.models import Competition, Round, Match
 from collections import OrderedDict
+from urllib.parse import urlencode
 
 def index(request):
     return competitions(request)
+
+def viewer(request):
+    return render(request, 'match.html', {})
 
 def competitions(request, alert_msg=None, status=200):
     comps = Competition.objects.all()
@@ -47,9 +52,16 @@ def match(request, competition_name, match_id):
     if not match:
         return match_notfound(request, competition_name)
     
-    return render(request, 'match.html', {
-        'match': match
-    })
+    # Create redirection URL
+    url = reverse('webviewer')
+    kwargs = {
+        'file': match.log_file,
+        'infile': match.inner_log_name
+    }
+    params = urlencode(kwargs)
+    print("/%s?%s" % (url, params))
+
+    return HttpResponseRedirect(url + "?%s" % params)
 
 def competition_notfound(request):
     return competitions(
