@@ -39,7 +39,7 @@ service: root_check
 
 directories:
 	$(call cmd,\
-		mkdir -p $(CURRENT_DIR)/../prepared_logs $(CURRENT_DIR)/../web_viewer_logs \
+		mkdir -p $(CURRENT_DIR)/prepared_logs $(CURRENT_DIR)/web_viewer_logs $(CURRENT_DIR)/nginx_logs \
 	)
 
 collectstatic:

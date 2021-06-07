@@ -122,7 +122,7 @@ mimetypes.add_type("application/javascript", ".js", True)
 # Log files
 #
 
-PROJECT_ROOT_DIR = BASE_DIR.parent
+PROJECT_ROOT_DIR = BASE_DIR
 PREPARED_LOG_DIR = PROJECT_ROOT_DIR / "prepared_logs" # f'{PROJECT_ROOT_DIR}/prepared_logs'
 LOG_DIR = PROJECT_ROOT_DIR / "web_viewer_logs" # f'{PROJECT_ROOT_DIR}/web_viewer_logs'
 RAW_LOG_FILE_FORMAT = 'jlog'
