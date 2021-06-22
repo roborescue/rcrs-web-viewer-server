@@ -2,12 +2,11 @@ import glob
 import json
 import logging
 import os
-# from shutil import copy2
-import zipfile
+from shutil import copy2
 
 from django.core.management.base import BaseCommand, CommandError
 
-from christopher.models import Competition, Match
+from christopher.models import Competition, Match, Round
 from settings import LOG_DIR, RAW_LOG_FILE_FORMAT, PREPARED_LOG_DIR
 
 logging.basicConfig(level=logging.DEBUG)
@@ -37,44 +36,43 @@ def prepare_competition(competition):
     if not os.path.exists(competition_prepared_log_dir):
         os.mkdir(competition_prepared_log_dir)
     os.chdir(competition_log_dir)
-
-    for log_file_name in glob.glob(f"*.{RAW_LOG_FILE_FORMAT}"):
+    
+    for round_dir in os.listdir():
         try:
-            logging.info("start preparing: " + log_file_name)
-
-            prepared_file_name = os.path.basename(log_file_name) + ".zip"
-
-            summary = read_log_summary(log_file_name)
-            score = read_last_score(log_file_name)
-            create_match(competition, summary, prepared_file_name, score)
-
-            prepared_zip_file_path = os.path.join(competition_prepared_log_dir, prepared_file_name)
-            with zipfile.ZipFile(prepared_zip_file_path, mode='w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as logzip:
-                logzip.write(log_file_name, 'log.jlog')
-                logging.info("zip file created: " + prepared_zip_file_path)
-
-        except CommandError as err:
-            logging.error(err)
+            round_object = Round.objects.get(name=round_dir)
+        except Round.DoesNotExist:
+            round_object = Round.objects.create(name=round_dir)
+        print(f"prepare {competition.name}, {round_object.name}")
+        for log_file_name in glob.glob(f"**/*.{RAW_LOG_FILE_FORMAT}", recursive=True):
+            try:
+                logging.info(log_file_name)
+                summary = read_log_summary(log_file_name)
+                score = read_last_score(log_file_name)
+                create_match(competition, round_object, summary, log_file_name.split("/")[-1], score)
+                copy2(log_file_name, competition_prepared_log_dir)
+            except CommandError as err:
+                logging.error(err)
 
 
-def create_match(competition, summary, prepared_file_name, score=None):
+def create_match(competition, round, summary, log_file_name, score=None):
     try:
-        match = Match.objects.get(served_file_name=prepared_file_name)
+        match = Match.objects.get(log_name=log_file_name)
         match.competition = competition
+        match.round = round
         match.team_name = summary['TeamName']
         match.map_name = summary['MapName']
         match.score = score
-        match.served_file_name = prepared_file_name
+        match.log_name = log_file_name
         match.save()
 
     except Match.DoesNotExist:
         Match.objects.create(
             competition=competition, 
-            round=None, 
+            round=round,
             team_name=summary['TeamName'],
             map_name=summary['MapName'],
             score=score,
-            served_file_name=prepared_file_name
+            log_name=log_file_name
         )
 
 
@@ -98,8 +96,8 @@ def read_last_score(file_name):
             log_file.close()
             last_line = lines[-1]
         last_line_dict = json.loads(last_line)
-        last_line_info = last_line_dict["Info"]
-        last_line_score = last_line_info["Score"]
+        last_line_info = last_line_dict.get("Info", {})
+        last_line_score = last_line_info.get("Score", -1)
         return float(last_line_score)
     except IOError:
         raise CommandError(f"Could not read last score: {file_name}")
