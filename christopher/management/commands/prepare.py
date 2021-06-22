@@ -3,6 +3,8 @@ import json
 import logging
 import os
 from shutil import copy2
+# from shutil import copy2
+import zipfile
 
 from django.core.management.base import BaseCommand, CommandError
 
@@ -43,26 +45,36 @@ def prepare_competition(competition):
         except Round.DoesNotExist:
             round_object = Round.objects.create(name=round_dir)
         print(f"prepare {competition.name}, {round_object.name}")
-        for log_file_name in glob.glob(f"**/*.{RAW_LOG_FILE_FORMAT}", recursive=True):
+        for log_file_path in glob.glob(f"**/*.{RAW_LOG_FILE_FORMAT}", recursive=True):
+            
             try:
-                logging.info(log_file_name)
-                summary = read_log_summary(log_file_name)
-                score = read_last_score(log_file_name)
-                create_match(competition, round_object, summary, log_file_name.split("/")[-1], score)
-                copy2(log_file_name, competition_prepared_log_dir)
+                logging.info("start preparing: " + log_file_path)
+
+                summary = read_log_summary(log_file_path)
+                score = read_last_score(log_file_path)
+
+                prepared_file_name = os.path.basename(log_file_path) + ".zip"
+                create_match(competition, round_object, summary, prepared_file_name, score)
+
+                prepared_zip_file_path = os.path.join(competition_prepared_log_dir, prepared_file_name)
+                with zipfile.ZipFile(prepared_zip_file_path, mode='w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as logzip:
+                    logzip.write(log_file_path, 'log.jlog')
+                    logging.info("zip file created: " + prepared_zip_file_path)
+
             except CommandError as err:
                 logging.error(err)
 
 
+
 def create_match(competition, round, summary, log_file_name, score=None):
     try:
-        match = Match.objects.get(log_name=log_file_name)
+        match = Match.objects.get(served_file_name=log_file_name)
         match.competition = competition
         match.round = round
         match.team_name = summary['TeamName']
         match.map_name = summary['MapName']
         match.score = score
-        match.log_name = log_file_name
+        match.served_file_name = log_file_name
         match.save()
 
     except Match.DoesNotExist:
@@ -72,7 +84,7 @@ def create_match(competition, round, summary, log_file_name, score=None):
             team_name=summary['TeamName'],
             map_name=summary['MapName'],
             score=score,
-            log_name=log_file_name
+            served_file_name=log_file_name,
         )
 
 
